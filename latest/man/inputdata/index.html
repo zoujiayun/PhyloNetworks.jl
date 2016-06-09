@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     
       
-        <title>Extract Expected CFs - PhyloNetworks.jl</title>
+        <title>Input Data for SNaQ - PhyloNetworks.jl</title>
       
       
       
@@ -100,7 +100,7 @@
             
           </span>
         
-        Extract Expected CFs
+        Input Data for SNaQ
       </div>
     </div>
     
@@ -202,9 +202,24 @@
       
         
   <li>
-    <a class="" title="Input Data for SNaQ" href="../inputdata/">
+    <a class="current" title="Input Data for SNaQ" href="./">
       Input Data for SNaQ
     </a>
+    
+      
+        
+      
+      
+        <ul>
+          
+            <li class="anchor">
+              <a title="Tutorial data" href="#tutorial-data">
+                Tutorial data
+              </a>
+            </li>
+          
+        </ul>
+      
     
   </li>
 
@@ -238,14 +253,9 @@
       
         
   <li>
-    <a class="current" title="Extract Expected CFs" href="./">
+    <a class="" title="Extract Expected CFs" href="../expectedCFs/">
       Extract Expected CFs
     </a>
-    
-      
-        
-      
-      
     
   </li>
 
@@ -300,36 +310,68 @@
       <article class="article">
         <div class="wrapper">
           
-          <p><a id='Extract-Expected-CFs-1'></a></p>
-<h1 id="extract-expected-cfs">Extract Expected CFs</h1>
-<p>A good way to visualize the "goodness-of-fit" of a given estimated network to the data is to plot the observed CF versus the expected CF. If the network is a good fit, then the dots in the plot will be close to the diagonal (x=y line). The following function will create a dataframe with the observed and expected CFs, which are all saved in the DataCF object after running snaq:</p>
-<pre><code class="julia">df_wide = fittedQuartetCF(d) # same as fittedQuartetCF(d, :wide)
-df_long = fittedQuartetCF(d, :long)
+          <p><a id='Input-for-SNaQ-1'></a></p>
+<h1 id="input-for-snaq">Input for SNaQ</h1>
+<p>SNaQ is a method implemented in the package to estimate a phylogenetic network from multiple molecular sequence alignments. There are two alternatives for the input data:</p>
+<ol>
+<li>A list of estimated gene trees for each locus, which can be obtained using   <a href="http://mrbayes.sourceforge.net">MrBayes</a> or <a href="http://sco.h-its.org/exelixis/software.html">RAxML</a>. Or:</li>
+<li>A table of concordance factors (CF) for each 4-taxon subset which can be   obtained from <a href="http://www.stat.wisc.edu/~ane/bucky/">BUCKy</a>,   to account for gene tree uncertainty</li>
+</ol>
+<p>This <a href="https://github.com/nstenz/TICR">pipeline</a> can be used to obtain the table of  quartet CF needed as input for SNaQ. The pipeline starts from the sequence alignments, runs MrBayes and then BUCKy (both parallelized), producing the table of estimated CFs and their credibility intervals. Additional details on this <a href="../ticr_howtogetQuartetCFs/#TICR-pipeline-1">TICR pipeline</a> describe how to insert data at various stages (e.g. after running MrBayes on each locus).</p>
+<p><a id='Tutorial-data-1'></a></p>
+<h2 id="tutorial-data">Tutorial data</h2>
+<!–The examples files for this section can be found within the PhyloNetworks folder, typically in your *HOME/.julia/v0.4/PhyloNetworks/examples/*. However, links to the files are also included below. –> We suggest that you create a special directory for running these examples, where input files can be downloaded and where output files will be created (with estimated networks for instance). Enter this directory and run Julia from there.
+
+<p><a id='gene-trees-1'></a></p>
+<h3 id="gene-trees">gene trees</h3>
+<p>Suppose you have a file with a list of gene trees in parenthetical format called <em>treefile.txt</em>. You can access the example file of input trees <a href="https://github.com/crsl4/PhyloNetworks/blob/master/examples/treefile.txt">here</a> or <a href="https://raw.githubusercontent.com/crsl4/PhyloNetworks/master/examples/treefile.txt">here</a> for easier download.</p>
+<p>Do not copy-paste into a "smart" text-editor. Instead, save the file directly into your working directory using "save link as" or "download linked file as". This file contains 10 trees, each in parenthetical format on 6 taxa like this:</p>
+<p>(6:2.728,((3:0.655,5:0.655):1.202,(1:0.881,(2:0.783,4:0.783):0.098):0.976):0.871);</p>
+<p>If 'treefile.txt' is in your working directory, you can view its content within Julia:</p>
+<pre><code class="julia">less(&quot;treefile.txt&quot;)
 </code></pre>
 
-<p>It is important to have run <code>snaq!</code>, <code>topologyQPseudolik!</code> or <code>topologyMaxQPseudolik!</code> before making this plot, or the result would be meaningless. These functions update the fitted concordance factors (those expected under the network) inside the dataCF object <code>d</code>.</p>
-<p>Now, we can plot them with any of the Julia packages for plotting. For example:</p>
-<pre><code class="julia">using Gadfly
-p = plot(layer(df_long, x=&quot;obsCF&quot;, y=&quot;expCF&quot;, Geom.point, Stat.x_jitter(range=0.4)),
-         layer(x=0:1,y=0:1, Geom.line))
+<p>Just type <code>q</code> to quit viewing this file. You could read in these 10 trees and visualize the third one (say) like this:</p>
+<pre><code class="julia">tentrees = readMultiTopology(&quot;treefile.txt&quot;)
+tentrees[3]
+plot(tentrees[3])
 </code></pre>
 
-<p>This will pop up a browser window with the plot. The plot can be saved as PDF (or many other formats, see <a href="http://dcjones.github.io/Gadfly.jl/">Gadfly tutorial</a>) with</p>
-<pre><code class="julia">draw(PDF(&quot;plot.pdf&quot;, 4inch, 3inch), p)
+<p>To read in all gene trees and directly summarize them by a list of quartet CFs (proportion of input trees with a given quartet):</p>
+<pre><code class="julia">d=readTrees2CF(&quot;treefile.txt&quot;, CFfile=&quot;tableCFall.txt&quot;)
+less(&quot;tableCFall.txt&quot;)
 </code></pre>
 
-<p>To highlight quartets that include taxon "6", say, if we suspect that it is an unrecognized hybrid, one may do this.</p>
-<pre><code>using DataFramesMeta # install this package with Pkg.add(&quot;DataFramesMeta&quot;) if not done before
-mycolor = @with(df_long, (:tx1 .== &quot;6&quot;) | (:tx2 .== &quot;6&quot;) | (:tx3 .== &quot;6&quot;) | (:tx4 .== &quot;6&quot;));
-# 'mycolor' is true for quartets having taxon &quot;6&quot;, false for others
-p = plot(layer(df_long, x=&quot;obsCF&quot;, y=&quot;expCF&quot;, color=mycolor, Geom.point),
-         layer(x=0:1,y=0:1, Geom.line),
-         Guide.colorkey(&quot;has taxon 6?&quot;))
+<p><code>less("tableCFall.txt")</code> lets you see the content of the newly created file "tableCFall.txt", within Julia. Again, type <code>q</code> to quit viewing this file.</p>
+<p>If instead of all the 4-taxon subsets, you just want to use a random sample of 10 4-taxon subsets:</p>
+<pre><code class="julia">d=readTrees2CF(&quot;treefile.txt&quot;, whichQ=&quot;rand&quot;, numQ=10, CFfile=&quot;tableCF10.txt&quot;)
 </code></pre>
 
-<p>To export this table and explore the fit of the network with other tools:</p>
-<pre><code class="julia">writetable(&quot;fittedCF_net1_long.csv&quot;, df_long)
+<p>Be careful to use a numQ value smaller than the total number of possible 4-taxon subsets, which is <em>n choose 4</em> on <em>n</em> taxa (e.g. 15 on 6 taxa). To get a predictable random sample, you may set the seed with <code>srand(12321)</code> (for instance) prior to sampling the quartets as above.</p>
+<p><a id='Table-of-quartet-concordance-factors-(CFs)-1'></a></p>
+<h3 id="table-of-quartet-concordance-factors-cfs">Table of quartet concordance factors (CFs)</h3>
+<p>If you already have a table of CF values in a file <em>tableCF.txt</em> in this format</p>
+<p>|Taxon1 | Taxon2 | Taxon3 | Taxon4 | CF12_34 | CF13_24 | CF14_23 | |–––-|:–––-|:–––-|:–––-|:––––|:––––|:––––|</p>
+<p>you would read it like this:</p>
+<pre><code class="julia">d=readTableCF(&quot;tableCF.txt&quot;) # one step only: read file and convert to 'DataCF' object
+# or in 2 steps:
+using DataFrames
+dat = readtable(&quot;tableCF.txt&quot;) # read file into a 'DataFrame' object
+d = readTableCF(dat)           # convert DataFrame into DataCF
 </code></pre>
+
+<p>You can access this example file <a href="https://github.com/crsl4/PhyloNetworks/blob/master/examples/tableCF.txt">here</a> or <a href="https://raw.githubusercontent.com/crsl4/PhyloNetworks/master/examples/tableCF.txt">here</a>.</p>
+<p>Columns need to be in the right order. If you have the information on the number of genes used for each 4-taxon subset, you can add this information in a column named "ngenes".</p>
+<p>If you have a tree <em>startTree.txt</em> in parenthetical format to use as starting point for the optimization, you can read it with</p>
+<pre><code class="julia">T=readTopology(&quot;startTree.txt&quot;)
+</code></pre>
+
+<p>You can access this example file <a href="https://github.com/crsl4/PhyloNetworks/blob/master/examples/startTree.txt">here</a> (raw file <a href="https://raw.githubusercontent.com/crsl4/PhyloNetworks/master/examples/startTree.txt">here</a>).</p>
+<p>If the topology <code>T</code> is to be used as a starting tree for SNaQ, it needs to be of level 1. To make sure that it is, you may read it in with <code>readTopologyLevel1</code> (which may also unroot the tree, resolve polytomies, replace missing branch lengths by 1 for starting values etc.):</p>
+<pre><code class="julia">T=readTopologyLevel1(&quot;startTree.txt&quot;)
+</code></pre>
+
+<p>Note that all trees and all networks with 1 hybridization are of level 1.</p>
           <aside class="copyright" role="note">
             
             Documentation built with
@@ -346,7 +388,7 @@ p = plot(layer(df_long, x=&quot;obsCF&quot;, y=&quot;expCF&quot;, color=mycolor,
   <nav class="pagination" aria-label="Footer">
     <div class="previous">
       
-        <a href="../fixednetworkoptim/" title="Fixed Network">
+        <a href="../simpleJulia/" title="Julia Types">
           <span class="direction">
             Previous
           </span>
@@ -356,7 +398,7 @@ p = plot(layer(df_long, x=&quot;obsCF&quot;, y=&quot;expCF&quot;, color=mycolor,
             </div>
             <div class="stretch">
               <div class="title">
-                Fixed Network
+                Julia Types
               </div>
             </div>
           </div>
@@ -365,14 +407,14 @@ p = plot(layer(df_long, x=&quot;obsCF&quot;, y=&quot;expCF&quot;, color=mycolor,
     </div>
     <div class="next">
       
-        <a href="../bootstrap/" title="Bootstrap">
+        <a href="../ticr_howtogetQuartetCFs/" title="TICR pipeline">
           <span class="direction">
             Next
           </span>
           <div class="page">
             <div class="stretch">
               <div class="title">
-                Bootstrap
+                TICR pipeline
               </div>
             </div>
             <div class="button button-next" role="button" aria-label="Next">

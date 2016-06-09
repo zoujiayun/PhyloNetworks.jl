@@ -24,6 +24,12 @@
     </url>
         
     <url>
+     <loc>None/man/inputdata/</loc>
+     <lastmod>2016-06-09</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
      <loc>None/man/ticr_howtogetQuartetCFs/</loc>
      <lastmod>2016-06-09</lastmod>
      <changefreq>daily</changefreq>
