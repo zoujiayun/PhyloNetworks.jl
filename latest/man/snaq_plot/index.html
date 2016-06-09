@@ -19,10 +19,12 @@
     
     <meta property="og:url" content="None">
     <meta property="og:title" content="PhyloNetworks.jl">
-    <meta property="og:image" content="None/../../">
+    <meta property="og:image" content="None/../../snaq_small.png">
     <meta name="apple-mobile-web-app-title" content="PhyloNetworks.jl">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+      <link rel="apple-touch-icon" href="../../snaq_small.png">
     
     
     <link rel="shortcut icon" type="image/x-icon" href="../../None">
@@ -70,7 +72,7 @@
   
   
   
-  <body class="palette-primary-indigo palette-accent-blue">
+  <body class="palette-primary-teal palette-accent-teal">
     
       
       
@@ -131,6 +133,10 @@
   
   <a href="https://github.com/crsl4/PhyloNetworks.jl" class="project">
     <div class="banner">
+      
+        <div class="logo">
+          <img src="../../snaq_small.png">
+        </div>
       
       <div class="name">
         <strong>
@@ -193,15 +199,6 @@
       
         
   <li>
-    <a class="" title="Julia Types" href="../simpleJulia/">
-      Julia Types
-    </a>
-    
-  </li>
-
-      
-        
-  <li>
     <a class="" title="Input Data for SNaQ" href="../inputdata/">
       Input Data for SNaQ
     </a>
@@ -231,8 +228,26 @@
         <ul>
           
             <li class="anchor">
-              <a title="Candidate Networks" href="#candidate-networks">
-                Candidate Networks
+              <a title="Network Estimation" href="#network-estimation">
+                Network Estimation
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Network Visualization" href="#network-visualization">
+                Network Visualization
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Re-rooting networks" href="#re-rooting-networks">
+                Re-rooting networks
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Candidate Network Evaluation" href="#candidate-network-evaluation">
+                Candidate Network Evaluation
               </a>
             </li>
           
@@ -310,9 +325,11 @@
       <article class="article">
         <div class="wrapper">
           
-          <p><a id='Network-Estimation-1'></a></p>
-<h1 id="network-estimation">Network Estimation</h1>
-<p>After <a href="../inputdata/#Input-for-SNaQ-1">Input for SNaQ</a>, we can estimate the network using the input data <em>d</em> and starting from tree (or network) <em>T</em>:</p>
+          <p><a id='Getting-a-Network-1'></a></p>
+<h1 id="getting-a-network">Getting a Network</h1>
+<p><a id='Network-Estimation-1'></a></p>
+<h2 id="network-estimation">Network Estimation</h2>
+<p>After <a href="../inputdata/#Input-for-SNaQ-1">Input for SNaQ</a>, we can estimate the network using the input data <code>d</code> and starting from tree (or network) <code>T</code>:</p>
 <pre><code class="julia">net1=snaq!(T,d,filename=&quot;net1_snaq&quot;);
 less(&quot;net1_snaq.err&quot;)
 less(&quot;net1_snaq.out&quot;)
@@ -321,8 +338,8 @@ net2=snaq!(T,d,hmax=2, filename=&quot;net2_snaq&quot;);
 </code></pre>
 
 <p>when viewing the result files "net1_snaq.err" and "net1_snaq.out" with <code>less</code> within Julia, use arrows to scroll down and type <code>q</code> to quit viewing the files. The "net1_snaq.networks" file contains a list of networks obtained from moving the placement of the hybrid node to another node inside the cycle, along with its pseudolikelihood score.</p>
-<p>The option <em>hmax</em> corresponds to the maximum number of hybridizations allowed, 1 by default. The function name <code>snaq!</code> ends with ! because it modifies the argument d by including the expected CF. Type <code>?</code> then <code>snaq!</code> to get help on that function.</p>
-<p>The estimation function creates a .out file (snaq.out by default) with the estimated network in parenthetical format, which you can also print directly to the screen like this:</p>
+<p>The option <code>hmax</code> corresponds to the maximum number of hybridizations allowed, 1 by default. The function name <code>snaq!</code> ends with ! because it modifies the argument <code>d</code> by including the expected CF. Type <code>?</code> then <code>snaq!</code> to get help on that function.</p>
+<p>The estimation function creates a <code>.out</code> file (<code>snaq.out</code> by default) with the estimated network in parenthetical format, which you can also print directly to the screen like this:</p>
 <pre><code class="julia">net1
 writeTopology(net1)                   # topology to screen, full precision for branch lengths and γ
 writeTopology(net1,di=true)           # γ omitted: for dendroscope
@@ -330,13 +347,16 @@ writeTopology(net1, &quot;bestnet_h1.tre&quot;) # topology to file 'bestnet_h1.t
 less(&quot;bestnet_h1.tre&quot;)                # just view the file
 </code></pre>
 
-<p>The option <em>di=true</em> is for the parenthetical format used by <a href="http://dendroscope.org/">Dendroscope</a> (without reticulation heritabilities). Copy this parenthetical description and paste it into Dendroscope, or use the plotting function described below.</p>
-<p>If you hit a <a href="./#SNaQ-error-1">SNaQ error</a>, please report it (see below).</p>
-<p><a id='Candidate-Networks-1'></a></p>
-<h3 id="candidate-networks">Candidate Networks</h3>
-<p>From a set of candidate networks, one might simply need to score of each network to pick the best. Here, the score is the negative log pseudo-likelihood, and the lower the better. See the section to get the score of a <a href="../fixednetworkoptim/#Fixed-Network-1">Fixed Network</a>.</p>
+<p>The option <code>di=true</code> is for the parenthetical format used by <a href="http://dendroscope.org/">Dendroscope</a> (without reticulation heritabilities). Copy this parenthetical description and paste it into Dendroscope, or use the plotting function described below.</p>
+<p><a id='SNaQ-error-1'></a></p>
+<h3 id="snaq-error">SNaQ error</h3>
+<p>Please report any bugs and errors to <em>claudia@stat.wisc.edu</em>, so we can debug it. The easiest way to do it is by checking the <code>.err</code> file which will show the number of runs that failed by a bug and the corresponding seed to replicate the run. This is an example of what the <code>.err</code> file looks like: <code>Total errors: 1 in seeds [4545]</code>. You need to run the following function with the same settings that caused the error:</p>
+<pre><code class="julia">snaqDebug(T,d,hmax=2,seed=4545)
+</code></pre>
+
+<p>This will create two files: <em>snaqDebug.log</em> and <em>debug.log</em> which you can then send to <em>claudia@stat.wisc.edu</em> with subject "SNaQ bug found" or something similar. I will not have access to any part of your data, the files simply print out the steps to retrace the bug, and hopefully fix it.</p>
 <p><a id='Network-Visualization-1'></a></p>
-<h1 id="network-visualization">Network Visualization</h1>
+<h2 id="network-visualization">Network Visualization</h2>
 <p>To visualize the network:</p>
 <pre><code class="julia">p = plot(net1, showGamma=true)
 </code></pre>
@@ -352,7 +372,7 @@ plot(net1, showEdgeLength=true, minorHybridEdgeColor=colorant&quot;tan&quot;)
 </code></pre>
 
 <p><a id='Re-rooting-networks-1'></a></p>
-<h1 id="re-rooting-networks">Re-rooting networks</h1>
+<h2 id="re-rooting-networks">Re-rooting networks</h2>
 <p>SNaQ infers an unrooted semi-directed network, in the sense that the direction of tree edges cannot be inferred, but the direction of hybrid edges can be inferred. To obtain a representative visualization, it is best to root the network first, using one or more outgroup. If there is a single outgroup, the network can be rooted with this outgroup, if compatible, like this:</p>
 <pre><code class="julia">rootatnode!(net1, &quot;4&quot;)
 plot(net1, showGamma=true)
@@ -360,15 +380,10 @@ plot(net1, showGamma=true)
 
 <p>Here we used taxon "4" as outgroup. More options are available, to root the network either at a give node or along a given edge. Use the help mode (type <code>?</code>) to get help on the functions <code>rootatnode!</code> and <code>rootonedge!</code> to get more info.</p>
 <p>If the network is plotted with crossing edges, you may identify ways to rotate the children edges at some nodes to untangle some crossing edges. This can be done using the function <code>rotate!</code>. Type <code>?</code> then <code>rotate!</code> to get help and examples.</p>
-<p><a id='SNaQ-error-1'></a></p>
-<h3 id="snaq-error">SNaQ error</h3>
-<p>Please report any bugs and errors to <em>claudia@stat.wisc.edu</em>, so we can debug it. The easiest way to do it is by checking the <code>.err</code> file which will show the number of runs that failed by a bug and the corresponding seed to replicate the run. This is an example of what the <code>.err</code> file looks like:</p>
-<p><code>Total errors: 1 in seeds [4545]</code></p>
-<p>You need to run the following function with the same settings that caused the error:</p>
-<pre><code class="julia">snaqDebug(T,d,hmax=2,seed=4545)
-</code></pre>
-
-<p>This will create two files: <em>snaqDebug.log</em> and <em>debug.log</em> which you can then send to <em>claudia@stat.wisc.edu</em> with subject "SNaQ bug found" or something similar. I will not have access to any part of your data, the files simply print out the steps to retrace the bug, and hopefully fix it.</p>
+<p><a id='Candidate-Network-Evaluation-1'></a></p>
+<h2 id="candidate-network-evaluation">Candidate Network Evaluation</h2>
+<p>From a set of candidate networks, one might simply need to score of each network to pick the best. Here, the score is the negative log pseudo-likelihood, and the lower the better. See the section to get the score of a <a href="../fixednetworkoptim/#Fixed-Network-1">Fixed Network</a>.</p>
+<p>Else: go next to <a href="../expectedCFs/#Extract-Expected-CFs-1">Extract Expected CFs</a> to see how your network fits your data, or go for a <a href="../bootstrap/#Bootstrap-1">Bootstrap</a> analysis to quantify support for tree edges and hybrid edges.</p>
           <aside class="copyright" role="note">
             
             Documentation built with

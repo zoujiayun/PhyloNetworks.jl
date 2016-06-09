@@ -19,10 +19,12 @@
     
     <meta property="og:url" content="None">
     <meta property="og:title" content="PhyloNetworks.jl">
-    <meta property="og:image" content="None/../../">
+    <meta property="og:image" content="None/../../snaq_small.png">
     <meta name="apple-mobile-web-app-title" content="PhyloNetworks.jl">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+      <link rel="apple-touch-icon" href="../../snaq_small.png">
     
     
     <link rel="shortcut icon" type="image/x-icon" href="../../None">
@@ -70,7 +72,7 @@
   
   
   
-  <body class="palette-primary-indigo palette-accent-blue">
+  <body class="palette-primary-teal palette-accent-teal">
     
       
       
@@ -132,6 +134,10 @@
   <a href="https://github.com/crsl4/PhyloNetworks.jl" class="project">
     <div class="banner">
       
+        <div class="logo">
+          <img src="../../snaq_small.png">
+        </div>
+      
       <div class="name">
         <strong>
           PhyloNetworks.jl
@@ -186,15 +192,6 @@
   <li>
     <a class="" title="Installation" href="../installation/">
       Installation
-    </a>
-    
-  </li>
-
-      
-        
-  <li>
-    <a class="" title="Julia Types" href="../simpleJulia/">
-      Julia Types
     </a>
     
   </li>
@@ -436,44 +433,6 @@ maximum(BSgam[:,2])
 mean(BSgam[:,2])
 std(BSgam[:,2])
 </code></pre>
-
-<!–- To summarize the hybridizations, we need an outgroup to root all the networks.
-
-<pre><code class="julia">outgroup = &quot;4&quot;
-HFmat,discTrees = hybridDetection(net_bs,net1,outgroup)
-</code></pre>
-
-<p>The function <code>hybridDetection</code> will provide a matrix <code>HFmat</code> that will have one row per bootstrap network, and number of columns depending on the number of hybrids in <code>net1</code>. If <code>net1</code> had 2 hybrids, <code>HFmat</code> will have 4 columns:</p>
-<ul>
-<li>the first 2 columns indicate the presence (1) or absence (0) of each   hybrid (column) for each bootstrap network (row)</li>
-<li>the last 2 columns indicate the estimated gamma in the bootstrap   network if the hybrid was found (and 0.0 if it was not found)</li>
-</ul>
-<p>Hybrid comparison between explicit networks only makes sense if the underlying trees are the same, so <code>discTrees</code> has the list of trees that do not match the underlying tree in <code>net1</code> (<code>tree1</code>).</p>
-<p>Finally, you can summarize the information in <code>HFmat</code></p>
-<pre><code class="julia">df_hyb = summarizeHFdf(HFmat)
-</code></pre>
-
-<p><code>df_hyb</code> has one row per hybrid, and 5 columns:</p>
-<ul>
-<li>hybrid index</li>
-<li>number of trees that match the underlying tree in <code>net1</code> (same for all hybrids)</li>
-<li>number of networks with that hybrid</li>
-<li>mean estimated gamma among networks with the hybrid</li>
-<li>sd estimated gamma among networks with the hybrid</li>
-</ul>
-<p>The last row contains in 3er column the number of networks that have all same hybrids as <code>net1</code> (hybrid index, mean gamma and sd gamma are meaningless in this row).</p>
-<p>You can save all the information with</p>
-<pre><code class="julia">HFdf=convert(DataFrame,HFmat) #convert to dataframe to save
-writetable(&quot;HFdf.csv&quot;,HFdf)
-writetable(&quot;summaryHybridDetection.csv&quot;,df_hyb)
-s=open(&quot;discrepantTrees.out&quot;,&quot;w&quot;)
-for(t in discTrees)
-    write(s,&quot;$(writeTopology(t))\n&quot;)
-end
-close(s)
-</code></pre>
-
-<p>–-&gt;</p>
           <aside class="copyright" role="note">
             
             Documentation built with

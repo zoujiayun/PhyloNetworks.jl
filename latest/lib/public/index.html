@@ -19,10 +19,12 @@
     
     <meta property="og:url" content="None">
     <meta property="og:title" content="PhyloNetworks.jl">
-    <meta property="og:image" content="None/../../">
+    <meta property="og:image" content="None/../../snaq_small.png">
     <meta name="apple-mobile-web-app-title" content="PhyloNetworks.jl">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+      <link rel="apple-touch-icon" href="../../snaq_small.png">
     
     
     <link rel="shortcut icon" type="image/x-icon" href="../../None">
@@ -70,7 +72,7 @@
   
   
   
-  <body class="palette-primary-indigo palette-accent-blue">
+  <body class="palette-primary-teal palette-accent-teal">
     
       
       
@@ -132,6 +134,10 @@
   <a href="https://github.com/crsl4/PhyloNetworks.jl" class="project">
     <div class="banner">
       
+        <div class="logo">
+          <img src="../../snaq_small.png">
+        </div>
+      
       <div class="name">
         <strong>
           PhyloNetworks.jl
@@ -186,15 +192,6 @@
   <li>
     <a class="" title="Installation" href="../../man/installation/">
       Installation
-    </a>
-    
-  </li>
-
-      
-        
-  <li>
-    <a class="" title="Julia Types" href="../../man/simpleJulia/">
-      Julia Types
     </a>
     
   </li>
@@ -400,6 +397,7 @@
 <li><a href="./#PhyloNetworks.readTrees2CF"><code>PhyloNetworks.readTrees2CF</code></a></li>
 <li><a href="./#PhyloNetworks.rootatnode!"><code>PhyloNetworks.rootatnode!</code></a></li>
 <li><a href="./#PhyloNetworks.rootonedge!"><code>PhyloNetworks.rootonedge!</code></a></li>
+<li><a href="./#PhyloNetworks.rotate!"><code>PhyloNetworks.rotate!</code></a></li>
 <li><a href="./#PhyloNetworks.setGamma!"><code>PhyloNetworks.setGamma!</code></a></li>
 <li><a href="./#PhyloNetworks.setLength!"><code>PhyloNetworks.setLength!</code></a></li>
 <li><a href="./#PhyloNetworks.snaq!"><code>PhyloNetworks.snaq!</code></a></li>
@@ -409,6 +407,7 @@
 <li><a href="./#PhyloNetworks.topologyMaxQPseudolik!"><code>PhyloNetworks.topologyMaxQPseudolik!</code></a></li>
 <li><a href="./#PhyloNetworks.topologyQPseudolik!"><code>PhyloNetworks.topologyQPseudolik!</code></a></li>
 <li><a href="./#PhyloNetworks.treeEdgesBootstrap"><code>PhyloNetworks.treeEdgesBootstrap</code></a></li>
+<li><a href="./#PhyloNetworks.writeMultiTopology"><code>PhyloNetworks.writeMultiTopology</code></a></li>
 <li><a href="./#PhyloNetworks.writeTopology"><code>PhyloNetworks.writeTopology</code></a></li>
 </ul>
 <p><a id='Types-1'></a></p>
@@ -578,8 +577,27 @@ deleteleaf!(HybridNetwork,Node; simplify=true)
 <li>edgeLabel: dataframe with two columns: the first with edge numbers, the second with labels   (like bootstrap values) to annotate edges. empty by default.</li>
 <li>nodeLabel: dataframe with two columns: the first with node numbers, the second with labels   (like bootstrap values for hybrid relationships) to annotate nodes. empty by default.</li>
 </ul>
-<p>Note that plot() actually modifies some (minor) attributes of the network, as it calls directEdges!, preorder! and cladewiseorder!.</p>
-<p>If hybrid edges cross tree and major edges, you may choose to rotate some tree edges to eliminate crossing edges, using rotate!.</p>
+<p>Note that <code>plot</code> actually modifies some (minor) attributes of the network, as it calls <code>directEdges!</code>, <code>preorder!</code> and <code>cladewiseorder!</code>.</p>
+<p>If hybrid edges cross tree and major edges, you may choose to rotate some tree edges to eliminate crossing edges, using <code>rotate!</code>.</p>
+<p><a id='PhyloNetworks.rotate!' href='#PhyloNetworks.rotate!'>#</a>
+<strong><code>PhyloNetworks.rotate!</code></strong> &mdash; <em>Function</em>.</p>
+<p><code>rotate!(net::HybridNetwork, nodeNumber::Int64; orderedEdgeNum::Array{Int64,1})</code></p>
+<p>Rotates the order of the node's children edges. Useful for plotting, to remove crossing edges. If <code>node</code> is a tree node with no polytomy, the 2 children edges are switched and the optional argument <code>orderedEdgeNum</code> is ignored.</p>
+<p>Use plot(net, showNodeNumber=true, showEdgeNumber=false) to map node and edge numbers on the network, as shown in the examples below.</p>
+<p>Warning: assumes that edges are correctly directed (isChild1 updated). This is done by plot(net). Otherwise run directEdges!(net).</p>
+<p><strong>Example #"</strong></p>
+<pre><code class="julia">julia&gt; net = readTopology(&quot;(A:1.0,((B:1.1,#H1:0.2::0.2):1.2,(((C:0.52,(E:0.5)#H2:0.02::0.7):0.6,(#H2:0.01::0.3,F:0.7):0.8):0.9,(D:0.8)#H1:0.3::0.8):1.3):0.7):0.1;&quot;);
+julia&gt; plot(net, showNodeNumber=true)
+julia&gt; rotate!(net, -4)
+julia&gt; plot(net)
+julia&gt; net=readTopology(&quot;(4,((1,(2)#H7:::0.864):2.069,(6,5):3.423):0.265,(3,#H7:::0.136):10.0);&quot;);
+julia&gt; plot(net, showNodeNumber=true, showEdgeNumber=true)
+julia&gt; rotate!(net, -1, orderedEdgeNum=[1,12,9])
+julia&gt; plot(net, showNodeNumber=true, showEdgeNumber=true)
+julia&gt; rotate!(net, -3)
+julia&gt; plot(net)
+</code></pre>
+
 <p><a id='Data-and-Topology-read/write-1'></a></p>
 <h2 id="data-and-topology-readwrite">Data and Topology read/write</h2>
 <p><a id='PhyloNetworks.readTopology' href='#PhyloNetworks.readTopology'>#</a>
@@ -655,6 +673,26 @@ writeTopology(net, filename)
 <li>digits (3): digits after the decimal place for rounding</li>
 </ul>
 <p>If the current root placement is not admissible, other placements are tried. The network is updated with this new root placement, if successful.</p>
+<p><a id='PhyloNetworks.writeMultiTopology' href='#PhyloNetworks.writeMultiTopology'>#</a>
+<strong><code>PhyloNetworks.writeMultiTopology</code></strong> &mdash; <em>Function</em>.</p>
+<pre><code>writeMultiTopology(nets, file_name; append=false)
+writeMultiTopology(nets, IO)
+</code></pre>
+
+<p>Write an array of networks in parenthetical format to a file (one network per line). Use the option append=true to append to the file. Otherwise, the default is to create a new file or overwrite it, if it already existed.</p>
+<p><strong>Examples #"</strong></p>
+<pre><code>julia&gt; net = [readTopology(&quot;(D,((A,(B)#H7:::0.864):2.069,(F,E):3.423):0.265,(C,#H7:::0.1361111):10);&quot;),
+              readTopology(&quot;(A,(B,C));&quot;),readTopology(&quot;(E,F);&quot;),readTopology(&quot;(G,H,F);&quot;)];
+
+julia&gt; writeMultiTopology(net, &quot;fournets.net&quot;) # to (over)write to file &quot;fournets.net&quot;
+julia&gt; writeMultiTopology(net, &quot;fournets.net&quot;, append=true) # to append to this file
+julia&gt; writeMultiTopology(net, STDOUT)         # to write to the screen (standard out)
+(D,((A,(B)#H7:::0.864):2.069,(F,E):3.423):0.265,(C,#H7:::0.1361111):10.0);
+(A,(B,C));
+(E,F);
+(G,H,F);
+</code></pre>
+
 <p><a id='PhyloNetworks.mapAllelesCFtable' href='#PhyloNetworks.mapAllelesCFtable'>#</a>
 <strong><code>PhyloNetworks.mapAllelesCFtable</code></strong> &mdash; <em>Function</em>.</p>
 <p><code>mapAllelesCFtable(mapping file, cf file)</code></p>
@@ -807,47 +845,35 @@ julia&gt; hardwiredCluster(net5.edge[12], taxa) # descendants of 12th edge = CEF
 <p>To calculate these hybrid and sister clades at a given hybrid node, all other hybrid edges are first removed from the network. Then, the hybrid clade is the hardwired cluster (descendants) of either hybrid edge and major/minor clade is the hardwired cluster of the sibling edge of the major/minor hybrid parent. If <code>rooted=false</code>, sister clades are considered as bipartitions.</p>
 <p>Output:</p>
 <ol>
-<li>
-<p>a "node" data frame with one row per clade and 9 columns giving:</p>
-</li>
-<li>
-<p><strong>clade</strong>: the clade's name, like the taxon name (if a hybrid is a single taxon) or      the hybrid tag (like 'H1') in the reference network</p>
-</li>
+<li>a "node" data frame (see below)</li>
+<li>an "edge" data frame (see below)</li>
+<li>a "clade" data frame to describe the make up of all clades found as hybrids or sisters,   starting with a column <code>taxa</code> that lists all taxa. All other columns correspond to a given   clade and contain true/false values. <code>true</code> means that a given taxon belongs in a given clade.   For a clade named <code>H1</code>, for instance, and if the data frame was named <code>cla</code>, the   list of taxa in this clade can be obtained with <code>cla[:taxa][cla[:H1]]</code>.</li>
+<li>an array of gamma values, with one row for each bootstrap network and two columns (major/minor)   for each hybrid edge in the reference network. If this hybrid edge was found in the bootstrap network   (i.e. same hybrid and sister clades, after removal of all other hybrid nodes),   its bootstrap gamma value is recorded here. Otherwise, the gamma entry is 0.0.</li>
+<li>a vector with the number of each hybrid edge in the reference network, in the same order as for the columns in the array of gamma values above.</li>
+</ol>
+<p>The "node data frame has one row per clade and 9 columns giving:</p>
+<ul>
+<li><strong>clade</strong>: the clade's name, like the taxon name (if a hybrid is a single taxon) or      the hybrid tag (like 'H1') in the reference network</li>
 <li><strong>node</strong>: the node number in the reference network. NA if the clade is not in this network.</li>
 <li><strong>hybridnode</strong>: typically the same node number as above, except for hybrid clades in the      reference network. For those, the hybrid node number is listed here.</li>
 <li><strong>edge</strong>: number of the parent edge, parent to the node in column 2,      if found in the ref network. NA otherwise.</li>
 <li><strong>BS_hybrid</strong>: percentage of bootstrap networks in which the clade is found to be a hybrid clade.</li>
 <li><strong>BS_sister</strong>: percentage of bootstrap networks in which the clade is found to be sister to      some hybrid clade (sum of the next 2 columns)</li>
 <li><strong>BS_major_sister</strong>: percentage of bootstrap networks in which the clade is found to be the      major sister to some hybrid clade</li>
-<li><strong>BS_minor_sister</strong>: same as 7, but minor</li>
-<li>
-<p><strong>BS_hybrid_samesisters</strong>: percentage of bootstrap networks in which the clade is found to be      a hybrid and with the same set of sister clades as in the reference network.      Applies to hybrid clades found in the reference network only, NA for all other clades.</p>
-</li>
-<li>
-<p>an "edge" data frame with one row for each pair of clades, and 8 columns:</p>
-</li>
-<li>
-<p><strong>edge</strong>: hybrid edge number, if the edge appears in the reference network. NA otherwise.</p>
-</li>
+<li><strong>BS_minor_sister</strong>: same as previous, but minor</li>
+<li><strong>BS_hybrid_samesisters</strong>: percentage of bootstrap networks in which the clade is found to be      a hybrid and with the same set of sister clades as in the reference network.      Applies to hybrid clades found in the reference network only, NA for all other clades.</li>
+</ul>
+<p>The "edge" data frame has one row for each pair of clades, and 8 columns:</p>
+<ul>
+<li><strong>edge</strong>: hybrid edge number, if the edge appears in the reference network. NA otherwise.</li>
 <li><strong>hybrid_clade</strong>: name of the clade found to be a hybrid, descendent of 'edge'</li>
 <li><strong>hybrid</strong>: node number of that clade, if it appears in the reference network. NA otherwise.</li>
 <li><strong>sister_clade</strong>: name of the clade that is sister to 'edge', i.e. be sister to a hybrid</li>
 <li><strong>sister</strong>: node number of that clade, if in the ref network.</li>
 <li><strong>BS_hybrid_edge</strong>: percentage of bootstrap networks in which 'edge' is found to be a hybrid      edge, i.e. when the clade in the 'hybrid' column is found to be a hybrid and the clade in      the 'sister' column is one of its sisters.</li>
 <li><strong>BS_major</strong>: percentage of bootstrap networks in which 'edge' is found to be a major hybrid      edge, i.e. when 'hybrid' is found to be a hybrid clade and 'sister' is found to be its      major sister.</li>
-<li>
-<p><strong>BS_minor</strong>: same as 7, but minor</p>
-</li>
-<li>
-<p>a "clade" data frame to describe the make up of all clades found as hybrids or sisters,   starting with a column <code>taxa</code> that lists all taxa. All other columns correspond to a given   clade and contain true/false values. <code>true</code> means that a given taxon belongs in a given clade.   For a clade named <code>H1</code>, for instance, and if the data frame was named 'cla', the   list of taxa in this clade can be obtained with <code>cla[:taxa][cla[:H1]]</code>.</p>
-</li>
-<li>
-<p>an array of gamma values, with one row for each bootstrap network and two columns (major/minor) for each hybrid   edge in the reference network. If this hybrid edge was found in the bootstrap network   (i.e. same hybrid and sister clades, after removal of all other hybrid nodes),   its bootstrap gamma value is recorded here. Otherwise, the gamma entry is 0.0.</p>
-</li>
-<li>
-<p>an vector with the number of each hybrid edge in the reference network, in the same order   as for the columns in the array of gamma values above.</p>
-</li>
-</ol>
+<li><strong>BS_minor</strong>: same as previous, but minor</li>
+</ul>
           <aside class="copyright" role="note">
             
             Documentation built with

@@ -21,10 +21,12 @@
     
     <meta property="og:url" content="None">
     <meta property="og:title" content="PhyloNetworks.jl">
-    <meta property="og:image" content="None/./">
+    <meta property="og:image" content="None/./snaq_small.png">
     <meta name="apple-mobile-web-app-title" content="PhyloNetworks.jl">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+      <link rel="apple-touch-icon" href="./snaq_small.png">
     
     
     <link rel="shortcut icon" type="image/x-icon" href="./None">
@@ -72,7 +74,7 @@
   
   
   
-  <body class="palette-primary-indigo palette-accent-blue">
+  <body class="palette-primary-teal palette-accent-teal">
     
       
       
@@ -130,6 +132,10 @@
   <a href="https://github.com/crsl4/PhyloNetworks.jl" class="project">
     <div class="banner">
       
+        <div class="logo">
+          <img src="./snaq_small.png">
+        </div>
+      
       <div class="name">
         <strong>
           PhyloNetworks.jl
@@ -179,6 +185,12 @@
         <ul>
           
             <li class="anchor">
+              <a title="How to get help" href="#how-to-get-help">
+                How to get help
+              </a>
+            </li>
+          
+            <li class="anchor">
               <a title="Manual Outline" href="#manual-outline">
                 Manual Outline
               </a>
@@ -211,15 +223,6 @@
   <li>
     <a class="" title="Installation" href="man/installation/">
       Installation
-    </a>
-    
-  </li>
-
-      
-        
-  <li>
-    <a class="" title="Julia Types" href="man/simpleJulia/">
-      Julia Types
     </a>
     
   </li>
@@ -323,25 +326,41 @@
           <p><a id='PhyloNetworks.jl-1'></a></p>
 <h1 id="phylonetworksjl">PhyloNetworks.jl</h1>
 <p>PhyloNetworks is a Julia package for the manipulation, visualization and inference of phylogenetic networks.  SNaQ implements the statistical inference method in <a href="http://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1005896">Sol&iacute;s-Lemus and An&eacute; 2016</a>. The procedure involves a numerical optimization of branch lengths and inheritance probabilities and a heuristic search in the space of phylogenetic networks.</p>
+<p><a id='How-to-get-help-1'></a></p>
+<h2 id="how-to-get-help">How to get help</h2>
+<ul>
+<li>the package <a href="https://github.com/crsl4/PhyloNetworks.jl/wiki">wiki</a> has a step-by-step   tutorial, done for the Evolution 2016 conference, with background on networks and   explanations.</li>
+<li>the <a href="https://groups.google.com/forum/#!forum/phylonetworks-users">google group</a>   has answers to common questions.</li>
+<li>the Manual below has a quick tutorial on SNaQ and PhyloNetworks.</li>
+<li>the <a href=".#main-index-1">Index</a> further below has the full list of documented functions.</li>
+</ul>
 <p><a id='Manual-Outline-1'></a></p>
 <h2 id="manual-outline">Manual Outline</h2>
-<p>This manual is a quick tutorial on SNaQ and PhyloNetworks, and <a href="http://pages.stat.wisc.edu/~claudia/smallTutorial.pdf">here</a> are slides with background on networks and explanations. But check out the <a href="https://groups.google.com/forum/#!forum/phylonetworks-users">google group</a> for common questions.</p>
 <ul>
 <li><a href="man/installation/#Installation-1">Installation</a><ul>
 <li><a href="man/installation/#Installation-of-Julia-1">Installation of Julia</a></li>
 <li><a href="man/installation/#Installation-of-the-package-PhyloNetworks-1">Installation of the package PhyloNetworks</a></li>
 <li><a href="man/installation/#Test-example-1">Test example</a></li>
-<li><a href="man/simpleJulia/#Julia-types-1">Julia types</a></li>
+<li><a href="man/installation/#Julia-types-1">Julia types</a></li>
 </ul>
 </li>
 <li><a href="man/inputdata/#Input-for-SNaQ-1">Input for SNaQ</a><ul>
-<li><a href="man/inputdata/#Tutorial-data-1">Tutorial data</a></li>
-<li><a href="man/ticr_howtogetQuartetCFs/#TICR-pipeline-1">TICR pipeline</a></li>
+<li><a href="man/inputdata/#Tutorial-data:-gene-trees-1">Tutorial data: gene trees</a></li>
+<li><a href="man/inputdata/#Tutorial-data:-quartet-CFs-1">Tutorial data: quartet CFs</a></li>
 </ul>
 </li>
+<li><a href="man/ticr_howtogetQuartetCFs/#TICR-pipeline-1">TICR pipeline</a><ul>
+<li><a href="man/ticr_howtogetQuartetCFs/#To-run-MrBayes:-You-already-have-alignments-1">To run MrBayes: You already have alignments</a></li>
+<li><a href="man/ticr_howtogetQuartetCFs/#To-run-BUCKy:-You-already-have-MrBayes-output-1">To run BUCKy: You already have MrBayes output</a></li>
+</ul>
+</li>
+<li><a href="man/snaq_plot/#Getting-a-Network-1">Getting a Network</a><ul>
 <li><a href="man/snaq_plot/#Network-Estimation-1">Network Estimation</a></li>
 <li><a href="man/snaq_plot/#Network-Visualization-1">Network Visualization</a></li>
 <li><a href="man/snaq_plot/#Re-rooting-networks-1">Re-rooting networks</a></li>
+<li><a href="man/snaq_plot/#Candidate-Network-Evaluation-1">Candidate Network Evaluation</a></li>
+</ul>
+</li>
 <li><a href="man/fixednetworkoptim/#Fixed-Network-1">Fixed Network</a><ul>
 <li><a href="man/fixednetworkoptim/#Optimizing-branch-lengths-and-inheritance-probabilities-for-a-given-network-1">Optimizing branch lengths and inheritance probabilities for a given network</a></li>
 <li><a href="man/fixednetworkoptim/#Network-Score-with-no-optimization-1">Network Score with no optimization</a></li>
@@ -411,6 +430,7 @@
 <li><a href="lib/public/#PhyloNetworks.readTrees2CF"><code>PhyloNetworks.readTrees2CF</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.rootatnode!"><code>PhyloNetworks.rootatnode!</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.rootonedge!"><code>PhyloNetworks.rootonedge!</code></a></li>
+<li><a href="lib/public/#PhyloNetworks.rotate!"><code>PhyloNetworks.rotate!</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.setGamma!"><code>PhyloNetworks.setGamma!</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.setLength!"><code>PhyloNetworks.setLength!</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.snaq!"><code>PhyloNetworks.snaq!</code></a></li>
@@ -420,6 +440,7 @@
 <li><a href="lib/public/#PhyloNetworks.topologyMaxQPseudolik!"><code>PhyloNetworks.topologyMaxQPseudolik!</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.topologyQPseudolik!"><code>PhyloNetworks.topologyQPseudolik!</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.treeEdgesBootstrap"><code>PhyloNetworks.treeEdgesBootstrap</code></a></li>
+<li><a href="lib/public/#PhyloNetworks.writeMultiTopology"><code>PhyloNetworks.writeMultiTopology</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.writeTopology"><code>PhyloNetworks.writeTopology</code></a></li>
 <li><a href="lib/internals/#PhyloNetworks.sampleBootstrapTrees"><code>PhyloNetworks.sampleBootstrapTrees</code></a></li>
 </ul>

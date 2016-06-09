@@ -19,10 +19,12 @@
     
     <meta property="og:url" content="None">
     <meta property="og:title" content="PhyloNetworks.jl">
-    <meta property="og:image" content="None/../../">
+    <meta property="og:image" content="None/../../snaq_small.png">
     <meta name="apple-mobile-web-app-title" content="PhyloNetworks.jl">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+      <link rel="apple-touch-icon" href="../../snaq_small.png">
     
     
     <link rel="shortcut icon" type="image/x-icon" href="../../None">
@@ -70,7 +72,7 @@
   
   
   
-  <body class="palette-primary-indigo palette-accent-blue">
+  <body class="palette-primary-teal palette-accent-teal">
     
       
       
@@ -131,6 +133,10 @@
   
   <a href="https://github.com/crsl4/PhyloNetworks.jl" class="project">
     <div class="banner">
+      
+        <div class="logo">
+          <img src="../../snaq_small.png">
+        </div>
       
       <div class="name">
         <strong>
@@ -193,15 +199,6 @@
       
         
   <li>
-    <a class="" title="Julia Types" href="../simpleJulia/">
-      Julia Types
-    </a>
-    
-  </li>
-
-      
-        
-  <li>
     <a class="" title="Input Data for SNaQ" href="../inputdata/">
       Input Data for SNaQ
     </a>
@@ -216,12 +213,20 @@
     </a>
     
       
+        
+      
       
         <ul>
           
             <li class="anchor">
-              <a title="TICR pipeline" href="#ticr-pipeline">
-                TICR pipeline
+              <a title="To run MrBayes: You already have alignments" href="#to-run-mrbayes-you-already-have-alignments">
+                To run MrBayes: You already have alignments
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="To run BUCKy: You already have MrBayes output" href="#to-run-bucky-you-already-have-mrbayes-output">
+                To run BUCKy: You already have MrBayes output
               </a>
             </li>
           
@@ -308,13 +313,11 @@
       <article class="article">
         <div class="wrapper">
           
-            <h1>TICR pipeline</h1>
-          
           <p><a id='TICR-pipeline-1'></a></p>
-<h2 id="ticr-pipeline">TICR pipeline</h2>
+<h1 id="ticr-pipeline">TICR pipeline</h1>
 <p>This page provides details to insert data into the TICR pipeline at various stages. Full information and code for this pipeline is <a href="https://github.com/nstenz/TICR">here</a>.</p>
 <p><a id='To-run-MrBayes:-You-already-have-alignments-1'></a></p>
-<h3 id="to-run-mrbayes-you-already-have-alignments">To run MrBayes: You already have alignments</h3>
+<h2 id="to-run-mrbayes-you-already-have-alignments">To run MrBayes: You already have alignments</h2>
 <p>If you don't need to run mdl.pl because you already have aligned gene sequences which you would like to run through MrBayes, you can simply create a tarball of the Nexus files (fasta won't work at this stage) you wish to use. This command assumes that you want to use all the files ending with ".nex" in the current directory, one file per locus:</p>
 <p><code>tar czf my-genes.tar.gz *.nex</code></p>
 <p>Once the tarball has been successfully generated, you can then specify this file as input for <a href="https://github.com/nstenz/TICR/blob/master/scripts/mb.pl">mb.pl</a> assuming you have a a valid MrBayes block located in the file "bayes.txt":</p>
@@ -325,14 +328,14 @@
 <p><code>bucky.pl my-genes-mb/my-genes.mb.tar -o mygenes-bucky</code></p>
 <p>The output, with the table of concordance factors for all sets of 4 taxa, will be in a file named <code>my-genes.CFs.csv</code> inside a directory named <code>mygenes-bucky</code>. That's the file containing the quartet concordance factors to give to SNaQ as input.</p>
 <p><a id='To-run-BUCKy:-You-already-have-MrBayes-output-1'></a></p>
-<h3 id="to-run-bucky-you-already-have-mrbayes-output">To run BUCKy: You already have MrBayes output</h3>
+<h2 id="to-run-bucky-you-already-have-mrbayes-output">To run BUCKy: You already have MrBayes output</h2>
 <p><a id='To-run-mbsum-on-the-output-of-MrBayes-for-each-gene-1'></a></p>
-<h4 id="to-run-mbsum-on-the-output-of-mrbayes-for-each-gene">To run mbsum on the output of MrBayes for each gene</h4>
+<h3 id="to-run-mbsum-on-the-output-of-mrbayes-for-each-gene">To run mbsum on the output of MrBayes for each gene</h3>
 <p>You must now run <code>mbsum</code> separately on each gene's MrBayes output. For a gene with output tree files named gene1.run1.t gene1.run2.t gene1.run3.t, and a desired burnin of 1000 trees per tree file:</p>
 <p><code>mbsum -n 1000 -o gene1.in gene1.run1.t gene1.run2.t gene1.run3.t</code></p>
 <p>This <code>mbsum</code> command will need to be executed for each gene. Now continue to the next section.</p>
 <p><a id='To-run-bucky-on-all-4-taxon-sets:-you-already-have-the-mbsum-output-1'></a></p>
-<h4 id="to-run-bucky-on-all-4-taxon-sets-you-already-have-the-mbsum-output">To run bucky on all 4-taxon sets: you already have the mbsum output</h4>
+<h3 id="to-run-bucky-on-all-4-taxon-sets-you-already-have-the-mbsum-output">To run bucky on all 4-taxon sets: you already have the mbsum output</h3>
 <p>If you have already run mbsum on each individual gene's MrBayes output, you can simply create a tarball containing all the mbsum output files. So if you had mbsum output in files named gene1.in, gene2.in, ... , gene100.in, you would want to run something similar to the following command:</p>
 <p><code>tar czf my-genes-mbsum.tar.gz gene*.in</code></p>
 <p>You can now use this tarball along with the -s option in <a href="https://github.com/nstenz/TICR/blob/master/scripts/bucky.pl">bucky.pl</a> like this:</p>
