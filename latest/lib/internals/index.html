@@ -343,6 +343,7 @@
 <ul>
 <li><a href="./#PhyloNetworks.ANode"><code>PhyloNetworks.ANode</code></a></li>
 <li><a href="./#PhyloNetworks.sampleBootstrapTrees"><code>PhyloNetworks.sampleBootstrapTrees</code></a></li>
+<li><a href="./#PhyloNetworks.setNonIdBL!"><code>PhyloNetworks.setNonIdBL!</code></a></li>
 </ul>
 <p><a id='Types-1'></a></p>
 <h2 id="types">Types</h2>
@@ -365,6 +366,16 @@ sampleBootstrapTrees!(tree list, vector of tree lists; seed=0::Int, generesampli
 <li><code>row=i</code>: samples the ith bootstrap tree for each gene.   <code>row</code> is turned back to 0 if gene resampling is true.</li>
 </ul>
 <p>output: one vector of trees. the modifying function (!) modifies the input tree list and returns it.</p>
+<p><a id='PhyloNetworks.setNonIdBL!' href='#PhyloNetworks.setNonIdBL!'>#</a>
+<strong><code>PhyloNetworks.setNonIdBL!</code></strong> &mdash; <em>Function</em>.</p>
+<p><code>setNonIdBL!(net)</code></p>
+<p>Set non-identifiable edge branch lengths to -1.0 (i.e. missing) for a level-1 network <code>net</code>, except for edges in</p>
+<ul>
+<li>a good triangle: the edge below the hybrid is constrained to 0.</li>
+<li>a bad diamond II: the edge below the hybrid is constrained to 0</li>
+<li>a bad diamond I: the edges across from the hybrid node have non identifiable lengths   but are kept, because the two γ*(1-exp(-t)) values are identifiable.</li>
+</ul>
+<p>will break if <code>inCycle</code> attributes are not initialized (at -1) or giving a correct node number.</p>
           <aside class="copyright" role="note">
             
             Documentation built with

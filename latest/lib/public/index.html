@@ -528,11 +528,11 @@ julia&gt; plot(net)
 <p><a id='PhyloNetworks.setLength!' href='#PhyloNetworks.setLength!'>#</a>
 <strong><code>PhyloNetworks.setLength!</code></strong> &mdash; <em>Function</em>.</p>
 <p><code>setLength!(Edge,new length)</code></p>
-<p>set a new length for an object Edge. The new length needs to be positive. For example, if you have a HybridNetwork object net, and do printEdges(net), you can see the list of Edges and their lengths. You can then change the length of the 3rd edge with setLength!(net.edge[3],1.2).</p>
+<p>set a new length for an object Edge. The new length needs to be positive. For example, if you have a HybridNetwork object net, and do printEdges(net), you can see the list of Edges and their lengths. You can then change the length of the 3rd edge with setLength!(net.edge[3],1.2). If <code>new length</code> is above 10, the value 10 will be used, as an upper limit to coalescent units that can be reliably estimated.</p>
 <p><a id='PhyloNetworks.setGamma!' href='#PhyloNetworks.setGamma!'>#</a>
 <strong><code>PhyloNetworks.setGamma!</code></strong> &mdash; <em>Function</em>.</p>
 <p><code>setGamma!(Edge,new gamma)</code></p>
-<p>sets a gamma value for a hybrid edge (it has to be a hybrid edge) and new gamma needs to be (0,1). The function will automatically change the gamma value for the other hybrid edge to 1-gamma. For example, if you have a HybridNetwork object net, and do printEdges(net), you can see the list of Edges and their gammas. You can then change the length of the hybrid edge (assume it is in position 3) with setGamma!(net.edge[3],0.2). This will automatically set the gamma for the other hybrid edge to 0.8.</p>
+<p>set γ for an edge, which must be a hybrid edge. The new γ needs to be in (0,1). The γ of the sister hybrid edge is changed accordingly, to 1-γ. If <code>net</code> is a HybridNetwork object, <code>printEdges(net)</code> will show the list of edges and their γ's. The γ of the third hybrid edge (say) can be changed to 0.2 with <code>setGamma!(net.edge[3],0.2)</code>. This will automatically set γ of the sister hybrid edge to 0.8.</p>
 <p><a id='PhyloNetworks.deleteleaf!' href='#PhyloNetworks.deleteleaf!'>#</a>
 <strong><code>PhyloNetworks.deleteleaf!</code></strong> &mdash; <em>Function</em>.</p>
 <pre><code>deleteleaf!(HybridNetwork,Int64; index=false, simplify=true)
@@ -703,7 +703,14 @@ julia&gt; writeMultiTopology(net, STDOUT)         # to write to the screen (stan
 <strong><code>PhyloNetworks.snaq!</code></strong> &mdash; <em>Function</em>.</p>
 <p><code>snaq!(T::HybridNetwork, d::DataCF)</code></p>
 <p>Estimate the network (or tree) to fit observed quartet concordance factors (CFs) stored in a DataCF object, using maximum pseudo-likelihood. A level-1 network is assumed. The search starts from topology <code>T</code>, which can be a tree or a network with no more than <code>hmax</code> hybrid nodes. The function name ends with ! because it modifies the CF data <code>d</code> by updating its attributes <code>expCF</code>: CFs expected under the network model. It does <em>not</em> modify <code>T</code>. The quartet pseudo-deviance is the negative log pseudo-likelihood, up to an additive constant, such that a perfect fit corresponds to a deviance of 0.0.</p>
-<p>Output: estimated network.</p>
+<p>Output:</p>
+<ul>
+<li>estimated network in file <code>.out</code> (also in <code>.log</code>): best network overall and list of   networks from each individual run.</li>
+<li>the best network and modifications of it, in file <code>.networks</code>.   All networks in this file have the same undirected topology as the best network,   but have different hybrid/gene flow directions. These other networks are reported with   their pseudo-likelihood scores, because</li>
+<li>non-identifiability issues can cause them to have very similar scores, and</li>
+<li>SNaQ was shown to estimate the undirected topology accurately, but not the direction of     hybridization in cases of near non-identifiability.</li>
+<li>if any error occurred, file <code>.err</code> provides information (seed) to reproduce the error.</li>
+</ul>
 <p>There are many optional arguments, including</p>
 <ul>
 <li>hmax: maximum number of hybridizations allowed (default 1)</li>
