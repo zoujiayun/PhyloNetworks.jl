@@ -778,6 +778,8 @@ bootsnaq(T::HybridNetwork, vector of tree lists)
 <li>runs (10): number of independent optimization runs for each replicate</li>
 <li>filename (bootsnaq): root name for output files</li>
 <li>seed (0 to get a random seed from the clock): seed for random number generator</li>
+<li>otherNet (empty): another starting topology so that each replicate will start prcnet% runs on otherNet and (1-prcnet)% runs on T</li>
+<li>prcnet (0): percentage of runs starting on otherNet; error if different than 0.0, and otherNet not specified.</li>
 </ul>
 <p><a id='Network-Comparisons-1'></a></p>
 <h2 id="network-comparisons">Network Comparisons</h2>
