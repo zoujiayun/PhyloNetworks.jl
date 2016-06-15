@@ -343,6 +343,7 @@
 <ul>
 <li><a href="./#PhyloNetworks.ANode"><code>PhyloNetworks.ANode</code></a></li>
 <li><a href="./#PhyloNetworks.sampleBootstrapTrees"><code>PhyloNetworks.sampleBootstrapTrees</code></a></li>
+<li><a href="./#PhyloNetworks.sampleCFfromCI"><code>PhyloNetworks.sampleCFfromCI</code></a></li>
 <li><a href="./#PhyloNetworks.setNonIdBL!"><code>PhyloNetworks.setNonIdBL!</code></a></li>
 </ul>
 <p><a id='Types-1'></a></p>
@@ -366,6 +367,18 @@ sampleBootstrapTrees!(tree list, vector of tree lists; seed=0::Int, generesampli
 <li><code>row=i</code>: samples the ith bootstrap tree for each gene.   <code>row</code> is turned back to 0 if gene resampling is true.</li>
 </ul>
 <p>output: one vector of trees. the modifying function (!) modifies the input tree list and returns it.</p>
+<p><a id='PhyloNetworks.sampleCFfromCI' href='#PhyloNetworks.sampleCFfromCI'>#</a>
+<strong><code>PhyloNetworks.sampleCFfromCI</code></strong> &mdash; <em>Function</em>.</p>
+<pre><code>sampleCFfromCI(data frame, seed=0)
+sampleCFfromCI!(data frame, seed=0)
+</code></pre>
+
+<p>Read a data frame containing CFs and their credibility intervals, and sample new obsCF uniformly within the CIs. These CFs are then rescaled to sum up to 1 for each 4-taxon sets. Return a data frame with taxon labels in first 4 columns, sampled obs CFs in columns 5-7 and credibility intervals in columns 8-13.</p>
+<ul>
+<li>The non-modifying function creates a new data frame (with re-ordered columns) and returns it.   If <code>seed=-1</code>, the new df is a deep copy of the input df, with no call to the random   number generator. Otherwise, <code>seed</code> is passed to the modifying function.</li>
+<li>The modifying function overwrites the input data frame with the sampled CFs and returns it.   If <code>seed=0</code>, the random generator is seeded from the clock. Otherwise the random generator   is seeded using <code>seed</code>.</li>
+</ul>
+<p>Warning: the modifying version does <em>not</em> check the df: assumes correct columns.</p>
 <p><a id='PhyloNetworks.setNonIdBL!' href='#PhyloNetworks.setNonIdBL!'>#</a>
 <strong><code>PhyloNetworks.setNonIdBL!</code></strong> &mdash; <em>Function</em>.</p>
 <p><code>setNonIdBL!(net)</code></p>

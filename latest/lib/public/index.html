@@ -707,9 +707,7 @@ julia&gt; writeMultiTopology(net, STDOUT)         # to write to the screen (stan
 <p>Output:</p>
 <ul>
 <li>estimated network in file <code>.out</code> (also in <code>.log</code>): best network overall and list of   networks from each individual run.</li>
-<li>the best network and modifications of it, in file <code>.networks</code>.   All networks in this file have the same undirected topology as the best network,   but have different hybrid/gene flow directions. These other networks are reported with   their pseudo-likelihood scores, because</li>
-<li>non-identifiability issues can cause them to have very similar scores, and</li>
-<li>SNaQ was shown to estimate the undirected topology accurately, but not the direction of     hybridization in cases of near non-identifiability.</li>
+<li>the best network and modifications of it, in file <code>.networks</code>.   All networks in this file have the same undirected topology as the best network,   but have different hybrid/gene flow directions. These other networks are reported with   their pseudo-likelihood scores, because    non-identifiability issues can cause them to have very similar scores, and because    SNaQ was shown to estimate the undirected topology accurately but not the direction of    hybridization in cases of near non-identifiability.</li>
 <li>if any error occurred, file <code>.err</code> provides information (seed) to reproduce the error.</li>
 </ul>
 <p>There are many optional arguments, including</p>
