@@ -342,6 +342,7 @@
 <h2 id="index">Index</h2>
 <ul>
 <li><a href="./#PhyloNetworks.ANode"><code>PhyloNetworks.ANode</code></a></li>
+<li><a href="./#PhyloNetworks.assignhybridnames!"><code>PhyloNetworks.assignhybridnames!</code></a></li>
 <li><a href="./#PhyloNetworks.sampleBootstrapTrees"><code>PhyloNetworks.sampleBootstrapTrees</code></a></li>
 <li><a href="./#PhyloNetworks.sampleCFfromCI"><code>PhyloNetworks.sampleCFfromCI</code></a></li>
 <li><a href="./#PhyloNetworks.setNonIdBL!"><code>PhyloNetworks.setNonIdBL!</code></a></li>
@@ -354,6 +355,11 @@
 <p>Abstract node. An object of type <code>Edge</code> has a <code>node</code> attribute, which is an vector of (2) ANode objects. The oject of type <code>Node</code> is an <code>ANode</code>, and has an <code>edge</code> attribute, which is vector of <code>Edge</code> objects.</p>
 <p><a id='Functions-and-methods-1'></a></p>
 <h2 id="functions-and-methods">Functions and methods</h2>
+<p><a id='PhyloNetworks.assignhybridnames!' href='#PhyloNetworks.assignhybridnames!'>#</a>
+<strong><code>PhyloNetworks.assignhybridnames!</code></strong> &mdash; <em>Function</em>.</p>
+<p><code>assignhybridnames!(net)</code></p>
+<p>Assign names to hybrid nodes in the network <code>net</code>. Hybrid nodes with an empty <code>name</code> field ("") are modified with a name that does not conflict with other hybrid names in the network. The preferred name is "#H3" if the node number is 3 or -3, but an index other than 3 would be used if "#H3" were the name of another hybrid node already.</p>
+<p>If two hybrid nodes have non-empty and equal names, the name of one of them is changed and re-assigned as described above (with a warning).</p>
 <p><a id='PhyloNetworks.sampleBootstrapTrees' href='#PhyloNetworks.sampleBootstrapTrees'>#</a>
 <strong><code>PhyloNetworks.sampleBootstrapTrees</code></strong> &mdash; <em>Function</em>.</p>
 <pre><code>sampleBootstrapTrees(vector of tree lists; seed=0::Int, generesampling=false, row=0)

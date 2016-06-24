@@ -606,7 +606,8 @@ julia&gt; plot(net)
 readTopology(parenthetical description)
 </code></pre>
 
-<p>function to read tree or network topology from parenthetical format. Input: text file or parenthetical format directly. The file name may not start with a left parenthesis, otherwise the file name itself would be interpreted as the parenthetical description.</p>
+<p>Read tree or network topology from parenthetical format (extended Newick).</p>
+<p>Input: text file or parenthetical format directly. The file name may not start with a left parenthesis, otherwise the file name itself would be interpreted as the parenthetical description.</p>
 <p><a id='PhyloNetworks.readTopologyLevel1' href='#PhyloNetworks.readTopologyLevel1'>#</a>
 <strong><code>PhyloNetworks.readTopologyLevel1</code></strong> &mdash; <em>Function</em>.</p>
 <pre><code>readTopologyLevel1(filename)
@@ -622,7 +623,7 @@ readTopologyLevel1(parenthetical format)
 <p><a id='PhyloNetworks.readMultiTopology' href='#PhyloNetworks.readMultiTopology'>#</a>
 <strong><code>PhyloNetworks.readMultiTopology</code></strong> &mdash; <em>Function</em>.</p>
 <p><code>readMultiTopology(file)</code></p>
-<p>Read a text file with a list of networks in parenthetical format (one per line). Crash if a network is broken over several lines. Return an array of HybridNetwork object.</p>
+<p>Read a text file with a list of networks in parenthetical format (one per line). Each network is read with <code>readTopology</code>. Crash if a network is broken over several lines. Return an array of HybridNetwork object.</p>
 <p><a id='PhyloNetworks.readSnaqNetwork' href='#PhyloNetworks.readSnaqNetwork'>#</a>
 <strong><code>PhyloNetworks.readSnaqNetwork</code></strong> &mdash; <em>Function</em>.</p>
 <p><code>readSnaqNetwork(output file)</code></p>
@@ -667,7 +668,7 @@ readTableCF(data frame)
 writeTopology(net, filename)
 </code></pre>
 
-<p>write the parenthetical format of a HybridNetwork object, as a string or to a file. Optional arguments (default values):</p>
+<p>write the parenthetical extended Newick format of a HybridNetwork object, as a string or to a file. Optional arguments (default values):</p>
 <ul>
 <li>di (false): write in format for Dendroscope</li>
 <li>round (false): rounds branch lengths and heritabilities γ</li>
@@ -680,7 +681,7 @@ writeTopology(net, filename)
 writeMultiTopology(nets, IO)
 </code></pre>
 
-<p>Write an array of networks in parenthetical format to a file (one network per line). Use the option append=true to append to the file. Otherwise, the default is to create a new file or overwrite it, if it already existed.</p>
+<p>Write an array of networks in parenthetical extended Newick format, one network per line. Use the option append=true to append to the file. Otherwise, the default is to create a new file or overwrite it, if it already existed. Each network is written with <code>writeTopology</code>.</p>
 <p><strong>Examples #"</strong></p>
 <pre><code>julia&gt; net = [readTopology(&quot;(D,((A,(B)#H7:::0.864):2.069,(F,E):3.423):0.265,(C,#H7:::0.1361111):10);&quot;),
               readTopology(&quot;(A,(B,C));&quot;),readTopology(&quot;(E,F);&quot;),readTopology(&quot;(G,H,F);&quot;)];
