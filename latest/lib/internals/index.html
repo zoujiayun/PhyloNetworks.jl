@@ -343,6 +343,7 @@
 <ul>
 <li><a href="./#PhyloNetworks.ANode"><code>PhyloNetworks.ANode</code></a></li>
 <li><a href="./#PhyloNetworks.assignhybridnames!"><code>PhyloNetworks.assignhybridnames!</code></a></li>
+<li><a href="./#PhyloNetworks.deleteNode!"><code>PhyloNetworks.deleteNode!</code></a></li>
 <li><a href="./#PhyloNetworks.sampleBootstrapTrees"><code>PhyloNetworks.sampleBootstrapTrees</code></a></li>
 <li><a href="./#PhyloNetworks.sampleCFfromCI"><code>PhyloNetworks.sampleCFfromCI</code></a></li>
 <li><a href="./#PhyloNetworks.setNonIdBL!"><code>PhyloNetworks.setNonIdBL!</code></a></li>
@@ -360,6 +361,11 @@
 <p><code>assignhybridnames!(net)</code></p>
 <p>Assign names to hybrid nodes in the network <code>net</code>. Hybrid nodes with an empty <code>name</code> field ("") are modified with a name that does not conflict with other hybrid names in the network. The preferred name is "#H3" if the node number is 3 or -3, but an index other than 3 would be used if "#H3" were the name of another hybrid node already.</p>
 <p>If two hybrid nodes have non-empty and equal names, the name of one of them is changed and re-assigned as described above (with a warning).</p>
+<p><a id='PhyloNetworks.deleteNode!' href='#PhyloNetworks.deleteNode!'>#</a>
+<strong><code>PhyloNetworks.deleteNode!</code></strong> &mdash; <em>Function</em>.</p>
+<p><code>deleteNode!(net::HybridNetwork, n::Node)</code></p>
+<p>deletes a Node from a network, i.e. removes it from net.node, and from net.hybrid or net.leaf as appropriate. Updates attributes numNodes, numTaxa, numHybrids (it does not update net.names though).</p>
+<p>Warning: if the root is deleted, the new root is arbitrarily set to the first node in the list. This is intentional to save time because this function is used frequently in snaq!, which handles semi-directed (unrooted) networks.</p>
 <p><a id='PhyloNetworks.sampleBootstrapTrees' href='#PhyloNetworks.sampleBootstrapTrees'>#</a>
 <strong><code>PhyloNetworks.sampleBootstrapTrees</code></strong> &mdash; <em>Function</em>.</p>
 <pre><code>sampleBootstrapTrees(vector of tree lists; seed=0::Int, generesampling=false, row=0)

@@ -392,6 +392,7 @@
 <li><a href="./#PhyloNetworks.readMultiTopology"><code>PhyloNetworks.readMultiTopology</code></a></li>
 <li><a href="./#PhyloNetworks.readSnaqNetwork"><code>PhyloNetworks.readSnaqNetwork</code></a></li>
 <li><a href="./#PhyloNetworks.readTableCF"><code>PhyloNetworks.readTableCF</code></a></li>
+<li><a href="./#PhyloNetworks.readTableCF!"><code>PhyloNetworks.readTableCF!</code></a></li>
 <li><a href="./#PhyloNetworks.readTopology"><code>PhyloNetworks.readTopology</code></a></li>
 <li><a href="./#PhyloNetworks.readTopologyLevel1"><code>PhyloNetworks.readTopologyLevel1</code></a></li>
 <li><a href="./#PhyloNetworks.readTrees2CF"><code>PhyloNetworks.readTrees2CF</code></a></li>
@@ -402,6 +403,7 @@
 <li><a href="./#PhyloNetworks.setLength!"><code>PhyloNetworks.setLength!</code></a></li>
 <li><a href="./#PhyloNetworks.snaq!"><code>PhyloNetworks.snaq!</code></a></li>
 <li><a href="./#PhyloNetworks.snaqDebug"><code>PhyloNetworks.snaqDebug</code></a></li>
+<li><a href="./#PhyloNetworks.sorttaxa!"><code>PhyloNetworks.sorttaxa!</code></a></li>
 <li><a href="./#PhyloNetworks.summarizeDataCF"><code>PhyloNetworks.summarizeDataCF</code></a></li>
 <li><a href="./#PhyloNetworks.tipLabels"><code>PhyloNetworks.tipLabels</code></a></li>
 <li><a href="./#PhyloNetworks.topologyMaxQPseudolik!"><code>PhyloNetworks.topologyMaxQPseudolik!</code></a></li>
@@ -458,6 +460,18 @@
 <strong><code>PhyloNetworks.tipLabels</code></strong> &mdash; <em>Function</em>.</p>
 <p><code>tipLabels(net::HybridNetwork)</code></p>
 <p>returns a vector of taxon names (at the leaves) from a HybridNetwork object</p>
+<p><a id='PhyloNetworks.sorttaxa!' href='#PhyloNetworks.sorttaxa!'>#</a>
+<strong><code>PhyloNetworks.sorttaxa!</code></strong> &mdash; <em>Function</em>.</p>
+<pre><code>sorttaxa!(DataFrame, columns)
+</code></pre>
+
+<p>Reorder the 4 taxa and reorders the observed concordance factors accordingly, on each row of the data frame. If <code>columns</code> is committed, taxon names are assumed to be in columns 1-4 and CFs are assumed to be in columns 5-6 with quartets in this order: 12_34, 13_24, 14_23. Does <strong>not</strong> reorder credibility interval values, if present.</p>
+<pre><code>sorttaxa!(DataCF)
+sorttaxa!(Quartet, permutation_tax, permutation_cf)
+</code></pre>
+
+<p>Reorder the 4 taxa in each element of the DataCF <code>quartet</code>. For a given Quartet, reorder the 4 taxa in its fields <code>taxon</code> and <code>qnet.quartetTaxon</code> (if non-empty) and reorder the 3 concordance values accordingly, in <code>obsCF</code> and <code>qnet.expCF</code>.</p>
+<p><code>permutation_tax</code> and <code>permutation_cf</code> should be vectors of short integers (Int8) of length 4 and 3 respectively, whose memory allocation gets reused. Their length is <em>not checked</em>.</p>
 <p><a id='PhyloNetworks.printEdges' href='#PhyloNetworks.printEdges'>#</a>
 <strong><code>PhyloNetworks.printEdges</code></strong> &mdash; <em>Function</em>.</p>
 <p><code>printEdges(net::HybridNetwork)</code></p>
@@ -642,19 +656,33 @@ readTrees2CF(vector of trees)
 <li>writeTab=false: does not write the observedCF to a table (default true)</li>
 <li>CFfile: name of file to save the observedCF (default tableCF.txt)</li>
 <li>writeQ=true: save intermediate files with the list of all 4-taxon subsets and chosen random sample (default false).</li>
+<li>writeSummary: write descriptive stats of input data (default: true)</li>
 </ul>
 <p><a id='PhyloNetworks.readTableCF' href='#PhyloNetworks.readTableCF'>#</a>
 <strong><code>PhyloNetworks.readTableCF</code></strong> &mdash; <em>Function</em>.</p>
 <pre><code>readTableCF(file)
 readTableCF(data frame)
+readTableCF!(data frame)
 </code></pre>
 
 <p>Read a file or DataFrame object containing a table of concordance factors (CF), with one row per 4-taxon set. The first 4 columns are assumed to give the labels of the 4 taxa in each set (tx1, tx2, tx3, tx4). Columns containing the CFs are assumed to be named 'CF12_34', 'CF13_24' and 'CF14_23', or else are assumed to be columns 5,6,7. If present, a column named 'ngenes' will be used to get the number of loci used to estimate the CFs for each 4-taxon set.</p>
 <p>Optional arguments:</p>
 <ul>
 <li>summaryfile: if specified, a summary file will be created with that name.</li>
-<li>sep (for the second form only): to specify the type of separator in the file, with single quotes: sep=';'.</li>
+<li>sep (for the first form only): to specify the type of separator in the file,   with single quotes: sep=';'. Default is a <code>csv</code> file, i.e. <code>sep=','</code>.</li>
 </ul>
+<p>The last version modifies the input data frame, if species are represented by multiple alleles for instance (see <code>readTableCF!</code>).</p>
+<p><a id='PhyloNetworks.readTableCF!' href='#PhyloNetworks.readTableCF!'>#</a>
+<strong><code>PhyloNetworks.readTableCF!</code></strong> &mdash; <em>Function</em>.</p>
+<pre><code>readTableCF!(data frame, columns)
+</code></pre>
+
+<p>Read in quartet CFs from data frame, assuming information is in columns numbered <code>columns</code>, of length <strong>7 or 8</strong>: 4 taxon labels then 3 CFs then ngenes possibly.</p>
+<p>If some species appears more than once in the same 4-taxon set (e.g. t1,t1,t2,t3), then the data frame is modified to remove rows (4-taxon sets) that are uninformative about between-species relationships. This situation may occur if multiple individuals are sampled from the same species. A 4-taxon set is uninformative (and its row is removed) if one taxon is repeated 3 or 4 times (like t1,t1,t1,t1 or t1,t2,t2,t2). The list of species appearing twice in some 4-taxon sets is stored in the output DataCF object. For these species, the length of their external edge is identifiable (in coalescent units). If multiple rows correspond to the same 4-taxon set, these rows are merged and their CF values (and number of genes) are averaged.</p>
+<pre><code>readTableCF!(DataCF, data frame, columns)
+</code></pre>
+
+<p>Modify the <code>.quartet.obsCF</code> values in the <code>DataCF</code> object with those read from the data frame in columns numbered <code>columns</code>. <code>columns</code> should have <strong>3</strong> columns numbers for the 3 CFs in this order: 12_34, 13_24 and 14_23. Assume the same 4-taxon sets in <code>DataCF</code> and in the data frame, and in the same order, but this assumption is <em>not checked</em> (for speed, e.g. during bootstrapping).</p>
 <p><a id='PhyloNetworks.readBootstrapTrees' href='#PhyloNetworks.readBootstrapTrees'>#</a>
 <strong><code>PhyloNetworks.readBootstrapTrees</code></strong> &mdash; <em>Function</em>.</p>
 <pre><code>readBootstrapTrees(filename)
@@ -697,8 +725,13 @@ julia&gt; writeMultiTopology(net, STDOUT)         # to write to the screen (stan
 
 <p><a id='PhyloNetworks.mapAllelesCFtable' href='#PhyloNetworks.mapAllelesCFtable'>#</a>
 <strong><code>PhyloNetworks.mapAllelesCFtable</code></strong> &mdash; <em>Function</em>.</p>
-<p><code>mapAllelesCFtable(mapping file, cf file)</code></p>
-<p>function that change the allele names in the CF table to species names. The new DataFrame object is returned. Optional argument: filename for the resulting CF table. If not specified, then no CF is saved as file.</p>
+<p><code>mapAllelesCFtable(mapping file, CF file; filename, columns)</code></p>
+<p>Create a new DataFrame containing the same concordance factors as in the input CF file, but with modified taxon names. Each allele name in the input CF table is replaced by the species name that the allele maps onto, based on the mapping file.</p>
+<p>Optional arguments:</p>
+<ul>
+<li>file name to write/save resulting CF table. If not specified, then the output   data frame is not saved to a file.</li>
+<li>column numbers for the taxon names. 1-4 by default.</li>
+</ul>
 <p><a id='Network-inference-1'></a></p>
 <h2 id="network-inference">Network inference</h2>
 <p><a id='PhyloNetworks.snaq!' href='#PhyloNetworks.snaq!'>#</a>
