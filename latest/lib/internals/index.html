@@ -368,8 +368,8 @@
 <p>Warning: if the root is deleted, the new root is arbitrarily set to the first node in the list. This is intentional to save time because this function is used frequently in snaq!, which handles semi-directed (unrooted) networks.</p>
 <p><a id='PhyloNetworks.sampleBootstrapTrees' href='#PhyloNetworks.sampleBootstrapTrees'>#</a>
 <strong><code>PhyloNetworks.sampleBootstrapTrees</code></strong> &mdash; <em>Function</em>.</p>
-<pre><code>sampleBootstrapTrees(vector of tree lists; seed=0::Int, generesampling=false, row=0)
-sampleBootstrapTrees!(tree list, vector of tree lists; seed=0::Int, generesampling=false, row=0)
+<pre><code>sampleBootstrapTrees(vector of tree lists; seed=0::Integer, generesampling=false, row=0)
+sampleBootstrapTrees!(tree list, vector of tree lists; seed=0::Integer, generesampling=false, row=0)
 </code></pre>
 
 <p>Sample bootstrap gene trees, 1 tree per gene. Set the seed with keyword argument <code>seed</code>, which is 0 by default. When <code>seed=0</code>, the actual seed is set using the clock. Assumes a vector of vectors of networks (see <code>readBootstrapTrees</code>), each one of length 1 or more (error if one vector is empty, tested in <code>bootsnaq</code>).</p>

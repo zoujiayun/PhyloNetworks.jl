@@ -500,7 +500,7 @@ sorttaxa!(Quartet, permutation_tax, permutation_cf)
 <p>Updates attribute net.cladewiseorder_nodeIndex. Used for plotting the network. In the major tree, all nodes in a given clade are consecutive. On a tree, this function also provides a pre-ordering of the nodes. The edges' direction needs to be correct before calling cladewiseorder!, using directEdges!</p>
 <p><a id='PhyloNetworks.rootatnode!' href='#PhyloNetworks.rootatnode!'>#</a>
 <strong><code>PhyloNetworks.rootatnode!</code></strong> &mdash; <em>Function</em>.</p>
-<pre><code>rootatnode!(HybridNetwork, nodeNumber::Int64; index=false::Bool)
+<pre><code>rootatnode!(HybridNetwork, nodeNumber::Integer; index=false::Bool)
 rootatnode!(HybridNetwork, Node)
 rootatnode!(HybridNetwork, nodeName::AbstractString)
 </code></pre>
@@ -521,7 +521,7 @@ rootatnode!(HybridNetwork, nodeName::AbstractString)
 <p>See also: <code>rootonedge!</code>.</p>
 <p><a id='PhyloNetworks.rootonedge!' href='#PhyloNetworks.rootonedge!'>#</a>
 <strong><code>PhyloNetworks.rootonedge!</code></strong> &mdash; <em>Function</em>.</p>
-<pre><code>rootonedge!(HybridNetwork, edgeNumber::Int64; index=false::Bool)
+<pre><code>rootonedge!(HybridNetwork, edgeNumber::Integer; index=false::Bool)
 rootonedge!(HybridNetwork, Edge)
 </code></pre>
 
@@ -530,7 +530,7 @@ rootonedge!(HybridNetwork, Edge)
 <p>See also: <code>rootatnode!</code>.</p>
 <p><a id='PhyloNetworks.hybridatnode!' href='#PhyloNetworks.hybridatnode!'>#</a>
 <strong><code>PhyloNetworks.hybridatnode!</code></strong> &mdash; <em>Function</em>.</p>
-<p><code>hybridatnode!(net::HybridNetwork, nodeNumber::Int64)</code></p>
+<p><code>hybridatnode!(net::HybridNetwork, nodeNumber::Integer)</code></p>
 <p>Changes the hybrid in a cycle to the node with number <code>nodeNumber</code>. This node must be in one (and only one) cycle, otherwise an error will be thrown.</p>
 <p><strong>Example #"</strong></p>
 <pre><code class="julia">julia&gt; net = readTopology(&quot;(A:1.0,((B:1.1,#H1:0.2::0.2):1.2,(((C:0.52,(E:0.5)#H2:0.02::0.7):0.6,(#H2:0.01::0.3,F:0.7):0.8):0.9,(D:0.8)#H1:0.3::0.8):1.3):0.7):0.1;&quot;);
@@ -551,7 +551,7 @@ julia&gt; plot(net)
 <strong><code>PhyloNetworks.deleteleaf!</code></strong> &mdash; <em>Function</em>.</p>
 <pre><code>deleteleaf!(HybridNetwork, leafName::AbstractString; simplify=true)
 deleteleaf!(HybridNetwork, Node; simplify=true)
-deleteleaf!(HybridNetwork, Int64; index=false, simplify=true)
+deleteleaf!(HybridNetwork, Integer; index=false, simplify=true)
 </code></pre>
 
 <p>Deletes a leaf node from the network, possibly from its name, number, or index in the network's array of nodes.</p>
@@ -595,7 +595,7 @@ deleteleaf!(HybridNetwork, Int64; index=false, simplify=true)
 <p>If hybrid edges cross tree and major edges, you may choose to rotate some tree edges to eliminate crossing edges, using <code>rotate!</code>.</p>
 <p><a id='PhyloNetworks.rotate!' href='#PhyloNetworks.rotate!'>#</a>
 <strong><code>PhyloNetworks.rotate!</code></strong> &mdash; <em>Function</em>.</p>
-<p><code>rotate!(net::HybridNetwork, nodeNumber::Int64; orderedEdgeNum::Array{Int64,1})</code></p>
+<p><code>rotate!(net::HybridNetwork, nodeNumber::Integer; orderedEdgeNum::Array{Int,1})</code></p>
 <p>Rotates the order of the node's children edges. Useful for plotting, to remove crossing edges. If <code>node</code> is a tree node with no polytomy, the 2 children edges are switched and the optional argument <code>orderedEdgeNum</code> is ignored.</p>
 <p>Use plot(net, showNodeNumber=true, showEdgeNumber=false) to map node and edge numbers on the network, as shown in the examples below.</p>
 <p>Warning: assumes that edges are correctly directed (isChild1 updated). This is done by plot(net). Otherwise run directEdges!(net).</p>
@@ -822,7 +822,7 @@ bootsnaq(T::HybridNetwork, vector of tree lists)
 <p>Extracts the major tree displayed in a network, keeping the major edge and dropping the minor edge at each hybrid node. Returns a HybridNetwork object.</p>
 <p><a id='PhyloNetworks.minorTreeAt' href='#PhyloNetworks.minorTreeAt'>#</a>
 <strong><code>PhyloNetworks.minorTreeAt</code></strong> &mdash; <em>Function</em>.</p>
-<p><code>minorTreeAt(net::HybridNetwork, hybindex::Int64)</code></p>
+<p><code>minorTreeAt(net::HybridNetwork, hybindex::Integer)</code></p>
 <p>Warning: assumes correct isMajor attributes.</p>
 <p>Extracts the tree displayed in the network, following the major hybrid edge at each hybrid node, except at the ith hybrid node (i=hybindex), where the minor hybrid edge is kept instead of the major hybrid edge.</p>
 <p><a id='PhyloNetworks.displayedTrees' href='#PhyloNetworks.displayedTrees'>#</a>
@@ -837,7 +837,7 @@ bootsnaq(T::HybridNetwork, vector of tree lists)
 <p>Deletes all the minor hybrid edges, except at input node. The network is left with a single hybridization, and otherwise displays the same major tree as before.</p>
 <p><a id='PhyloNetworks.hardwiredClusters' href='#PhyloNetworks.hardwiredClusters'>#</a>
 <strong><code>PhyloNetworks.hardwiredClusters</code></strong> &mdash; <em>Function</em>.</p>
-<p><code>hardwiredClusters(net::HybridNetwork, S::Union{Vector{ASCIIString},Vector{Int64}})</code></p>
+<p><code>hardwiredClusters(net::HybridNetwork, S::Union{Vector{ASCIIString},Vector{Int}})</code></p>
 <p>Returns a matrix describing all the hardwired clusters in a network. Warnings: Clusters are rooted, so the root must be correct.           Allows for missing taxa, with entries all 0.</p>
 <p>Each row corresponds to one internal edge, that is, external edges are excluded. If the root is a leaf node, the external edge to that leaf is included (first row). Both parent hybrid edges to a given hybrid node only contribute a single row (they share the same hardwired cluster).</p>
 <ul>
@@ -847,10 +847,10 @@ bootsnaq(T::HybridNetwork, vector of tree lists)
 </ul>
 <p><a id='PhyloNetworks.hardwiredCluster' href='#PhyloNetworks.hardwiredCluster'>#</a>
 <strong><code>PhyloNetworks.hardwiredCluster</code></strong> &mdash; <em>Function</em>.</p>
-<pre><code>hardwiredCluster(edge::Edge,taxa::Union{Vector{ASCIIString},Vector{Int64}})
-hardwiredCluster!(v::Vector{Bool},edge::Edge,taxa::Union{Vector{ASCIIString},Vector{Int64}})
-hardwiredCluster!(v::Vector{Bool},edge::Edge,taxa::Union{Vector{ASCIIString},Vector{Int64}},
-                  visited::Vector{Int64})
+<pre><code>hardwiredCluster(edge::Edge,taxa::Union{Vector{ASCIIString},Vector{Int}})
+hardwiredCluster!(v::Vector{Bool},edge::Edge,taxa::Union{Vector{ASCIIString},Vector{Int}})
+hardwiredCluster!(v::Vector{Bool},edge::Edge,taxa::Union{Vector{ASCIIString},Vector{Int}},
+                  visited::Vector{Int})
 </code></pre>
 
 <p>Calculate the hardwired cluster of <code>node</code>, coded a vector of booleans: true for taxa that are descendent of nodes, false for other taxa (including missing taxa).</p>
