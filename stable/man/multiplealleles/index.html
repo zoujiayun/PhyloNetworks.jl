@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     
       
-        <title>Extract Expected CFs - PhyloNetworks.jl</title>
+        <title>Multiple Alleles - PhyloNetworks.jl</title>
       
       
       
@@ -102,7 +102,7 @@
             
           </span>
         
-        Extract Expected CFs
+        Multiple Alleles
       </div>
     </div>
     
@@ -235,14 +235,9 @@
       
         
   <li>
-    <a class="current" title="Extract Expected CFs" href="./">
+    <a class="" title="Extract Expected CFs" href="../expectedCFs/">
       Extract Expected CFs
     </a>
-    
-      
-        
-      
-      
     
   </li>
 
@@ -258,9 +253,14 @@
       
         
   <li>
-    <a class="" title="Multiple Alleles" href="../multiplealleles/">
+    <a class="current" title="Multiple Alleles" href="./">
       Multiple Alleles
     </a>
+    
+      
+        
+      
+      
     
   </li>
 
@@ -306,36 +306,25 @@
       <article class="article">
         <div class="wrapper">
           
-          <p><a id='Extract-Expected-CFs-1'></a></p>
-<h1 id="extract-expected-cfs">Extract Expected CFs</h1>
-<p>A good way to visualize the "goodness-of-fit" of a given estimated network to the data is to plot the observed CF versus the expected CF. If the network is a good fit, then the dots in the plot will be close to the diagonal (x=y line). The following function will create a dataframe with the observed and expected CFs, which are all saved in the DataCF object after running snaq:</p>
-<pre><code class="julia">df_wide = fittedQuartetCF(d) # same as fittedQuartetCF(d, :wide)
-df_long = fittedQuartetCF(d, :long)
+          <p><a id='Multiple-alleles-per-species-1'></a></p>
+<h1 id="multiple-alleles-per-species">Multiple alleles per species</h1>
+<p>The default setting for SNaQ considers that each allele in a gene tree corresponds to a taxon (a tip) in the network. If instead each allele/individual can be mapped confidently to a species, and if only the species-level network needs to be estimated, then the following functions should be used:</p>
+<pre><code class="julia">df_sp = mapAllelesCFtable(mappingFile, CFtable_ind);
+d_sp = readTableCF!(df_sp);
 </code></pre>
 
-<p>It is important to have run <code>snaq!</code>, <code>topologyQPseudolik!</code> or <code>topologyMaxQPseudolik!</code> before making this plot, or the result would be meaningless. These functions update the fitted concordance factors (those expected under the network) inside the dataCF object <code>d</code>.</p>
-<p>Now, we can plot them with any of the Julia packages for plotting. For example:</p>
-<pre><code class="julia">using Gadfly
-p = plot(layer(df_long, x=&quot;obsCF&quot;, y=&quot;expCF&quot;, Geom.point, Stat.x_jitter(range=0.4)),
-         layer(x=0:1,y=0:1, Geom.line))
+<p>where the mapping file can be a text (or <code>csv</code>) file with two columns named <code>allele</code> and <code>species</code>, mapping each allele name to a species name. The CF table <code>CFtable_ind</code> should be a table of concordance factors at the level of individuals. In other words, it should list CFs using one row for each set of 4 alleles/individuals. The first command creates a new data frame <code>df_sp</code> of quartet concordance factors at the species level: with the allele names replaced by the appropriate species names.</p>
+<p>The second command modifies this data frame <code>df_sp</code> by deleting rows that are uninformative about between-species relationships, such as rows corresponding to 4 individuals from the same species. The output <code>d_sp</code> of this second command is an object of type <code>DataCF</code> at the species level, which can be used as input for networks estimation with <code>snaq!</code>:</p>
+<pre><code class="julia">net = snaq!(T_sp, d_sp);
 </code></pre>
 
-<p>This will pop up a browser window with the plot. The plot can be saved as PDF (or many other formats, see <a href="http://dcjones.github.io/Gadfly.jl/">Gadfly tutorial</a>) with</p>
-<pre><code class="julia">draw(PDF(&quot;plot.pdf&quot;, 4inch, 3inch), p)
-</code></pre>
-
-<p>To highlight quartets that include taxon "6", say, if we suspect that it is an unrecognized hybrid, one may do this.</p>
-<pre><code>using DataFramesMeta # install this package with Pkg.add(&quot;DataFramesMeta&quot;) if not done before
-mycolor = @with(df_long, (:tx1 .== &quot;6&quot;) | (:tx2 .== &quot;6&quot;) | (:tx3 .== &quot;6&quot;) | (:tx4 .== &quot;6&quot;));
-# 'mycolor' is true for quartets having taxon &quot;6&quot;, false for others
-p = plot(layer(df_long, x=&quot;obsCF&quot;, y=&quot;expCF&quot;, color=mycolor, Geom.point),
-         layer(x=0:1,y=0:1, Geom.line),
-         Guide.colorkey(&quot;has taxon 6?&quot;))
-</code></pre>
-
-<p>To export this table and explore the fit of the network with other tools:</p>
-<pre><code class="julia">writetable(&quot;fittedCF_net1_long.csv&quot;, df_long)
-</code></pre>
+<p>where <code>T_sp</code> should be a starting topology with one tip per species, labelled with the same species names as the names used in the mapping file.</p>
+<p>Warnings:</p>
+<ul>
+<li>This feature has not been fully tested</li>
+<li>This procedure is slow and should be made faster, when working with gene trees as input.</li>
+<li>If input data are gene trees, the CF table at the individual level should be created first,   like this:   <code>julia   CFtable_ind = readTrees2CF(gene tree file);</code>   before applying the two commands above.   At this time, however, this procedure requires that all alleles from the same   individual are given the same name (the individual's 'name') across   all genes for which that individual was sequenced.</li>
+</ul>
           <aside class="copyright" role="note">
             
             Documentation built with
@@ -352,7 +341,7 @@ p = plot(layer(df_long, x=&quot;obsCF&quot;, y=&quot;expCF&quot;, color=mycolor,
   <nav class="pagination" aria-label="Footer">
     <div class="previous">
       
-        <a href="../fixednetworkoptim/" title="Fixed Network">
+        <a href="../bootstrap/" title="Bootstrap">
           <span class="direction">
             Previous
           </span>
@@ -362,7 +351,7 @@ p = plot(layer(df_long, x=&quot;obsCF&quot;, y=&quot;expCF&quot;, color=mycolor,
             </div>
             <div class="stretch">
               <div class="title">
-                Fixed Network
+                Bootstrap
               </div>
             </div>
           </div>
@@ -371,14 +360,14 @@ p = plot(layer(df_long, x=&quot;obsCF&quot;, y=&quot;expCF&quot;, color=mycolor,
     </div>
     <div class="next">
       
-        <a href="../bootstrap/" title="Bootstrap">
+        <a href="../../lib/public/" title="Public">
           <span class="direction">
             Next
           </span>
           <div class="page">
             <div class="stretch">
               <div class="title">
-                Bootstrap
+                Public
               </div>
             </div>
             <div class="button button-next" role="button" aria-label="Next">
