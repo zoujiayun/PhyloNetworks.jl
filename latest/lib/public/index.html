@@ -800,9 +800,9 @@ julia&gt; writeMultiTopology(net, STDOUT)         # to write to the screen (stan
 <p>The following optional arguments control when to stop proposing new network topologies:</p>
 <ul>
 <li>Nfail (100): maximum number of times that new topologies are proposed and rejected (in a row).</li>
-<li>M (10000): the proposed network is accepted if its score is better than the current score by   at least M*ftolAbs.</li>
+<li>liktolAbs (0.1): the proposed network is accepted if its score is better than the current score by   at least liktolAbs.</li>
 </ul>
-<p>Lower values of Nfail and greater values of M would result in a less thorough but faster search.</p>
+<p>Lower values of Nfail and greater values of liktolAbs and ftolAbs would result in a less thorough but faster search.</p>
 <p>See also: <code>topologyMaxQPseudolik!</code> to optimize parameters on a fixed topology, and <code>topologyQPseudolik!</code> to get the deviance (pseudo log-likelihood up to a constant) of a fixed topology with fixed parameters.</p>
 <p>Reference: Claudia Solís-Lemus and Cécile Ané (2016). Inferring phylogenetic networks with maximum pseudolikelihood under incomplete lineage sorting. <a href="http://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1005896">PLoS Genetics</a> 12(3):e1005896</p>
 <p><a id='PhyloNetworks.snaqDebug' href='#PhyloNetworks.snaqDebug'>#</a>
