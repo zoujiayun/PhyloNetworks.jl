@@ -291,6 +291,15 @@
   </li>
 
       
+        
+  <li>
+    <a class="" title="Trait Evolution" href="man/trait_tree/">
+      Trait Evolution
+    </a>
+    
+  </li>
+
+      
     </ul>
   </li>
 
@@ -338,8 +347,8 @@
 <p><a id='How-to-get-help-1'></a></p>
 <h2 id="how-to-get-help">How to get help</h2>
 <ul>
-<li>the package <a href="https://github.com/crsl4/PhyloNetworks.jl/wiki">wiki</a> has a step-by-step   tutorial, done for the Evolution 2016 conference, with background on networks and   explanations.</li>
-<li>the <a href="https://groups.google.com/forum/#!forum/phylonetworks-users">google group</a>   has answers to common questions.</li>
+<li>the package <a href="https://github.com/crsl4/PhyloNetworks.jl/wiki">wiki</a> has a step-by-step tutorial, done for the Evolution 2016 conference, with background on networks and explanations.</li>
+<li>the <a href="https://groups.google.com/forum/#!forum/phylonetworks-users">google group</a> has answers to common questions.</li>
 <li>the Manual below has a quick tutorial on SNaQ and PhyloNetworks.</li>
 <li>the <a href=".#main-index-1">Index</a> further below has the full list of documented functions.</li>
 </ul>
@@ -383,6 +392,15 @@
 </ul>
 </li>
 <li><a href="man/multiplealleles/#Multiple-alleles-per-species-1">Multiple alleles per species</a></li>
+<li><a href="man/trait_tree/#Trait-Evolution-1">Trait Evolution</a><ul>
+<li><a href="man/trait_tree/#Simulation-1">Simulation</a></li>
+<li><a href="man/trait_tree/#Phylogenetic-Regression-1">Phylogenetic Regression</a></li>
+<li><a href="man/trait_tree/#Ancestral-State-Reconstruction-1">Ancestral State Reconstruction</a></li>
+<li><a href="man/trait_tree/#Data-Imputation-1">Data Imputation</a></li>
+<li><a href="man/trait_tree/#Phylogenetic-ANOVA-1">Phylogenetic ANOVA</a></li>
+<li><a href="man/trait_tree/#Pagel's-Lambda-1">Pagel's Lambda</a></li>
+</ul>
+</li>
 </ul>
 <p><a id='Library-Outline-1'></a></p>
 <h2 id="library-outline">Library Outline</h2>
@@ -395,6 +413,7 @@
 <li><a href="lib/public/#Data-and-Topology-read/write-1">Data and Topology read/write</a></li>
 <li><a href="lib/public/#Network-inference-1">Network inference</a></li>
 <li><a href="lib/public/#Network-Comparisons-1">Network Comparisons</a></li>
+<li><a href="lib/public/#Trait-Evolution-1">Trait Evolution</a></li>
 </ul>
 </li>
 <li><a href="lib/internals/#Internal-Documentation-1">Internal Documentation</a><ul>
@@ -411,6 +430,7 @@
 <h3 id="functions">Functions</h3>
 <ul>
 <li><a href="lib/public/#Gadfly.plot"><code>Gadfly.plot</code></a></li>
+<li><a href="lib/public/#PhyloNetworks.ancestralStateReconstruction"><code>PhyloNetworks.ancestralStateReconstruction</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.bootsnaq"><code>PhyloNetworks.bootsnaq</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.cladewiseorder!"><code>PhyloNetworks.cladewiseorder!</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.deleteHybridThreshold!"><code>PhyloNetworks.deleteHybridThreshold!</code></a></li>
@@ -418,15 +438,22 @@
 <li><a href="lib/public/#PhyloNetworks.directEdges!"><code>PhyloNetworks.directEdges!</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.displayedNetworkAt!"><code>PhyloNetworks.displayedNetworkAt!</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.displayedTrees"><code>PhyloNetworks.displayedTrees</code></a></li>
+<li><a href="lib/public/#PhyloNetworks.expectations"><code>PhyloNetworks.expectations</code></a></li>
+<li><a href="lib/public/#PhyloNetworks.expectationsPlot"><code>PhyloNetworks.expectationsPlot</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.fittedQuartetCF"><code>PhyloNetworks.fittedQuartetCF</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.hardwiredCluster"><code>PhyloNetworks.hardwiredCluster</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.hardwiredClusterDistance"><code>PhyloNetworks.hardwiredClusterDistance</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.hardwiredClusters"><code>PhyloNetworks.hardwiredClusters</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.hybridBootstrapSupport"><code>PhyloNetworks.hybridBootstrapSupport</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.hybridatnode!"><code>PhyloNetworks.hybridatnode!</code></a></li>
+<li><a href="lib/public/#PhyloNetworks.lambda_estim"><code>PhyloNetworks.lambda_estim</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.majorTree"><code>PhyloNetworks.majorTree</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.mapAllelesCFtable"><code>PhyloNetworks.mapAllelesCFtable</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.minorTreeAt"><code>PhyloNetworks.minorTreeAt</code></a></li>
+<li><a href="lib/public/#PhyloNetworks.mu_estim"><code>PhyloNetworks.mu_estim</code></a></li>
+<li><a href="lib/public/#PhyloNetworks.phyloNetworklm"><code>PhyloNetworks.phyloNetworklm</code></a></li>
+<li><a href="lib/public/#PhyloNetworks.predint"><code>PhyloNetworks.predint</code></a></li>
+<li><a href="lib/public/#PhyloNetworks.predintPlot"><code>PhyloNetworks.predintPlot</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.preorder!"><code>PhyloNetworks.preorder!</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.printEdges"><code>PhyloNetworks.printEdges</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.printNodes"><code>PhyloNetworks.printNodes</code></a></li>
@@ -444,6 +471,8 @@
 <li><a href="lib/public/#PhyloNetworks.rotate!"><code>PhyloNetworks.rotate!</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.setGamma!"><code>PhyloNetworks.setGamma!</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.setLength!"><code>PhyloNetworks.setLength!</code></a></li>
+<li><a href="lib/public/#PhyloNetworks.sigma2_estim"><code>PhyloNetworks.sigma2_estim</code></a></li>
+<li><a href="lib/public/#PhyloNetworks.simulate"><code>PhyloNetworks.simulate</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.snaq!"><code>PhyloNetworks.snaq!</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.snaqDebug"><code>PhyloNetworks.snaqDebug</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.sorttaxa!"><code>PhyloNetworks.sorttaxa!</code></a></li>
@@ -465,6 +494,7 @@
 <ul>
 <li><a href="lib/public/#PhyloNetworks.DataCF"><code>PhyloNetworks.DataCF</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.HybridNetwork"><code>PhyloNetworks.HybridNetwork</code></a></li>
+<li><a href="lib/public/#PhyloNetworks.ParamsBM"><code>PhyloNetworks.ParamsBM</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.Quartet"><code>PhyloNetworks.Quartet</code></a></li>
 <li><a href="lib/internals/#PhyloNetworks.ANode"><code>PhyloNetworks.ANode</code></a></li>
 </ul>

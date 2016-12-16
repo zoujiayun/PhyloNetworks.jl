@@ -281,6 +281,15 @@
   </li>
 
       
+        
+  <li>
+    <a class="" title="Trait Evolution" href="../trait_tree/">
+      Trait Evolution
+    </a>
+    
+  </li>
+
+      
     </ul>
   </li>
 
@@ -326,9 +335,13 @@
 <h1 id="input-for-snaq">Input for SNaQ</h1>
 <p>SNaQ is a method implemented in the package to estimate a phylogenetic network from multiple molecular sequence alignments. There are two alternatives for the input data:</p>
 <ol>
-<li>A list of estimated gene trees for each locus, which can be obtained using   <a href="http://mrbayes.sourceforge.net">MrBayes</a> or <a href="http://sco.h-its.org/exelixis/software.html">RAxML</a>. Or:</li>
-<li>A table of concordance factors (CF) for each 4-taxon subset which can be   obtained from <a href="http://www.stat.wisc.edu/~ane/bucky/">BUCKy</a>,   to account for gene tree uncertainty</li>
+<li>A list of estimated gene trees for each locus, which can be obtained using</li>
 </ol>
+<p><a href="http://mrbayes.sourceforge.net">MrBayes</a> or <a href="http://sco.h-its.org/exelixis/software.html">RAxML</a>. Or:</p>
+<ol>
+<li>A table of concordance factors (CF) for each 4-taxon subset which can be</li>
+</ol>
+<p>obtained from <a href="http://www.stat.wisc.edu/~ane/bucky/">BUCKy</a>,   to account for gene tree uncertainty</p>
 <p>This <a href="https://github.com/nstenz/TICR">pipeline</a> can be used to obtain the table of  quartet CF needed as input for SNaQ. The pipeline starts from the sequence alignments, runs MrBayes and then BUCKy (both parallelized), producing the table of estimated CFs and their credibility intervals. Additional details on this <a href="../ticr_howtogetQuartetCFs/#TICR-pipeline-1">TICR pipeline</a> describe how to insert data at various stages (e.g. after running MrBayes on each locus).</p>
 <p><a id='Tutorial-data:-gene-trees-1'></a></p>
 <h2 id="tutorial-data-gene-trees">Tutorial data: gene trees</h2>

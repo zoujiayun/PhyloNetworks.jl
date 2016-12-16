@@ -265,6 +265,15 @@
   </li>
 
       
+        
+  <li>
+    <a class="" title="Trait Evolution" href="../trait_tree/">
+      Trait Evolution
+    </a>
+    
+  </li>
+
+      
     </ul>
   </li>
 
@@ -323,7 +332,12 @@ d_sp = readTableCF!(df_sp);
 <ul>
 <li>This feature has not been fully tested</li>
 <li>This procedure is slow and should be made faster, when working with gene trees as input.</li>
-<li>If input data are gene trees, the CF table at the individual level should be created first,   like this:   <code>julia   CFtable_ind = readTrees2CF(gene tree file);</code>   before applying the two commands above.   At this time, however, this procedure requires that all alleles from the same   individual are given the same name (the individual's 'name') across   all genes for which that individual was sequenced.</li>
+<li>
+<p>If input data are gene trees, the CF table at the individual level should be created first, like this:</p>
+<p><code>julia
+CFtable_ind = readTrees2CF(gene tree file);</code></p>
+<p>before applying the two commands above. At this time, however, this procedure requires that all alleles from the same individual are given the same name (the individual's 'name') across all genes for which that individual was sequenced.</p>
+</li>
 </ul>
           <aside class="copyright" role="note">
             
@@ -360,14 +374,14 @@ d_sp = readTableCF!(df_sp);
     </div>
     <div class="next">
       
-        <a href="../../lib/public/" title="Public">
+        <a href="../trait_tree/" title="Trait Evolution">
           <span class="direction">
             Next
           </span>
           <div class="page">
             <div class="stretch">
               <div class="title">
-                Public
+                Trait Evolution
               </div>
             </div>
             <div class="button button-next" role="button" aria-label="Next">

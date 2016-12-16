@@ -260,6 +260,15 @@
   </li>
 
       
+        
+  <li>
+    <a class="" title="Trait Evolution" href="../../man/trait_tree/">
+      Trait Evolution
+    </a>
+    
+  </li>
+
+      
     </ul>
   </li>
 
@@ -363,6 +372,7 @@
 <strong><code>PhyloNetworks.ANode</code></strong> &mdash; <em>Type</em>.</p>
 <p><code>ANode</code></p>
 <p>Abstract node. An object of type <code>Edge</code> has a <code>node</code> attribute, which is an vector of (2) ANode objects. The object of type <code>Node</code> is an <code>ANode</code>, and has an <code>edge</code> attribute, which is vector of <code>Edge</code> objects.</p>
+<p><a target='_blank' href='https://github.com/crsl4/PhyloNetworks.jl/tree/aa11ba6be73a8ee5c22113c1daaea0061d3a1240/src/types.jl#L17-L24' class='documenter-source'>source</a><br></p>
 <p><a id='Functions-and-methods-1'></a></p>
 <h2 id="functions-and-methods">Functions and methods</h2>
 <p><a id='PhyloNetworks.assignhybridnames!' href='#PhyloNetworks.assignhybridnames!'>#</a>
@@ -370,11 +380,13 @@
 <p><code>assignhybridnames!(net)</code></p>
 <p>Assign names to hybrid nodes in the network <code>net</code>. Hybrid nodes with an empty <code>name</code> field ("") are modified with a name that does not conflict with other hybrid names in the network. The preferred name is "#H3" if the node number is 3 or -3, but an index other than 3 would be used if "#H3" were the name of another hybrid node already.</p>
 <p>If two hybrid nodes have non-empty and equal names, the name of one of them is changed and re-assigned as described above (with a warning).</p>
+<p><a target='_blank' href='https://github.com/crsl4/PhyloNetworks.jl/tree/aa11ba6be73a8ee5c22113c1daaea0061d3a1240/src/auxiliary.jl#L1160-L1170' class='documenter-source'>source</a><br></p>
 <p><a id='PhyloNetworks.deleteNode!' href='#PhyloNetworks.deleteNode!'>#</a>
 <strong><code>PhyloNetworks.deleteNode!</code></strong> &mdash; <em>Function</em>.</p>
 <p><code>deleteNode!(net::HybridNetwork, n::Node)</code></p>
 <p>deletes a Node from a network, i.e. removes it from net.node, and from net.hybrid or net.leaf as appropriate. Updates attributes numNodes, numTaxa, numHybrids (it does not update net.names though).</p>
 <p>Warning: if the root is deleted, the new root is arbitrarily set to the first node in the list. This is intentional to save time because this function is used frequently in snaq!, which handles semi-directed (unrooted) networks.</p>
+<p><a target='_blank' href='https://github.com/crsl4/PhyloNetworks.jl/tree/aa11ba6be73a8ee5c22113c1daaea0061d3a1240/src/auxiliary.jl#L394-L406' class='documenter-source'>source</a><br></p>
 <p><a id='PhyloNetworks.sampleBootstrapTrees' href='#PhyloNetworks.sampleBootstrapTrees'>#</a>
 <strong><code>PhyloNetworks.sampleBootstrapTrees</code></strong> &mdash; <em>Function</em>.</p>
 <pre><code>sampleBootstrapTrees(vector of tree lists; seed=0::Integer, generesampling=false, row=0)
@@ -383,11 +395,12 @@ sampleBootstrapTrees!(tree list, vector of tree lists; seed=0::Integer, generesa
 
 <p>Sample bootstrap gene trees, 1 tree per gene. Set the seed with keyword argument <code>seed</code>, which is 0 by default. When <code>seed=0</code>, the actual seed is set using the clock. Assumes a vector of vectors of networks (see <code>readBootstrapTrees</code>), each one of length 1 or more (error if one vector is empty, tested in <code>bootsnaq</code>).</p>
 <ul>
-<li>site resampling: always, from sampling one bootstrap tree from each given list.   This tree is sampled at <strong>random</strong> unless <code>row&gt;0</code> (see below).</li>
-<li>gene resampling: if <code>generesampling=true</code> (default is false),   genes (i.e. lists) are sampled with replacement.</li>
-<li><code>row=i</code>: samples the ith bootstrap tree for each gene.   <code>row</code> is turned back to 0 if gene resampling is true.</li>
+<li>site resampling: always, from sampling one bootstrap tree from each given list. This tree is sampled at <strong>random</strong> unless <code>row&gt;0</code> (see below).</li>
+<li>gene resampling: if <code>generesampling=true</code> (default is false), genes (i.e. lists) are sampled with replacement.</li>
+<li><code>row=i</code>: samples the ith bootstrap tree for each gene. <code>row</code> is turned back to 0 if gene resampling is true.</li>
 </ul>
 <p>output: one vector of trees. the modifying function (!) modifies the input tree list and returns it.</p>
+<p><a target='_blank' href='https://github.com/crsl4/PhyloNetworks.jl/tree/aa11ba6be73a8ee5c22113c1daaea0061d3a1240/src/bootstrap.jl#L29-L47' class='documenter-source'>source</a><br></p>
 <p><a id='PhyloNetworks.sampleCFfromCI' href='#PhyloNetworks.sampleCFfromCI'>#</a>
 <strong><code>PhyloNetworks.sampleCFfromCI</code></strong> &mdash; <em>Function</em>.</p>
 <pre><code>sampleCFfromCI(data frame, seed=0)
@@ -396,10 +409,11 @@ sampleCFfromCI!(data frame, seed=0)
 
 <p>Read a data frame containing CFs and their credibility intervals, and sample new obsCF uniformly within the CIs. These CFs are then rescaled to sum up to 1 for each 4-taxon sets. Return a data frame with taxon labels in first 4 columns, sampled obs CFs in columns 5-7 and credibility intervals in columns 8-13.</p>
 <ul>
-<li>The non-modifying function creates a new data frame (with re-ordered columns) and returns it.   If <code>seed=-1</code>, the new df is a deep copy of the input df, with no call to the random   number generator. Otherwise, <code>seed</code> is passed to the modifying function.</li>
-<li>The modifying function overwrites the input data frame with the sampled CFs and returns it.   If <code>seed=0</code>, the random generator is seeded from the clock. Otherwise the random generator   is seeded using <code>seed</code>.</li>
+<li>The non-modifying function creates a new data frame (with re-ordered columns) and returns it. If <code>seed=-1</code>, the new df is a deep copy of the input df, with no call to the random number generator. Otherwise, <code>seed</code> is passed to the modifying function.</li>
+<li>The modifying function overwrites the input data frame with the sampled CFs and returns it. If <code>seed=0</code>, the random generator is seeded from the clock. Otherwise the random generator is seeded using <code>seed</code>.</li>
 </ul>
 <p>Warning: the modifying version does <em>not</em> check the df: assumes correct columns.</p>
+<p><a target='_blank' href='https://github.com/crsl4/PhyloNetworks.jl/tree/aa11ba6be73a8ee5c22113c1daaea0061d3a1240/src/bootstrap.jl#L86-L104' class='documenter-source'>source</a><br></p>
 <p><a id='PhyloNetworks.setNonIdBL!' href='#PhyloNetworks.setNonIdBL!'>#</a>
 <strong><code>PhyloNetworks.setNonIdBL!</code></strong> &mdash; <em>Function</em>.</p>
 <p><code>setNonIdBL!(net)</code></p>
@@ -407,9 +421,10 @@ sampleCFfromCI!(data frame, seed=0)
 <ul>
 <li>a good triangle: the edge below the hybrid is constrained to 0.</li>
 <li>a bad diamond II: the edge below the hybrid is constrained to 0</li>
-<li>a bad diamond I: the edges across from the hybrid node have non identifiable lengths   but are kept, because the two γ*(1-exp(-t)) values are identifiable.</li>
+<li>a bad diamond I: the edges across from the hybrid node have non identifiable lengths but are kept, because the two γ*(1-exp(-t)) values are identifiable.</li>
 </ul>
 <p>will break if <code>inCycle</code> attributes are not initialized (at -1) or giving a correct node number.</p>
+<p><a target='_blank' href='https://github.com/crsl4/PhyloNetworks.jl/tree/aa11ba6be73a8ee5c22113c1daaea0061d3a1240/src/descriptive.jl#L68-L80' class='documenter-source'>source</a><br></p>
           <aside class="copyright" role="note">
             
             Documentation built with

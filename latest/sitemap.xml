@@ -3,8 +3,8 @@
 
     
     <url>
-     <loc>None/</loc>
-     <lastmod>2016-10-03</lastmod>
+     <loc>/</loc>
+     <lastmod>2016-12-16</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -12,50 +12,56 @@
     
         
     <url>
-     <loc>None/man/installation/</loc>
-     <lastmod>2016-10-03</lastmod>
+     <loc>/man/installation/</loc>
+     <lastmod>2016-12-16</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>None/man/inputdata/</loc>
-     <lastmod>2016-10-03</lastmod>
+     <loc>/man/inputdata/</loc>
+     <lastmod>2016-12-16</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>None/man/ticr_howtogetQuartetCFs/</loc>
-     <lastmod>2016-10-03</lastmod>
+     <loc>/man/ticr_howtogetQuartetCFs/</loc>
+     <lastmod>2016-12-16</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>None/man/snaq_plot/</loc>
-     <lastmod>2016-10-03</lastmod>
+     <loc>/man/snaq_plot/</loc>
+     <lastmod>2016-12-16</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>None/man/fixednetworkoptim/</loc>
-     <lastmod>2016-10-03</lastmod>
+     <loc>/man/fixednetworkoptim/</loc>
+     <lastmod>2016-12-16</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>None/man/expectedCFs/</loc>
-     <lastmod>2016-10-03</lastmod>
+     <loc>/man/expectedCFs/</loc>
+     <lastmod>2016-12-16</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>None/man/bootstrap/</loc>
-     <lastmod>2016-10-03</lastmod>
+     <loc>/man/bootstrap/</loc>
+     <lastmod>2016-12-16</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>None/man/multiplealleles/</loc>
-     <lastmod>2016-10-03</lastmod>
+     <loc>/man/multiplealleles/</loc>
+     <lastmod>2016-12-16</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/man/trait_tree/</loc>
+     <lastmod>2016-12-16</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
@@ -64,14 +70,14 @@
     
         
     <url>
-     <loc>None/lib/public/</loc>
-     <lastmod>2016-10-03</lastmod>
+     <loc>/lib/public/</loc>
+     <lastmod>2016-12-16</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>None/lib/internals/</loc>
-     <lastmod>2016-10-03</lastmod>
+     <loc>/lib/internals/</loc>
+     <lastmod>2016-12-16</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
