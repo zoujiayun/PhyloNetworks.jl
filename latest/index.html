@@ -1,6 +1,6 @@
 
 <!DOCTYPE html>
-<html class="no-js">
+<html lang="en" class="no-js">
   <head>
     
       <meta charset="utf-8">
@@ -13,22 +13,22 @@
         <meta name="author" content="Claudia Sol&iacute;s-Lemus">
       
       
-        <link rel="shortcut icon" href="./assets/images/favicon.ico">
+        <link rel="shortcut icon" href="./assets/images/favicon.png">
       
-      <meta name="generator" content="mkdocs-0.16.1, mkdocs-material-1.0.5">
+      <meta name="generator" content="mkdocs-0.16.3, mkdocs-material-1.6.4">
     
     
       
-        <title>Home - PhyloNetworks.jl</title>
+        <title>PhyloNetworks.jl</title>
       
     
     
-      <script src="./assets/javascripts/modernizr-56ade86843.js"></script>
+      <script src="./assets/javascripts/modernizr-1df76c4e58.js"></script>
     
     
-      <link rel="stylesheet" href="./assets/stylesheets/application-9c62e3c932.css">
+      <link rel="stylesheet" href="./assets/stylesheets/application-e2807e330f.css">
       
-        <link rel="stylesheet" href="./assets/stylesheets/application-02ce7adcc2.palette.css">
+        <link rel="stylesheet" href="./assets/stylesheets/application-f78e5cb881.palette.css">
       
     
     
@@ -64,15 +64,15 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
     <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
     
-      <header class="md-header">
+      <header class="md-header" data-md-component="header">
   <nav class="md-header-nav md-grid">
     <div class="md-flex">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="." title="PhyloNetworks.jl" class=" md-logo  md-header-nav__button">
-          
+        
+          <a href="." title="PhyloNetworks.jl" class="md-logo md-header-nav__button">
             <img src="./snaq_small.png" width="24" height="24">
-          
-        </a>
+          </a>
+        
       </div>
       <div class="md-flex__cell md-flex__cell--shrink">
         <label class="md-icon md-icon--menu md-header-nav__button" for="drawer"></label>
@@ -92,15 +92,21 @@
           <label class="md-icon md-icon--search md-header-nav__button" for="search"></label>
           
 <div class="md-search" data-md-component="search">
-  <div class="md-search__overlay"></div>
+  <label class="md-search__overlay" for="search"></label>
   <div class="md-search__inner">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" placeholder="Search" accesskey="s" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false">
+      <input type="text" class="md-search__input" name="query" required placeholder="Search" accesskey="s" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query">
       <label class="md-icon md-search__icon" for="search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset">close</button>
     </form>
     <div class="md-search__output">
       <div class="md-search__scrollwrap" data-md-scrollfix>
-        <div class="md-search-result" data-md-component="result"></div>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta" data-md-lang-result-none="No matching documents" data-md-lang-result-one="1 matching document" data-md-lang-result-other="# matching documents">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
       </div>
     </div>
   </div>
@@ -108,9 +114,9 @@
         
       </div>
       <div class="md-flex__cell md-flex__cell--shrink">
-          <div class="md-header-nav__source">
+        <div class="md-header-nav__source">
+          
             
-              
 
 
   
@@ -129,14 +135,16 @@
     </div>
   </a>
 
-            
-          </div>
+          
+        </div>
       </div>
     </div>
   </nav>
 </header>
     
     <div class="md-container">
+      
+      
       <main class="md-main">
         <div class="md-main__inner md-grid" data-md-component="container">
           
@@ -144,13 +152,13 @@
               <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
-                    <nav class="md-nav md-nav--primary">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="drawer">
-    <i class=" md-logo  md-nav__button">
-      
+    
+      <i class="md-logo md-nav__button">
         <img src="./snaq_small.png">
-      
-    </i>
+      </i>
+    
     PhyloNetworks.jl
   </label>
   
@@ -180,7 +188,12 @@
     
       
       
-  <li class="md-nav__item">
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
     
     <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
     
@@ -253,6 +266,8 @@
   
 </li>
       
+      
+      
     </ul>
   
 </nav>
@@ -262,6 +277,9 @@
     
       
       
+      
+
+
   <li class="md-nav__item md-nav__item--nested">
     
       <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
@@ -269,7 +287,7 @@
     <label class="md-nav__link" for="nav-2">
       Manual
     </label>
-    <nav class="md-nav" data-md-component="collapsible">
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
       <label class="md-nav__title" for="nav-2">
         Manual
       </label>
@@ -278,100 +296,109 @@
         
           
           
+          
+
+
   <li class="md-nav__item">
-    
-      <a href="man/installation/" title="Installation" class="md-nav__link">
-        Installation
-      </a>
-    
+    <a href="man/installation/" title="Installation" class="md-nav__link">
+      Installation
+    </a>
   </li>
 
         
           
           
+          
+
+
   <li class="md-nav__item">
-    
-      <a href="man/inputdata/" title="Input Data for SNaQ" class="md-nav__link">
-        Input Data for SNaQ
-      </a>
-    
+    <a href="man/inputdata/" title="Input Data for SNaQ" class="md-nav__link">
+      Input Data for SNaQ
+    </a>
   </li>
 
         
           
           
+          
+
+
   <li class="md-nav__item">
-    
-      <a href="man/ticr_howtogetQuartetCFs/" title="TICR pipeline" class="md-nav__link">
-        TICR pipeline
-      </a>
-    
+    <a href="man/ticr_howtogetQuartetCFs/" title="TICR pipeline" class="md-nav__link">
+      TICR pipeline
+    </a>
   </li>
 
         
           
           
+          
+
+
   <li class="md-nav__item">
-    
-      <a href="man/snaq_plot/" title="Network estimation and display" class="md-nav__link">
-        Network estimation and display
-      </a>
-    
+    <a href="man/snaq_plot/" title="Network estimation and display" class="md-nav__link">
+      Network estimation and display
+    </a>
   </li>
 
         
           
           
+          
+
+
   <li class="md-nav__item">
-    
-      <a href="man/fixednetworkoptim/" title="Fixed Network" class="md-nav__link">
-        Fixed Network
-      </a>
-    
+    <a href="man/fixednetworkoptim/" title="Fixed Network" class="md-nav__link">
+      Fixed Network
+    </a>
   </li>
 
         
           
           
+          
+
+
   <li class="md-nav__item">
-    
-      <a href="man/expectedCFs/" title="Extract Expected CFs" class="md-nav__link">
-        Extract Expected CFs
-      </a>
-    
+    <a href="man/expectedCFs/" title="Extract Expected CFs" class="md-nav__link">
+      Extract Expected CFs
+    </a>
   </li>
 
         
           
           
+          
+
+
   <li class="md-nav__item">
-    
-      <a href="man/bootstrap/" title="Bootstrap" class="md-nav__link">
-        Bootstrap
-      </a>
-    
+    <a href="man/bootstrap/" title="Bootstrap" class="md-nav__link">
+      Bootstrap
+    </a>
   </li>
 
         
           
           
+          
+
+
   <li class="md-nav__item">
-    
-      <a href="man/multiplealleles/" title="Multiple Alleles" class="md-nav__link">
-        Multiple Alleles
-      </a>
-    
+    <a href="man/multiplealleles/" title="Multiple Alleles" class="md-nav__link">
+      Multiple Alleles
+    </a>
   </li>
 
         
           
           
+          
+
+
   <li class="md-nav__item">
-    
-      <a href="man/trait_tree/" title="Trait Evolution" class="md-nav__link">
-        Trait Evolution
-      </a>
-    
+    <a href="man/trait_tree/" title="Trait Evolution" class="md-nav__link">
+      Trait Evolution
+    </a>
   </li>
 
         
@@ -382,6 +409,9 @@
     
       
       
+      
+
+
   <li class="md-nav__item md-nav__item--nested">
     
       <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
@@ -389,7 +419,7 @@
     <label class="md-nav__link" for="nav-3">
       Library
     </label>
-    <nav class="md-nav" data-md-component="collapsible">
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
       <label class="md-nav__title" for="nav-3">
         Library
       </label>
@@ -398,23 +428,25 @@
         
           
           
+          
+
+
   <li class="md-nav__item">
-    
-      <a href="lib/public/" title="Public" class="md-nav__link">
-        Public
-      </a>
-    
+    <a href="lib/public/" title="Public" class="md-nav__link">
+      Public
+    </a>
   </li>
 
         
           
           
+          
+
+
   <li class="md-nav__item">
-    
-      <a href="lib/internals/" title="Internals" class="md-nav__link">
-        Internals
-      </a>
-    
+    <a href="lib/internals/" title="Internals" class="md-nav__link">
+      Internals
+    </a>
   </li>
 
         
@@ -491,6 +523,8 @@
   
 </li>
       
+      
+      
     </ul>
   
 </nav>
@@ -501,10 +535,10 @@
           
           <div class="md-content">
             <article class="md-content__inner md-typeset">
-               
-                 <a href="https://github.com/crsl4/PhyloNetworks.jl/edit/master/docs/index.md" title="Edit this page" class="md-icon md-content__edit">edit</a>
-               
               
+                
+                  <a href="https://github.com/crsl4/PhyloNetworks.jl/edit/master/docs/index.md" title="Edit this page" class="md-icon md-content__icon">edit</a>
+                
                 
                 <p><a id='PhyloNetworks.jl-1'></a></p>
 <h1 id="phylonetworksjl">PhyloNetworks.jl</h1>
@@ -681,6 +715,12 @@
 <li><a href="lib/internals/#PhyloNetworks.ANode"><code>PhyloNetworks.ANode</code></a></li>
 <li><a href="lib/internals/#PhyloNetworks.MatrixTopologicalOrder"><code>PhyloNetworks.MatrixTopologicalOrder</code></a></li>
 </ul>
+                
+                  
+                
+              
+              
+                
               
             </article>
           </div>
@@ -730,7 +770,7 @@
       
     </div>
     
-      <script src="./assets/javascripts/application-f7ac33b6fb.js"></script>
+      <script src="./assets/javascripts/application-06a3e72efd.js"></script>
       <script>app.initialize({url:{base:"."}})</script>
       
         <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
