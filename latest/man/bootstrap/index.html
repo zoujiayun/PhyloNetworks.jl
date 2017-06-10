@@ -15,7 +15,7 @@
       
         <link rel="shortcut icon" href="../../assets/images/favicon.png">
       
-      <meta name="generator" content="mkdocs-0.16.3, mkdocs-material-1.6.4">
+      <meta name="generator" content="mkdocs-0.16.3, mkdocs-material-1.7.3">
     
     
       
@@ -26,9 +26,9 @@
       <script src="../../assets/javascripts/modernizr-1df76c4e58.js"></script>
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/application-e2807e330f.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/application-acc56dad49.css">
       
-        <link rel="stylesheet" href="../../assets/stylesheets/application-f78e5cb881.palette.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/application-8817cfa535.palette.css">
       
     
     
@@ -105,7 +105,7 @@
     </form>
     <div class="md-search__output">
       <div class="md-search__scrollwrap" data-md-scrollfix>
-        <div class="md-search-result" data-md-component="result">
+        <div class="md-search-result" data-md-component="result" data-md-lang-search="">
           <div class="md-search-result__meta" data-md-lang-result-none="No matching documents" data-md-lang-result-one="1 matching document" data-md-lang-result-other="# matching documents">
             Type to start searching
           </div>
@@ -117,9 +117,9 @@
 </div>
         
       </div>
-      <div class="md-flex__cell md-flex__cell--shrink">
-        <div class="md-header-nav__source">
-          
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
             
 
 
@@ -139,9 +139,9 @@
     </div>
   </a>
 
-          
+          </div>
         </div>
-      </div>
+      
     </div>
   </nav>
 </header>
@@ -277,8 +277,20 @@
 
 
   <li class="md-nav__item">
-    <a href="../fixednetworkoptim/" title="Fixed Network" class="md-nav__link">
-      Fixed Network
+    <a href="../dist_reroot/" title="Network comparison and manipulation" class="md-nav__link">
+      Network comparison and manipulation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../fixednetworkoptim/" title="Candidate Networks" class="md-nav__link">
+      Candidate Networks
     </a>
   </li>
 
@@ -335,16 +347,36 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#summarizing-bootstrap-on-the-main-tree" title="Summarizing bootstrap on the main tree" class="md-nav__link">
-    Summarizing bootstrap on the main tree
+  <a href="#support-for-tree-edges" title="support for tree edges" class="md-nav__link">
+    support for tree edges
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#summarizing-bootstrap-on-reticulations" title="Summarizing bootstrap on reticulations" class="md-nav__link">
-    Summarizing bootstrap on reticulations
+  <a href="#support-for-hybrid-edges-and-hybrid-nodes" title="support for hybrid edges and hybrid nodes" class="md-nav__link">
+    support for hybrid edges and hybrid nodes
   </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#who-are-the-hybrids-in-bootstrap-networks" title="Who are the hybrids in bootstrap networks?" class="md-nav__link">
+    Who are the hybrids in bootstrap networks?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#where-is-the-origin-of-gene-flow" title="Where is the origin of gene flow?" class="md-nav__link">
+    Where is the origin of gene flow?
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -375,8 +407,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../trait_tree/" title="Trait Evolution" class="md-nav__link">
-      Trait Evolution
+    <a href="../trait_tree/" title="Continuous Trait Evolution" class="md-nav__link">
+      Continuous Trait Evolution
     </a>
   </li>
 
@@ -462,16 +494,36 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#summarizing-bootstrap-on-the-main-tree" title="Summarizing bootstrap on the main tree" class="md-nav__link">
-    Summarizing bootstrap on the main tree
+  <a href="#support-for-tree-edges" title="support for tree edges" class="md-nav__link">
+    support for tree edges
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#summarizing-bootstrap-on-reticulations" title="Summarizing bootstrap on reticulations" class="md-nav__link">
-    Summarizing bootstrap on reticulations
+  <a href="#support-for-hybrid-edges-and-hybrid-nodes" title="support for hybrid edges and hybrid nodes" class="md-nav__link">
+    support for hybrid edges and hybrid nodes
   </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#who-are-the-hybrids-in-bootstrap-networks" title="Who are the hybrids in bootstrap networks?" class="md-nav__link">
+    Who are the hybrids in bootstrap networks?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#where-is-the-origin-of-gene-flow" title="Where is the origin of gene flow?" class="md-nav__link">
+    Where is the origin of gene flow?
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -496,116 +548,277 @@
 <h1 id="bootstrap">Bootstrap</h1>
 <p><a id='Running-a-bootstrap-analysis-1'></a></p>
 <h2 id="running-a-bootstrap-analysis">Running a bootstrap analysis</h2>
-<p>We can run a bootstrap analysis if we estimated quartet concordance factors (CFs) with credibility intervals, such as if we used the <a href="../ticr_howtogetQuartetCFs/#TICR-pipeline-1">TICR pipeline</a>. This pipeline provides a CF table with extra columns for credibility intervals.</p>
-<pre><code class="julia">using DataFrames
-df = readtable(&quot;tableCFCI.csv&quot;)
-bootnet = bootsnaq(T, df, hmax=1, nrep=10, runs=3, filename=&quot;bootstrap&quot;)
-</code></pre>
+<p>There are two ways to do a bootstrap analysis.</p>
+<ul>
+<li>From quartet CFs with credibility intervals, such as if we used BUCKy. The <a href="../ticr_howtogetQuartetCFs/#TICR-pipeline-1">TICR pipeline</a> outpus a CF table with extra columns for credibility intervals. We could then read that table and get bootstrap networks like this, and tweak options as needed:</li>
+</ul>
+<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">DataFrames</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">readtable</span><span class="p">(</span><span class="s">&quot;tableCF_withCI.csv&quot;</span><span class="p">)</span>
+<span class="n">bootnet</span> <span class="o">=</span> <span class="n">bootsnaq</span><span class="p">(</span><span class="n">startnetwork</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">hmax</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s">&quot;bootstrap&quot;</span><span class="p">)</span>
+</pre></div>
 
-<p>This example file can be accessed <a href="https://github.com/crsl4/PhyloNetworks/blob/master/examples/tableCFCI.csv">here</a> or <a href="https://raw.githubusercontent.com/crsl4/PhyloNetworks/master/examples/tableCFCI.csv">here</a>. Make sure that your downloaded file has the name <code>tableCFCI.csv</code> (to match the name in the Julia command), with no an extra extension <code>.txt</code>. Rename the file after download if necessary.</p>
-<p>This example uses a number of replicates (10) that is definitely too small, to make the example run faster. You might also increase the number of optimization runs (<code>runs</code>) done for each bootstrap replicate.</p>
-<p>The bootstrap networks are saved in the <code>boostrap.out</code> file, so they can be read in a new session with <code>bootnet = readMultiTopology("boostrap.out")</code>. To save the bootstrap networks to a different file (perhaps after having re-rooted them with an outgroup), you can do this:</p>
-<pre><code class="julia">writeMultiTopology(bootnet, &quot;bootstrapNets_h1.tre&quot;)
-length(bootnet) # 10 networks in the array 'bootnet'
-less(&quot;bootstrapNets_h1.tre&quot;)
-</code></pre>
 
-<p>If you close your session and re-open it later, you can re-read the bootstrap networks back in memory like this:</p>
-<pre><code class="julia">bootnet = readMultiTopology(&quot;bootstrapNets_h1.tre&quot;);
-</code></pre>
+<ul>
+<li>Alternatively, we can use bootstrap gene trees: one file of bootstrap trees per gene. Here, the input is a text file that lists all the bootstrap files (one per gene). We demonstrate this option here.</li>
+</ul>
+<p>The names of all our bootstrap files are listed in "BSlistfiles". (ASTRAL can use the same file to do its own bootstrap, see the <a href="https://github.com/crsl4/PhyloNetworks.jl/wiki/Gene-Trees:-RAxML">wiki</a> for more details). The function <code>readBootstrapTrees</code> can read this list of file names, then read each bootstrap file to get the bootstrap sample for each gene. We can use them to sample input gene trees at random, one per gene, and estimate a network from them. We ask the <code>bootsnaq</code> function to repeat this resampling of bootstrap gene trees several times.</p>
+<div class="codehilite"><pre><span></span><span class="n">bootTrees</span> <span class="o">=</span> <span class="n">readBootstrapTrees</span><span class="p">(</span><span class="s">&quot;BSlistfiles&quot;</span><span class="p">);</span>
+<span class="n">bootnet</span> <span class="o">=</span> <span class="n">bootsnaq</span><span class="p">(</span><span class="n">net0</span><span class="p">,</span> <span class="n">bootTrees</span><span class="p">,</span> <span class="n">hmax</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">nrep</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">runs</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s">&quot;bootsnaq&quot;</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">4321</span><span class="p">)</span>
+</pre></div>
 
-<p>We can run bootstrap analysis from gene trees also. We need a text file with a list of files containg the bootstrap trees (one file per gene). This is the same format used by ASTRAL (see the wiki page for more details.).</p>
-<pre><code class="julia">bootTrees = readBootstrapTrees(&quot;BSlistfiles&quot;)
-bootnet = bootsnaq(T, bootTrees, hmax=1, nrep=100, filename=&quot;bootsnaq1_raxmlboot&quot;)
-</code></pre>
 
-<p>If you used a specified list of quartets on the original data, you should use that same list for the bootstrap analysis through the option <code>quartetfile</code>.</p>
-<p><a id='Summarizing-bootstrap-on-the-main-tree-1'></a></p>
-<h2 id="summarizing-bootstrap-on-the-main-tree">Summarizing bootstrap on the main tree</h2>
-<p>The <code>bootsnaq</code> function, as used before, returned a list of 10 networks (<code>nrep=10</code>). Before summarizing them on the best network, it is best to re-read this network to get a reproducible internal numbering of its nodes and edges, used later for mapping bootstrap support to edges. We can then summarize bootstrap networks:</p>
-<pre><code class="julia">net1 = readTopology(&quot;net1_snaq.out&quot;) # reading from output file of snaq
-BStable, tree1 = treeEdgesBootstrap(bootnet,net1)
-</code></pre>
+<p>The bootstrap networks are saved in the <code>boostrap.out</code> file, so they can be read in a new session with <code>bootnet = readMultiTopology("bootsnap.out")</code>. To save the bootstrap networks to a different file (perhaps after having re-rooted them with an outgroup), we could do this: <code>writeMultiTopology(bootnet, "bootstrapNets.tre")</code>.</p>
+<p>The example above asks for 10 bootstrap replicates, which is definitely too few, to make the example run faster. We might also increase the number of optimization runs (<code>runs</code>) done for each bootstrap replicate. This bootstrap was run with the default 10 runs per replicate, and 100 bootstrap replicates, and the 100 bootstrap networks come with the package:</p>
+<div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">bootnet</span> <span class="o">=</span> <span class="n">readMultiTopology</span><span class="p">(</span><span class="n">Pkg</span><span class="o">.</span><span class="n">dir</span><span class="p">(</span><span class="s">&quot;PhyloNetworks&quot;</span><span class="p">,</span><span class="s">&quot;examples&quot;</span><span class="p">,</span><span class="s">&quot;bootsnaq.out&quot;</span><span class="p">));</span>
 
-<p>This will calculate the major tree <code>tree1</code> displayed in <code>net1</code>, that is, the tree obtained by following the major parent (γ&gt;0.5) of each hybrid node. This tree can be visualized like this, with edge numbers shown for later use.</p>
-<pre><code class="julia">rootatnode!(net1, &quot;4&quot;)
-rootatnode!(tree1, &quot;4&quot;)
-plot(tree1, showEdgeNumber=true)
-</code></pre>
+<span class="n">julia</span><span class="o">&gt;</span> <span class="n">length</span><span class="p">(</span><span class="n">bootnet</span><span class="p">)</span>
+<span class="mi">100</span>
+</pre></div>
 
-<p>Next, we can look at bootstrap table <code>BStable</code>, which has one row for each tree edge in <code>net1</code>. One column contains the edge number (same as shown in the plot) and another column contains the edge bootstrap support: the proportion of bootstrap replicates in which this edge was found in the major tree of the inferred network. We can see the full bootstrap table and see which tree edges have bootstrap support lower than 100% with</p>
-<pre><code class="julia">showall(BStable)
-BStable[BStable[:proportion] .&lt; 1.0, :]
-</code></pre>
+
+<p>If we used a specified list of quartets on the original data, we should use that same list for the bootstrap analysis through the option <code>quartetfile</code>.</p>
+<p><a id='support-for-tree-edges-1'></a></p>
+<h2 id="support-for-tree-edges">support for tree edges</h2>
+<p>Now that we have 100 bootstrap networks, we need to summarize what they have in common (highly supported features) and what they don't (areas of uncertainty).</p>
+<p>Before summarizing these bootstrap networks on the best network, it is best to re-read this network to get a reproducible internal numbering of its nodes and edges, used later for mapping bootstrap support to edges.</p>
+<div class="codehilite"><pre><span></span><span class="n">net1</span> <span class="o">=</span> <span class="n">readTopology</span><span class="p">(</span><span class="n">joinpath</span><span class="p">(</span><span class="n">Pkg</span><span class="o">.</span><span class="n">dir</span><span class="p">(</span><span class="s">&quot;PhyloNetworks&quot;</span><span class="p">),</span><span class="s">&quot;examples&quot;</span><span class="p">,</span><span class="s">&quot;net1.out&quot;</span><span class="p">))</span>
+</pre></div>
+
+
+<p>It turns out that the direction of gene flow is quite uncertain in this example (see below) with a wrong direction inferred sometimes, so we re-root our best network net1 to the base of O,E, for the figures to be less confusing later.</p>
+<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">DataFrames</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span> <span class="n">showEdgeNumber</span><span class="o">=</span><span class="kc">true</span><span class="p">)</span> <span class="c"># edge 7 leads to O+E</span>
+</pre></div>
+
+
+<p><img alt="" src="../../assets/figures/bootstrap_net1_rotate1_1.png" /></p>
+<div class="codehilite"><pre><span></span><span class="n">rootonedge!</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span> <span class="c"># makes (O,E) outgroup clade</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span> <span class="n">showNodeNumber</span><span class="o">=</span><span class="kc">true</span><span class="p">)</span>
+</pre></div>
+
+
+<p><img alt="" src="../../assets/figures/bootstrap_net1_rotate1_2.png" /></p>
+<p>edges cross: but rotating at node -6 should remove this crossing of edges</p>
+<div class="codehilite"><pre><span></span><span class="n">rotate!</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span> <span class="o">-</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span> <span class="n">showGamma</span><span class="o">=</span><span class="kc">true</span><span class="p">)</span>
+</pre></div>
+
+
+<p><img alt="" src="../../assets/figures/bootstrap_net1_rotate2_1.png" /></p>
+<p>We can now summarize our bootstrap networks. The functions <code>treeEdgesBootstrap</code> and <code>hybridBootstrapSupport</code> read all bootstrap networks and map the edges / nodes onto a reference network: here net1.</p>
+<div class="codehilite"><pre><span></span><span class="n">BStable</span><span class="p">,</span> <span class="n">tree1</span> <span class="o">=</span> <span class="n">treeEdgesBootstrap</span><span class="p">(</span><span class="n">bootnet</span><span class="p">,</span><span class="n">net1</span><span class="p">)</span>
+</pre></div>
+
+
+<p>This calculates the major tree <code>tree1</code> displayed in <code>net1</code>, that is, the tree obtained by following the major parent (γ&gt;0.5) of each hybrid node. This tree can be visualized like this, with edge numbers shown for later use.</p>
+<div class="codehilite"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">tree1</span><span class="p">,</span> <span class="n">showEdgeNumber</span><span class="o">=</span><span class="kc">true</span><span class="p">)</span>
+</pre></div>
+
+
+<p><img alt="" src="../../assets/figures/bootstrap_major_tree_1.png" /></p>
+<p>Next, we can look at bootstrap table <code>BStable</code>, which has one row for each tree edge in <code>net1</code>. One column contains the edge number (same as shown in the plot) and another column contains the edge bootstrap support: the proportion of bootstrap replicates in which this edge was found in the major tree of the inferred network. We can see the full bootstrap table and see which tree edges have bootstrap support lower than 100% (none here) with</p>
+<div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">showall</span><span class="p">(</span><span class="n">BStable</span><span class="p">)</span>
+<span class="mi">3</span><span class="n">×2</span> <span class="n">DataFrames</span><span class="o">.</span><span class="n">DataFrame</span>
+<span class="n">│</span> <span class="n">Row</span> <span class="n">│</span> <span class="n">edgeNumber</span> <span class="n">│</span> <span class="n">proportion</span> <span class="n">│</span>
+<span class="n">├─────┼────────────┼────────────┤</span>
+<span class="n">│</span> <span class="mi">1</span>   <span class="n">│</span> <span class="mi">13</span>         <span class="n">│</span> <span class="mf">100.0</span>      <span class="n">│</span>
+<span class="n">│</span> <span class="mi">2</span>   <span class="n">│</span> <span class="mi">11</span>         <span class="n">│</span> <span class="mf">100.0</span>      <span class="n">│</span>
+<span class="n">│</span> <span class="mi">3</span>   <span class="n">│</span> <span class="mi">12</span>         <span class="n">│</span> <span class="mf">100.0</span>      <span class="n">│</span>
+<span class="n">julia</span><span class="o">&gt;</span> <span class="n">BStable</span><span class="p">[</span><span class="n">BStable</span><span class="p">[</span><span class="o">:</span><span class="n">proportion</span><span class="p">]</span> <span class="o">.&lt;</span> <span class="mf">100.0</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span>
+<span class="mi">0</span><span class="n">×2</span> <span class="n">DataFrames</span><span class="o">.</span><span class="n">DataFrame</span>
+</pre></div>
+
 
 <p>Finally, we can map the bootstrap proportions onto the network or its main tree by passing the bootstrap table to the <code>edgeLabel</code> option of <code>plot</code>:</p>
-<pre><code class="julia">plot(tree1, edgeLabel=BStable)
-plot(net1,  edgeLabel=BStable)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">tree1</span><span class="p">,</span> <span class="n">edgeLabel</span><span class="o">=</span><span class="n">BStable</span><span class="p">)</span>
+</pre></div>
 
-<p>(Here, it is important that the numbers assigned to edges when building the boostrap table –those in <code>net1</code> at the time– correspond to the current edge numbers in <code>tree1</code> and <code>net1</code>. That was the purpose of reading the network from the output file of snaq! earlier, for consistency across different Julia sessions.)</p>
+
+<p><img alt="" src="../../assets/figures/bootstrap_boot_tree_net_1.png" /></p>
+<div class="codehilite"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span>  <span class="n">edgeLabel</span><span class="o">=</span><span class="n">BStable</span><span class="p">)</span>
+</pre></div>
+
+
+<p><img alt="" src="../../assets/figures/bootstrap_boot_tree_net_2.png" /></p>
+<p>(Here, it is important that the numbers assigned to edges when building the boostrap table –those in <code>net1</code> at the time– correspond to the current edge numbers in <code>tree1</code> and <code>net1</code>. That was the purpose of reading the network from the output file of <code>snaq!</code> earlier, for consistency across different Julia sessions.)</p>
 <p>If we wanted to plot only certain bootstrap values, like those below 100% (1.0), we could do this:</p>
-<pre><code class="julia">plot(net1, edgeLabel=BStable[BStable[:proportion] .&lt; 1.0, :])
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span> <span class="n">edgeLabel</span><span class="o">=</span><span class="n">BStable</span><span class="p">[</span><span class="n">BStable</span><span class="p">[</span><span class="o">:</span><span class="n">proportion</span><span class="p">]</span> <span class="o">.&lt;</span> <span class="mf">100.0</span><span class="p">,</span> <span class="o">:</span><span class="p">])</span>
+</pre></div>
 
-<p><a id='Summarizing-bootstrap-on-reticulations-1'></a></p>
-<h2 id="summarizing-bootstrap-on-reticulations">Summarizing bootstrap on reticulations</h2>
-<p>Summarizing the placement of hybridization edges is not standard. The function <code>hybridBootstrapSupport</code> attempts to do so. The descendants of a given hybrid node form the "recipient" or "hybrid" clade, and is obtained after removing all other reticulations. If reticulation is due to gene flow or introgression, the minor hybrid edge (with γ&lt;0.5) represents this event. The descendants of the lineage from which gene flow originated is then a second "sister" of the hybrid clade. Because of the reticulation event, the hybrid clade has 2 sister clades, not 1: the major sister (through the major hybrid edge with γ&gt;0.5) and the minor sister (through the minor hybrid edge with γ&lt;0.5). Note that the network says <em>nothing</em> about the process: its shows the <em>relationships</em> only. We can calculate the frequency that each clade is a hybrid clade, or a major or minor sister for some other hybrid, in the bootstrap networks:</p>
-<pre><code class="julia">BSn, BSe, BSc, BSgam, BSedgenum = hybridBootstrapSupport(bootnet, net1);
-</code></pre>
+
+<p><a id='support-for-hybrid-edges-and-hybrid-nodes-1'></a></p>
+<h2 id="support-for-hybrid-edges-and-hybrid-nodes">support for hybrid edges and hybrid nodes</h2>
+<p>Summarizing the placement of reticulations is not standard. The function <code>hybridBootstrapSupport</code> attempts to do so. The descendants of a given hybrid node form the "recipient" or "hybrid" clade, and is obtained after removing all other reticulations. If reticulation is due to gene flow or introgression, the minor hybrid edge (with γ&lt;0.5) represents this event. The descendants of the lineage from which gene flow originated is then a second "sister" of the hybrid clade. Because of the reticulation event, the hybrid clade has 2 sister clades, not 1: the major sister (through the major hybrid edge with γ&gt;0.5) and the minor sister (through the minor hybrid edge with γ&lt;0.5). Note that the network says <em>nothing</em> about the process: its shows the <em>relationships</em> only. We can calculate the frequency that each clade is a hybrid clade, or a major or minor sister for some other hybrid, in the bootstrap networks:</p>
+<div class="codehilite"><pre><span></span><span class="n">BSn</span><span class="p">,</span> <span class="n">BSe</span><span class="p">,</span> <span class="n">BSc</span><span class="p">,</span> <span class="n">BSgam</span><span class="p">,</span> <span class="n">BSedgenum</span> <span class="o">=</span> <span class="n">hybridBootstrapSupport</span><span class="p">(</span><span class="n">bootnet</span><span class="p">,</span> <span class="n">net1</span><span class="p">);</span>
+</pre></div>
+
 
 <p>Let's look at the results. We can list all the clades and the percentage of bootstrap networks (bootstrap support) in which each clade is a hybrid or sister to a hybrid:</p>
-<pre><code class="julia">BSn
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">BSn</span>
+<span class="mi">7</span><span class="n">×9</span> <span class="n">DataFrames</span><span class="o">.</span><span class="n">DataFrame</span>
+<span class="n">│</span> <span class="n">Row</span> <span class="n">│</span> <span class="n">clade</span>      <span class="n">│</span> <span class="n">node</span> <span class="n">│</span> <span class="n">hybridnode</span> <span class="n">│</span> <span class="n">edge</span> <span class="n">│</span> <span class="n">BS_hybrid</span> <span class="n">│</span> <span class="n">BS_sister</span> <span class="n">│</span>
+<span class="n">├─────┼────────────┼──────┼────────────┼──────┼───────────┼───────────┤</span>
+<span class="n">│</span> <span class="mi">1</span>   <span class="n">│</span> <span class="s">&quot;H7&quot;</span>       <span class="n">│</span> <span class="mi">7</span>    <span class="n">│</span> <span class="mi">5</span>          <span class="n">│</span> <span class="mi">9</span>    <span class="n">│</span> <span class="mf">33.0</span>      <span class="n">│</span> <span class="mf">51.0</span>      <span class="n">│</span>
+<span class="n">│</span> <span class="mi">2</span>   <span class="n">│</span> <span class="s">&quot;c_minus2&quot;</span> <span class="n">│</span> <span class="o">-</span><span class="mi">2</span>   <span class="n">│</span> <span class="o">-</span><span class="mi">2</span>         <span class="n">│</span> <span class="mi">12</span>   <span class="n">│</span> <span class="mf">0.0</span>       <span class="n">│</span> <span class="mf">55.0</span>      <span class="n">│</span>
+<span class="n">│</span> <span class="mi">3</span>   <span class="n">│</span> <span class="s">&quot;E&quot;</span>        <span class="n">│</span> <span class="mi">4</span>    <span class="n">│</span> <span class="mi">4</span>          <span class="n">│</span> <span class="mi">4</span>    <span class="n">│</span> <span class="mf">12.0</span>      <span class="n">│</span> <span class="mf">41.0</span>      <span class="n">│</span>
+<span class="n">│</span> <span class="mi">4</span>   <span class="n">│</span> <span class="s">&quot;c_minus4&quot;</span> <span class="n">│</span> <span class="o">-</span><span class="mi">4</span>   <span class="n">│</span> <span class="o">-</span><span class="mi">4</span>         <span class="n">│</span> <span class="mi">7</span>    <span class="n">│</span> <span class="mf">44.0</span>      <span class="n">│</span> <span class="mf">0.0</span>       <span class="n">│</span>
+<span class="n">│</span> <span class="mi">5</span>   <span class="n">│</span> <span class="s">&quot;B&quot;</span>        <span class="n">│</span> <span class="mi">6</span>    <span class="n">│</span> <span class="mi">6</span>          <span class="n">│</span> <span class="mi">8</span>    <span class="n">│</span> <span class="mf">2.0</span>       <span class="n">│</span> <span class="mf">33.0</span>      <span class="n">│</span>
+<span class="n">│</span> <span class="mi">6</span>   <span class="n">│</span> <span class="s">&quot;c_minus6&quot;</span> <span class="n">│</span> <span class="o">-</span><span class="mi">6</span>   <span class="n">│</span> <span class="o">-</span><span class="mi">6</span>         <span class="n">│</span> <span class="mi">11</span>   <span class="n">│</span> <span class="mf">9.0</span>       <span class="n">│</span> <span class="mf">7.0</span>       <span class="n">│</span>
+<span class="n">│</span> <span class="mi">7</span>   <span class="n">│</span> <span class="s">&quot;O&quot;</span>        <span class="n">│</span> <span class="mi">3</span>    <span class="n">│</span> <span class="mi">3</span>          <span class="n">│</span> <span class="mi">3</span>    <span class="n">│</span> <span class="mf">0.0</span>       <span class="n">│</span> <span class="mf">13.0</span>      <span class="n">│</span>
+
+<span class="n">│</span> <span class="n">Row</span> <span class="n">│</span> <span class="n">BS_major_sister</span> <span class="n">│</span> <span class="n">BS_minor_sister</span> <span class="n">│</span> <span class="n">BS_hybrid_samesisters</span> <span class="n">│</span>
+<span class="n">├─────┼─────────────────┼─────────────────┼───────────────────────┤</span>
+<span class="n">│</span> <span class="mi">1</span>   <span class="n">│</span> <span class="mf">2.0</span>             <span class="n">│</span> <span class="mf">49.0</span>            <span class="n">│</span> <span class="mf">32.0</span>                  <span class="n">│</span>
+<span class="n">│</span> <span class="mi">2</span>   <span class="n">│</span> <span class="mf">53.0</span>            <span class="n">│</span> <span class="mf">2.0</span>             <span class="n">│</span> <span class="n">NA</span>                    <span class="n">│</span>
+<span class="n">│</span> <span class="mi">3</span>   <span class="n">│</span> <span class="mf">0.0</span>             <span class="n">│</span> <span class="mf">41.0</span>            <span class="n">│</span> <span class="n">NA</span>                    <span class="n">│</span>
+<span class="n">│</span> <span class="mi">4</span>   <span class="n">│</span> <span class="mf">0.0</span>             <span class="n">│</span> <span class="mf">0.0</span>             <span class="n">│</span> <span class="n">NA</span>                    <span class="n">│</span>
+<span class="n">│</span> <span class="mi">5</span>   <span class="n">│</span> <span class="mf">33.0</span>            <span class="n">│</span> <span class="mf">0.0</span>             <span class="n">│</span> <span class="n">NA</span>                    <span class="n">│</span>
+<span class="n">│</span> <span class="mi">6</span>   <span class="n">│</span> <span class="mf">0.0</span>             <span class="n">│</span> <span class="mf">7.0</span>             <span class="n">│</span> <span class="n">NA</span>                    <span class="n">│</span>
+<span class="n">│</span> <span class="mi">7</span>   <span class="n">│</span> <span class="mf">12.0</span>            <span class="n">│</span> <span class="mf">1.0</span>             <span class="n">│</span> <span class="n">NA</span>                    <span class="n">│</span>
+</pre></div>
+
 
 <p>If a clade contains a single taxon, it is listed with its taxon name. The clade found in the best network is listed with its tag, starting with H (e.g. "H7"). The name of other clades start with "c_" followed by their number in the best network, if they do appear in the best network. The node numbers, as used internally in the best network, are listed in a separate column. They can be used later to display the bootstrap support values onto the network. Various columns give the bootstrap support that each clade is a hybrid, or a (major/minor) sister to a hybrid. The last column gives the bootstrap support for the full relationship in the best network: same hybrid with same two sisters. These bootstrap values are associated with nodes (or possibly, their parent edges).</p>
 <p>To see what is the clade named "H7", for instance:</p>
-<pre><code class="julia">BSc # this might be too big
-showall(BSc)
-BSc[:taxa][BSc[:H7]]
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">BSc</span> <span class="c"># this might be too big</span>
+<span class="mi">6</span><span class="n">×8</span> <span class="n">DataFrames</span><span class="o">.</span><span class="n">DataFrame</span>
+<span class="n">│</span> <span class="n">Row</span> <span class="n">│</span> <span class="n">taxa</span> <span class="n">│</span> <span class="n">O</span>     <span class="n">│</span> <span class="n">E</span>     <span class="n">│</span> <span class="n">c_minus4</span> <span class="n">│</span> <span class="n">B</span>     <span class="n">│</span> <span class="n">H7</span>    <span class="n">│</span> <span class="n">c_minus6</span> <span class="n">│</span> <span class="n">c_minus2</span> <span class="n">│</span>
+<span class="n">├─────┼──────┼───────┼───────┼──────────┼───────┼───────┼──────────┼──────────┤</span>
+<span class="n">│</span> <span class="mi">1</span>   <span class="n">│</span> <span class="s">&quot;C&quot;</span>  <span class="n">│</span> <span class="kc">false</span> <span class="n">│</span> <span class="kc">false</span> <span class="n">│</span> <span class="kc">false</span>    <span class="n">│</span> <span class="kc">false</span> <span class="n">│</span> <span class="kc">false</span> <span class="n">│</span> <span class="kc">false</span>    <span class="n">│</span> <span class="kc">true</span>     <span class="n">│</span>
+<span class="n">│</span> <span class="mi">2</span>   <span class="n">│</span> <span class="s">&quot;D&quot;</span>  <span class="n">│</span> <span class="kc">false</span> <span class="n">│</span> <span class="kc">false</span> <span class="n">│</span> <span class="kc">false</span>    <span class="n">│</span> <span class="kc">false</span> <span class="n">│</span> <span class="kc">false</span> <span class="n">│</span> <span class="kc">false</span>    <span class="n">│</span> <span class="kc">true</span>     <span class="n">│</span>
+<span class="n">│</span> <span class="mi">3</span>   <span class="n">│</span> <span class="s">&quot;O&quot;</span>  <span class="n">│</span> <span class="kc">true</span>  <span class="n">│</span> <span class="kc">false</span> <span class="n">│</span> <span class="kc">true</span>     <span class="n">│</span> <span class="kc">false</span> <span class="n">│</span> <span class="kc">false</span> <span class="n">│</span> <span class="kc">false</span>    <span class="n">│</span> <span class="kc">false</span>    <span class="n">│</span>
+<span class="n">│</span> <span class="mi">4</span>   <span class="n">│</span> <span class="s">&quot;E&quot;</span>  <span class="n">│</span> <span class="kc">false</span> <span class="n">│</span> <span class="kc">true</span>  <span class="n">│</span> <span class="kc">true</span>     <span class="n">│</span> <span class="kc">false</span> <span class="n">│</span> <span class="kc">false</span> <span class="n">│</span> <span class="kc">false</span>    <span class="n">│</span> <span class="kc">false</span>    <span class="n">│</span>
+<span class="n">│</span> <span class="mi">5</span>   <span class="n">│</span> <span class="s">&quot;B&quot;</span>  <span class="n">│</span> <span class="kc">false</span> <span class="n">│</span> <span class="kc">false</span> <span class="n">│</span> <span class="kc">false</span>    <span class="n">│</span> <span class="kc">true</span>  <span class="n">│</span> <span class="kc">false</span> <span class="n">│</span> <span class="kc">true</span>     <span class="n">│</span> <span class="kc">false</span>    <span class="n">│</span>
+<span class="n">│</span> <span class="mi">6</span>   <span class="n">│</span> <span class="s">&quot;A&quot;</span>  <span class="n">│</span> <span class="kc">false</span> <span class="n">│</span> <span class="kc">false</span> <span class="n">│</span> <span class="kc">false</span>    <span class="n">│</span> <span class="kc">false</span> <span class="n">│</span> <span class="kc">true</span>  <span class="n">│</span> <span class="kc">true</span>     <span class="n">│</span> <span class="kc">false</span>    <span class="n">│</span>
+
+<span class="n">julia</span><span class="o">&gt;</span> <span class="n">showall</span><span class="p">(</span><span class="n">BSc</span><span class="p">)</span>
+<span class="mi">6</span><span class="n">×8</span> <span class="n">DataFrames</span><span class="o">.</span><span class="n">DataFrame</span>
+<span class="n">│</span> <span class="n">Row</span> <span class="n">│</span> <span class="n">taxa</span> <span class="n">│</span> <span class="n">O</span>     <span class="n">│</span> <span class="n">E</span>     <span class="n">│</span> <span class="n">c_minus4</span> <span class="n">│</span> <span class="n">B</span>     <span class="n">│</span> <span class="n">H7</span>    <span class="n">│</span> <span class="n">c_minus6</span> <span class="n">│</span> <span class="n">c_minus2</span> <span class="n">│</span>
+<span class="n">├─────┼──────┼───────┼───────┼──────────┼───────┼───────┼──────────┼──────────┤</span>
+<span class="n">│</span> <span class="mi">1</span>   <span class="n">│</span> <span class="s">&quot;C&quot;</span>  <span class="n">│</span> <span class="kc">false</span> <span class="n">│</span> <span class="kc">false</span> <span class="n">│</span> <span class="kc">false</span>    <span class="n">│</span> <span class="kc">false</span> <span class="n">│</span> <span class="kc">false</span> <span class="n">│</span> <span class="kc">false</span>    <span class="n">│</span> <span class="kc">true</span>     <span class="n">│</span>
+<span class="n">│</span> <span class="mi">2</span>   <span class="n">│</span> <span class="s">&quot;D&quot;</span>  <span class="n">│</span> <span class="kc">false</span> <span class="n">│</span> <span class="kc">false</span> <span class="n">│</span> <span class="kc">false</span>    <span class="n">│</span> <span class="kc">false</span> <span class="n">│</span> <span class="kc">false</span> <span class="n">│</span> <span class="kc">false</span>    <span class="n">│</span> <span class="kc">true</span>     <span class="n">│</span>
+<span class="n">│</span> <span class="mi">3</span>   <span class="n">│</span> <span class="s">&quot;O&quot;</span>  <span class="n">│</span> <span class="kc">true</span>  <span class="n">│</span> <span class="kc">false</span> <span class="n">│</span> <span class="kc">true</span>     <span class="n">│</span> <span class="kc">false</span> <span class="n">│</span> <span class="kc">false</span> <span class="n">│</span> <span class="kc">false</span>    <span class="n">│</span> <span class="kc">false</span>    <span class="n">│</span>
+<span class="n">│</span> <span class="mi">4</span>   <span class="n">│</span> <span class="s">&quot;E&quot;</span>  <span class="n">│</span> <span class="kc">false</span> <span class="n">│</span> <span class="kc">true</span>  <span class="n">│</span> <span class="kc">true</span>     <span class="n">│</span> <span class="kc">false</span> <span class="n">│</span> <span class="kc">false</span> <span class="n">│</span> <span class="kc">false</span>    <span class="n">│</span> <span class="kc">false</span>    <span class="n">│</span>
+<span class="n">│</span> <span class="mi">5</span>   <span class="n">│</span> <span class="s">&quot;B&quot;</span>  <span class="n">│</span> <span class="kc">false</span> <span class="n">│</span> <span class="kc">false</span> <span class="n">│</span> <span class="kc">false</span>    <span class="n">│</span> <span class="kc">true</span>  <span class="n">│</span> <span class="kc">false</span> <span class="n">│</span> <span class="kc">true</span>     <span class="n">│</span> <span class="kc">false</span>    <span class="n">│</span>
+<span class="n">│</span> <span class="mi">6</span>   <span class="n">│</span> <span class="s">&quot;A&quot;</span>  <span class="n">│</span> <span class="kc">false</span> <span class="n">│</span> <span class="kc">false</span> <span class="n">│</span> <span class="kc">false</span>    <span class="n">│</span> <span class="kc">false</span> <span class="n">│</span> <span class="kc">true</span>  <span class="n">│</span> <span class="kc">true</span>     <span class="n">│</span> <span class="kc">false</span>    <span class="n">│</span>
+<span class="n">julia</span><span class="o">&gt;</span> <span class="n">BSc</span><span class="p">[</span><span class="o">:</span><span class="n">taxa</span><span class="p">][</span><span class="n">BSc</span><span class="p">[</span><span class="o">:</span><span class="n">H7</span><span class="p">]]</span>
+<span class="mi">1</span><span class="o">-</span><span class="n">element</span> <span class="n">DataArrays</span><span class="o">.</span><span class="n">DataArray</span><span class="p">{</span><span class="n">String</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span><span class="o">:</span>
+ <span class="s">&quot;A&quot;</span>
+</pre></div>
+
 
 <p>We can also get bootstrap values associated with edges, to describe the support that a given hybrid clade has a given sister clade.</p>
-<pre><code class="julia">BSe
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">BSe</span>
+<span class="mi">12</span><span class="n">×8</span> <span class="n">DataFrames</span><span class="o">.</span><span class="n">DataFrame</span>
+<span class="n">│</span> <span class="n">Row</span> <span class="n">│</span> <span class="n">edge</span> <span class="n">│</span> <span class="n">hybrid_clade</span> <span class="n">│</span> <span class="n">hybrid</span> <span class="n">│</span> <span class="n">sister_clade</span> <span class="n">│</span> <span class="n">sister</span> <span class="n">│</span> <span class="n">BS_hybrid_edge</span> <span class="n">│</span>
+<span class="n">├─────┼──────┼──────────────┼────────┼──────────────┼────────┼────────────────┤</span>
+<span class="n">│</span> <span class="mi">1</span>   <span class="n">│</span> <span class="mi">10</span>   <span class="n">│</span> <span class="s">&quot;H7&quot;</span>         <span class="n">│</span> <span class="mi">5</span>      <span class="n">│</span> <span class="s">&quot;B&quot;</span>          <span class="n">│</span> <span class="mi">6</span>      <span class="n">│</span> <span class="mf">33.0</span>           <span class="n">│</span>
+<span class="n">│</span> <span class="mi">2</span>   <span class="n">│</span> <span class="mi">5</span>    <span class="n">│</span> <span class="s">&quot;H7&quot;</span>         <span class="n">│</span> <span class="mi">5</span>      <span class="n">│</span> <span class="s">&quot;E&quot;</span>          <span class="n">│</span> <span class="mi">4</span>      <span class="n">│</span> <span class="mf">32.0</span>           <span class="n">│</span>
+<span class="n">│</span> <span class="mi">3</span>   <span class="n">│</span> <span class="n">NA</span>   <span class="n">│</span> <span class="s">&quot;c_minus4&quot;</span>   <span class="n">│</span> <span class="o">-</span><span class="mi">4</span>     <span class="n">│</span> <span class="s">&quot;c_minus2&quot;</span>   <span class="n">│</span> <span class="o">-</span><span class="mi">2</span>     <span class="n">│</span> <span class="mf">44.0</span>           <span class="n">│</span>
+<span class="n">│</span> <span class="mi">4</span>   <span class="n">│</span> <span class="n">NA</span>   <span class="n">│</span> <span class="s">&quot;c_minus4&quot;</span>   <span class="n">│</span> <span class="o">-</span><span class="mi">4</span>     <span class="n">│</span> <span class="s">&quot;H7&quot;</span>         <span class="n">│</span> <span class="mi">7</span>      <span class="n">│</span> <span class="mf">44.0</span>           <span class="n">│</span>
+<span class="n">│</span> <span class="mi">5</span>   <span class="n">│</span> <span class="n">NA</span>   <span class="n">│</span> <span class="s">&quot;E&quot;</span>          <span class="n">│</span> <span class="mi">4</span>      <span class="n">│</span> <span class="s">&quot;O&quot;</span>          <span class="n">│</span> <span class="mi">3</span>      <span class="n">│</span> <span class="mf">12.0</span>           <span class="n">│</span>
+<span class="n">│</span> <span class="mi">6</span>   <span class="n">│</span> <span class="n">NA</span>   <span class="n">│</span> <span class="s">&quot;c_minus6&quot;</span>   <span class="n">│</span> <span class="o">-</span><span class="mi">6</span>     <span class="n">│</span> <span class="s">&quot;c_minus2&quot;</span>   <span class="n">│</span> <span class="o">-</span><span class="mi">2</span>     <span class="n">│</span> <span class="mf">9.0</span>            <span class="n">│</span>
+<span class="n">│</span> <span class="mi">7</span>   <span class="n">│</span> <span class="n">NA</span>   <span class="n">│</span> <span class="s">&quot;c_minus6&quot;</span>   <span class="n">│</span> <span class="o">-</span><span class="mi">6</span>     <span class="n">│</span> <span class="s">&quot;E&quot;</span>          <span class="n">│</span> <span class="mi">4</span>      <span class="n">│</span> <span class="mf">9.0</span>            <span class="n">│</span>
+<span class="n">│</span> <span class="mi">8</span>   <span class="n">│</span> <span class="n">NA</span>   <span class="n">│</span> <span class="s">&quot;E&quot;</span>          <span class="n">│</span> <span class="mi">4</span>      <span class="n">│</span> <span class="s">&quot;c_minus6&quot;</span>   <span class="n">│</span> <span class="o">-</span><span class="mi">6</span>     <span class="n">│</span> <span class="mf">7.0</span>            <span class="n">│</span>
+<span class="n">│</span> <span class="mi">9</span>   <span class="n">│</span> <span class="n">NA</span>   <span class="n">│</span> <span class="s">&quot;E&quot;</span>          <span class="n">│</span> <span class="mi">4</span>      <span class="n">│</span> <span class="s">&quot;H7&quot;</span>         <span class="n">│</span> <span class="mi">7</span>      <span class="n">│</span> <span class="mf">5.0</span>            <span class="n">│</span>
+<span class="n">│</span> <span class="mi">10</span>  <span class="n">│</span> <span class="n">NA</span>   <span class="n">│</span> <span class="s">&quot;B&quot;</span>          <span class="n">│</span> <span class="mi">6</span>      <span class="n">│</span> <span class="s">&quot;H7&quot;</span>         <span class="n">│</span> <span class="mi">7</span>      <span class="n">│</span> <span class="mf">2.0</span>            <span class="n">│</span>
+<span class="n">│</span> <span class="mi">11</span>  <span class="n">│</span> <span class="n">NA</span>   <span class="n">│</span> <span class="s">&quot;B&quot;</span>          <span class="n">│</span> <span class="mi">6</span>      <span class="n">│</span> <span class="s">&quot;c_minus2&quot;</span>   <span class="n">│</span> <span class="o">-</span><span class="mi">2</span>     <span class="n">│</span> <span class="mf">2.0</span>            <span class="n">│</span>
+<span class="n">│</span> <span class="mi">12</span>  <span class="n">│</span> <span class="n">NA</span>   <span class="n">│</span> <span class="s">&quot;H7&quot;</span>         <span class="n">│</span> <span class="mi">5</span>      <span class="n">│</span> <span class="s">&quot;O&quot;</span>          <span class="n">│</span> <span class="mi">3</span>      <span class="n">│</span> <span class="mf">1.0</span>            <span class="n">│</span>
 
-<p>Here, each row describes a pair of 2 clades: one being the hybrid, the other being its sister, connected by a hybrid edge. The first rows corresponds to hybrid edges in the best network. Other rows correspond to edges seen in bootstrap networks but not in the best network.</p>
-<pre><code class="julia">BSedgenum
-</code></pre>
+<span class="n">│</span> <span class="n">Row</span> <span class="n">│</span> <span class="n">BS_major</span> <span class="n">│</span> <span class="n">BS_minor</span> <span class="n">│</span>
+<span class="n">├─────┼──────────┼──────────┤</span>
+<span class="n">│</span> <span class="mi">1</span>   <span class="n">│</span> <span class="mf">33.0</span>     <span class="n">│</span> <span class="mf">0.0</span>      <span class="n">│</span>
+<span class="n">│</span> <span class="mi">2</span>   <span class="n">│</span> <span class="mf">0.0</span>      <span class="n">│</span> <span class="mf">32.0</span>     <span class="n">│</span>
+<span class="n">│</span> <span class="mi">3</span>   <span class="n">│</span> <span class="mf">44.0</span>     <span class="n">│</span> <span class="mf">0.0</span>      <span class="n">│</span>
+<span class="n">│</span> <span class="mi">4</span>   <span class="n">│</span> <span class="mf">0.0</span>      <span class="n">│</span> <span class="mf">44.0</span>     <span class="n">│</span>
+<span class="n">│</span> <span class="mi">5</span>   <span class="n">│</span> <span class="mf">12.0</span>     <span class="n">│</span> <span class="mf">0.0</span>      <span class="n">│</span>
+<span class="n">│</span> <span class="mi">6</span>   <span class="n">│</span> <span class="mf">9.0</span>      <span class="n">│</span> <span class="mf">0.0</span>      <span class="n">│</span>
+<span class="n">│</span> <span class="mi">7</span>   <span class="n">│</span> <span class="mf">0.0</span>      <span class="n">│</span> <span class="mf">9.0</span>      <span class="n">│</span>
+<span class="n">│</span> <span class="mi">8</span>   <span class="n">│</span> <span class="mf">0.0</span>      <span class="n">│</span> <span class="mf">7.0</span>      <span class="n">│</span>
+<span class="n">│</span> <span class="mi">9</span>   <span class="n">│</span> <span class="mf">0.0</span>      <span class="n">│</span> <span class="mf">5.0</span>      <span class="n">│</span>
+<span class="n">│</span> <span class="mi">10</span>  <span class="n">│</span> <span class="mf">2.0</span>      <span class="n">│</span> <span class="mf">0.0</span>      <span class="n">│</span>
+<span class="n">│</span> <span class="mi">11</span>  <span class="n">│</span> <span class="mf">0.0</span>      <span class="n">│</span> <span class="mf">2.0</span>      <span class="n">│</span>
+<span class="n">│</span> <span class="mi">12</span>  <span class="n">│</span> <span class="mf">0.0</span>      <span class="n">│</span> <span class="mf">1.0</span>      <span class="n">│</span>
+</pre></div>
+
+
+<p>Here, each row describes a pair of 2 clades: one being the hybrid, the other being its sister, connected by a hybrid edge. The first rows corresponds to hybrid edges in the best network. Other rows correspond to edges seen in bootstrap networks but not in the reference network.</p>
+<div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">BSedgenum</span>
+<span class="mi">2</span><span class="o">-</span><span class="n">element</span> <span class="kt">Array</span><span class="p">{</span><span class="kt">Int64</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span><span class="o">:</span>
+ <span class="mi">10</span>
+  <span class="mi">5</span>
+</pre></div>
+
 
 <p>lists all the hybrid edges in the best network, two for each hybrid node: the major parent edge and then the minor parent edge. In our case, there is only one reticulation, so only 2 hybrid edges.</p>
 <p>We can plot the bootstrap values of the 2 hybrid edges in the best network:</p>
-<pre><code class="julia">plot(net1, edgeLabel=BSe[[:edge,:BS_hybrid_edge]])
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span> <span class="n">edgeLabel</span><span class="o">=</span><span class="n">BSe</span><span class="p">[[</span><span class="o">:</span><span class="n">edge</span><span class="p">,</span><span class="o">:</span><span class="n">BS_hybrid_edge</span><span class="p">]])</span>
+</pre></div>
 
-<p>This is showing the bootstrap support each hybrid edge: percentage of bootstrap trees with an edge from the same sister clade to the same hybrid clade. Alternatively, we could show the bootstrap support for the full reticulation relationships in the network, one at each hybrid node (support for same hybrid with same sister clades):</p>
-<pre><code class="julia">plot(net1, nodeLabel=BSn[[:hybridnode,:BS_hybrid_samesisters]])
-</code></pre>
 
-<p>On a different plot, we can show the bootstrap support for hybrid clades, shown on the parent edge of each node with positive hybrid support:</p>
-<pre><code class="julia">plot(net1, edgeLabel=BSn[BSn[:BS_hybrid].&gt;0, [:edge,:BS_hybrid]])
-</code></pre>
+<p><img alt="" src="../../assets/figures/bootstrap_boot_net_net_1.png" /></p>
+<p>This is showing the bootstrap support each hybrid edge: percentage of bootstrap trees with an edge from the same sister clade to the same hybrid clade. Alternatively, we could show the bootstrap support for the full reticulation relationships in the network, one at each hybrid node (support for same hybrid with same sister clades). Here, we find that A received gene flow from E (and is sister to B otherwise) in just 32% of bootstrap networks. In another 1% bootstrap, A received gene flow from another source.</p>
+<div class="codehilite"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span> <span class="n">nodeLabel</span><span class="o">=</span><span class="n">BSn</span><span class="p">[[</span><span class="o">:</span><span class="n">hybridnode</span><span class="p">,</span><span class="o">:</span><span class="n">BS_hybrid_samesisters</span><span class="p">]])</span>
+</pre></div>
 
-<p>or plot the support for minor sister clades (shown along parent edge, and filtered to those with sister support &gt; 5%):</p>
-<pre><code class="julia">plot(net1, edgeLabel=BSn[BSn[:BS_minor_sister].&gt;5, [:edge,:BS_minor_sister]])
-</code></pre>
 
-<p>To plot the same values next to the associated nodes, rather than edges, we use the option <code>nodeLabel</code> and we select the column <code>node</code> or <code>hybridnode</code>:</p>
-<pre><code class="julia">plot(net1, nodeLabel=BSn[BSn[:BS_hybrid].&gt;0, [:hybridnode,:BS_hybrid]])
-plot(net1, nodeLabel=BSn[BSn[:BS_minor_sister].&gt;5, [:node,:BS_minor_sister]])
-plot(net1, nodeLabel=BSn[BSn[:BS_major_sister].&gt;5, [:node,:BS_major_sister]])
-</code></pre>
+<p><img alt="" src="../../assets/figures/bootstrap_boot_net_ret_1.png" /></p>
+<p>Below is example code to place tree edge support and hybrid edge support on the same plot.</p>
+<div class="codehilite"><pre><span></span><span class="n">tmp</span> <span class="o">=</span> <span class="n">BSe</span><span class="p">[</span><span class="o">!</span><span class="n">isna</span><span class="p">(</span><span class="n">BSe</span><span class="p">[</span><span class="o">:</span><span class="n">edge</span><span class="p">]),[</span><span class="o">:</span><span class="n">edge</span><span class="p">,</span><span class="o">:</span><span class="n">BS_hybrid_edge</span><span class="p">]]</span>
+<span class="n">rename!</span><span class="p">(</span><span class="n">tmp</span><span class="p">,</span> <span class="o">:</span><span class="n">BS_hybrid_edge</span><span class="p">,</span> <span class="o">:</span><span class="n">proportion</span><span class="p">)</span>
+<span class="n">rename!</span><span class="p">(</span><span class="n">tmp</span><span class="p">,</span> <span class="o">:</span><span class="n">edge</span><span class="p">,</span> <span class="o">:</span><span class="n">edgeNumber</span><span class="p">)</span>
+<span class="n">tmp</span> <span class="o">=</span> <span class="n">vcat</span><span class="p">(</span><span class="n">BSe_tree</span><span class="p">,</span> <span class="n">tmp</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span> <span class="n">edgeLabel</span><span class="o">=</span><span class="n">tmp</span><span class="p">,</span> <span class="n">nodeLabel</span><span class="o">=</span><span class="n">BSn</span><span class="p">[[</span><span class="o">:</span><span class="n">hybridnode</span><span class="p">,</span><span class="o">:</span><span class="n">BS_hybrid_samesisters</span><span class="p">]])</span>
+</pre></div>
+
+
+<p><a id='Who-are-the-hybrids-in-bootstrap-networks?-1'></a></p>
+<h3 id="who-are-the-hybrids-in-bootstrap-networks">Who are the hybrids in bootstrap networks?</h3>
+<p>On a different plot, we can show the bootstrap support for hybrid clades, first mapped to each node with positive hybrid support, and then mapped on the parent edge of these nodes. A is estimated as a hybrid in only 33% of our bootstrap networks. In another 44%, it is the lineage to (E,O) that is estimated as being of hybrid origin.</p>
+<div class="codehilite"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span> <span class="n">nodeLabel</span><span class="o">=</span><span class="n">BSn</span><span class="p">[</span><span class="n">BSn</span><span class="p">[</span><span class="o">:</span><span class="n">BS_hybrid</span><span class="p">]</span><span class="o">.&gt;</span><span class="mi">0</span><span class="p">,</span> <span class="p">[</span><span class="o">:</span><span class="n">hybridnode</span><span class="p">,</span><span class="o">:</span><span class="n">BS_hybrid</span><span class="p">]])</span>
+</pre></div>
+
+
+<p><img alt="" src="../../assets/figures/bootstrap_boot_net_hyb_1.png" /></p>
+<div class="codehilite"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span> <span class="n">edgeLabel</span><span class="o">=</span><span class="n">BSn</span><span class="p">[</span><span class="n">BSn</span><span class="p">[</span><span class="o">:</span><span class="n">BS_hybrid</span><span class="p">]</span><span class="o">.&gt;</span><span class="mi">0</span><span class="p">,</span> <span class="p">[</span><span class="o">:</span><span class="n">edge</span><span class="p">,</span><span class="o">:</span><span class="n">BS_hybrid</span><span class="p">]])</span>
+</pre></div>
+
+
+<p><img alt="" src="../../assets/figures/bootstrap_boot_net_hyb_2.png" /></p>
+<p><a id='Where-is-the-origin-of-gene-flow?-1'></a></p>
+<h3 id="where-is-the-origin-of-gene-flow">Where is the origin of gene flow?</h3>
+<p>We can plot the support for the various placements of the gene flow origin (minor sister clade), first mapped to each node with positive support for being the origin of gene flow, and then mapped along the parent edge of these nodes. We filtered clades to show those with sister support &gt; 5%:</p>
+<div class="codehilite"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span> <span class="n">nodeLabel</span><span class="o">=</span><span class="n">BSn</span><span class="p">[</span><span class="n">BSn</span><span class="p">[</span><span class="o">:</span><span class="n">BS_minor_sister</span><span class="p">]</span><span class="o">.&gt;</span><span class="mi">5</span><span class="p">,</span> <span class="p">[</span><span class="o">:</span><span class="n">node</span><span class="p">,</span><span class="o">:</span><span class="n">BS_minor_sister</span><span class="p">]])</span>
+</pre></div>
+
+
+<p><img alt="" src="../../assets/figures/bootstrap_boot_net_clade_1.png" /></p>
+<div class="codehilite"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span> <span class="n">edgeLabel</span><span class="o">=</span><span class="n">BSn</span><span class="p">[</span><span class="n">BSn</span><span class="p">[</span><span class="o">:</span><span class="n">BS_minor_sister</span><span class="p">]</span><span class="o">.&gt;</span><span class="mi">5</span><span class="p">,</span> <span class="p">[</span><span class="o">:</span><span class="n">edge</span><span class="p">,</span><span class="o">:</span><span class="n">BS_minor_sister</span><span class="p">]])</span>
+</pre></div>
+
+
+<p><img alt="" src="../../assets/figures/bootstrap_boot_net_clade_2.png" /></p>
+<p>In our best network, the lineage to E is estimated as the origin of gene flow, but this is recovered in only 41% of our bootstrap networks. In another 49%, it is the lineage to A that is estimated as the <em>origin</em> of gene flow: so gene flow is estimated in the opposite direction. In this example, there is support for gene flow between (A,B) and (E,O), but there is much uncertainty about its exact placement and about its direction.</p>
+<p>Mapping the support for major sister clades might be interesting too:</p>
+<div class="codehilite"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span> <span class="n">nodeLabel</span><span class="o">=</span><span class="n">BSn</span><span class="p">[</span><span class="n">BSn</span><span class="p">[</span><span class="o">:</span><span class="n">BS_major_sister</span><span class="p">]</span><span class="o">.&gt;</span><span class="mi">5</span><span class="p">,</span> <span class="p">[</span><span class="o">:</span><span class="n">node</span><span class="p">,</span><span class="o">:</span><span class="n">BS_major_sister</span><span class="p">]])</span>
+</pre></div>
+
 
 <p>The estimated heritability γ on hybrid edges in the reference network, when present in a bootstrap network, was also extracted:</p>
-<pre><code class="julia">BSgam
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">BSgam</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">3</span><span class="p">,</span><span class="o">:</span><span class="p">]</span> <span class="c"># first 3 rows only</span>
+<span class="mi">3</span><span class="n">×2</span> <span class="kt">Array</span><span class="p">{</span><span class="kt">Float64</span><span class="p">,</span><span class="mi">2</span><span class="p">}</span><span class="o">:</span>
+ <span class="mf">0.767833</span>  <span class="mf">0.232167</span>
+ <span class="mf">0.0</span>       <span class="mf">0.0</span>     
+ <span class="mf">0.804412</span>  <span class="mf">0.195588</span>
+</pre></div>
+
 
 <p>γ=0 values are for bootstrap replicates that did not have the edge in their network. Basic summaries on γ values for a given edge, say the minor parent, could be obtained like this:</p>
-<pre><code class="julia">minimum(BSgam[:,2])
-maximum(BSgam[:,2])
-mean(BSgam[:,2])
-std(BSgam[:,2])
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">minimum</span><span class="p">(</span><span class="n">BSgam</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">maximum</span><span class="p">(</span><span class="n">BSgam</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">mean</span><span class="p">(</span><span class="n">BSgam</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">std</span><span class="p">(</span><span class="n">BSgam</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
                 
                   
                 
@@ -675,7 +888,9 @@ std(BSgam[:,2])
       
     </div>
     
-      <script src="../../assets/javascripts/application-06a3e72efd.js"></script>
+      <script src="../../assets/javascripts/application-b30566c560.js"></script>
+      
+      
       <script>app.initialize({url:{base:"../.."}})</script>
       
         <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>

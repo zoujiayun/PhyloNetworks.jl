@@ -15,7 +15,7 @@
       
         <link rel="shortcut icon" href="../../assets/images/favicon.png">
       
-      <meta name="generator" content="mkdocs-0.16.3, mkdocs-material-1.6.4">
+      <meta name="generator" content="mkdocs-0.16.3, mkdocs-material-1.7.3">
     
     
       
@@ -26,9 +26,9 @@
       <script src="../../assets/javascripts/modernizr-1df76c4e58.js"></script>
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/application-e2807e330f.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/application-acc56dad49.css">
       
-        <link rel="stylesheet" href="../../assets/stylesheets/application-f78e5cb881.palette.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/application-8817cfa535.palette.css">
       
     
     
@@ -105,7 +105,7 @@
     </form>
     <div class="md-search__output">
       <div class="md-search__scrollwrap" data-md-scrollfix>
-        <div class="md-search-result" data-md-component="result">
+        <div class="md-search-result" data-md-component="result" data-md-lang-search="">
           <div class="md-search-result__meta" data-md-lang-result-none="No matching documents" data-md-lang-result-one="1 matching document" data-md-lang-result-other="# matching documents">
             Type to start searching
           </div>
@@ -117,9 +117,9 @@
 </div>
         
       </div>
-      <div class="md-flex__cell md-flex__cell--shrink">
-        <div class="md-header-nav__source">
-          
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
             
 
 
@@ -139,9 +139,9 @@
     </div>
   </a>
 
-          
+          </div>
         </div>
-      </div>
+      
     </div>
   </nav>
 </header>
@@ -340,8 +340,20 @@
 
 
   <li class="md-nav__item">
-    <a href="../fixednetworkoptim/" title="Fixed Network" class="md-nav__link">
-      Fixed Network
+    <a href="../dist_reroot/" title="Network comparison and manipulation" class="md-nav__link">
+      Network comparison and manipulation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../fixednetworkoptim/" title="Candidate Networks" class="md-nav__link">
+      Candidate Networks
     </a>
   </li>
 
@@ -388,8 +400,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../trait_tree/" title="Trait Evolution" class="md-nav__link">
-      Trait Evolution
+    <a href="../trait_tree/" title="Continuous Trait Evolution" class="md-nav__link">
+      Continuous Trait Evolution
     </a>
   </li>
 
@@ -520,7 +532,9 @@
                 
                 <p><a id='TICR-pipeline-1'></a></p>
 <h1 id="ticr-pipeline">TICR pipeline</h1>
-<p>This page provides details to insert data into the TICR pipeline at various stages. Full information and code for this pipeline is <a href="https://github.com/nstenz/TICR">here</a>.</p>
+<p>PhyloNetworks' <a href="https://github.com/crsl4/PhyloNetworks.jl/wiki/TICR:-from-alignments-to-quartet-concordance-factors">wiki</a> has a step-by-step tutorial, to go from multiple sequence alignments to a table of quartet gene frequencies (concordance factors: CFs), through BUCKy (to integrate out gene tree uncertainty) or through RAxML. To get the <code>raxml.pl</code> perl script to run RAxML on each gene, download the content of that wiki with</p>
+<p><code>git clone https://github.com/crsl4/PhyloNetworks.jl.wiki.git</code></p>
+<p>then go to the <code>script/</code> folder.   Below is more detail to insert data into the TICR pipeline at various stages. Full information and code for this pipeline is <a href="https://github.com/nstenz/TICR">here</a>.</p>
 <p><a id='To-run-MrBayes:-You-already-have-alignments-1'></a></p>
 <h2 id="to-run-mrbayes-you-already-have-alignments">To run MrBayes: You already have alignments</h2>
 <p>If you don't need to run mdl.pl because you already have aligned gene sequences which you would like to run through MrBayes, you can simply create a tarball of the Nexus files (fasta won't work at this stage) you wish to use. This command assumes that you want to use all the files ending with ".nex" in the current directory, one file per locus:</p>
@@ -617,7 +631,9 @@
       
     </div>
     
-      <script src="../../assets/javascripts/application-06a3e72efd.js"></script>
+      <script src="../../assets/javascripts/application-b30566c560.js"></script>
+      
+      
       <script>app.initialize({url:{base:"../.."}})</script>
       
         <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>

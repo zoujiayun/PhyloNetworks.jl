@@ -15,7 +15,7 @@
       
         <link rel="shortcut icon" href="../../assets/images/favicon.png">
       
-      <meta name="generator" content="mkdocs-0.16.3, mkdocs-material-1.6.4">
+      <meta name="generator" content="mkdocs-0.16.3, mkdocs-material-1.7.3">
     
     
       
@@ -26,9 +26,9 @@
       <script src="../../assets/javascripts/modernizr-1df76c4e58.js"></script>
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/application-e2807e330f.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/application-acc56dad49.css">
       
-        <link rel="stylesheet" href="../../assets/stylesheets/application-f78e5cb881.palette.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/application-8817cfa535.palette.css">
       
     
     
@@ -105,7 +105,7 @@
     </form>
     <div class="md-search__output">
       <div class="md-search__scrollwrap" data-md-scrollfix>
-        <div class="md-search-result" data-md-component="result">
+        <div class="md-search-result" data-md-component="result" data-md-lang-search="">
           <div class="md-search-result__meta" data-md-lang-result-none="No matching documents" data-md-lang-result-one="1 matching document" data-md-lang-result-other="# matching documents">
             Type to start searching
           </div>
@@ -117,9 +117,9 @@
 </div>
         
       </div>
-      <div class="md-flex__cell md-flex__cell--shrink">
-        <div class="md-header-nav__source">
-          
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
             
 
 
@@ -139,9 +139,9 @@
     </div>
   </a>
 
-          
+          </div>
         </div>
-      </div>
+      
     </div>
   </nav>
 </header>
@@ -296,18 +296,12 @@
     Network Estimation
   </a>
   
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#snaq-error" title="SNaQ error" class="md-nav__link">
-    SNaQ error
-  </a>
-  
 </li>
-        
-      </ul>
-    </nav>
+      
+        <li class="md-nav__item">
+  <a href="#choosing-the-number-of-hybridizations" title="choosing the number of hybridizations" class="md-nav__link">
+    choosing the number of hybridizations
+  </a>
   
 </li>
       
@@ -332,6 +326,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#snaq-error-reporting" title="SNaQ error reporting" class="md-nav__link">
+    SNaQ error reporting
+  </a>
+  
+</li>
+      
       
       
     </ul>
@@ -347,8 +348,20 @@
 
 
   <li class="md-nav__item">
-    <a href="../fixednetworkoptim/" title="Fixed Network" class="md-nav__link">
-      Fixed Network
+    <a href="../dist_reroot/" title="Network comparison and manipulation" class="md-nav__link">
+      Network comparison and manipulation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../fixednetworkoptim/" title="Candidate Networks" class="md-nav__link">
+      Candidate Networks
     </a>
   </li>
 
@@ -395,8 +408,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../trait_tree/" title="Trait Evolution" class="md-nav__link">
-      Trait Evolution
+    <a href="../trait_tree/" title="Continuous Trait Evolution" class="md-nav__link">
+      Continuous Trait Evolution
     </a>
   </li>
 
@@ -479,18 +492,12 @@
     Network Estimation
   </a>
   
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#snaq-error" title="SNaQ error" class="md-nav__link">
-    SNaQ error
-  </a>
-  
 </li>
-        
-      </ul>
-    </nav>
+      
+        <li class="md-nav__item">
+  <a href="#choosing-the-number-of-hybridizations" title="choosing the number of hybridizations" class="md-nav__link">
+    choosing the number of hybridizations
+  </a>
   
 </li>
       
@@ -511,6 +518,13 @@
         <li class="md-nav__item">
   <a href="#candidate-network-evaluation" title="Candidate Network Evaluation" class="md-nav__link">
     Candidate Network Evaluation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#snaq-error-reporting" title="SNaQ error reporting" class="md-nav__link">
+    SNaQ error reporting
   </a>
   
 </li>
@@ -536,61 +550,148 @@
 <h1 id="getting-a-network">Getting a Network</h1>
 <p><a id='Network-Estimation-1'></a></p>
 <h2 id="network-estimation">Network Estimation</h2>
-<p>After <a href="../inputdata/#Input-for-SNaQ-1">Input for SNaQ</a>, we can estimate the network using the input data <code>d</code> and starting from tree (or network) <code>T</code>:</p>
-<pre><code class="julia">net1=snaq!(T,d,filename=&quot;net1_snaq&quot;);
-less(&quot;net1_snaq.err&quot;)
-less(&quot;net1_snaq.out&quot;)
-less(&quot;net1_snaq.networks&quot;)
-net2=snaq!(T,d,hmax=2, filename=&quot;net2_snaq&quot;);
-</code></pre>
+<p>SNaQ implements the statistical inference method in <a href="http://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1005896">Sol&iacute;s-Lemus and An&eacute; 2016</a>. The procedure involves a numerical optimization of branch lengths and inheritance probabilities and a heuristic search in the space of phylogenetic networks.</p>
+<p>After <a href="../inputdata/#Input-for-SNaQ-1">Input for SNaQ</a>, we can estimate the network using the input data <code>raxmlCF</code> and starting from tree (or network) <code>astraltree</code>. We first impose the constraint of at most 0 hybrid node, that is, we ask for a tree.</p>
+<div class="codehilite"><pre><span></span><span class="n">net0</span> <span class="o">=</span> <span class="n">snaq!</span><span class="p">(</span><span class="n">astraltree</span><span class="p">,</span><span class="n">raxmlCF</span><span class="p">,</span> <span class="n">hmax</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s">&quot;net0&quot;</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">1234</span><span class="p">)</span>
+</pre></div>
 
-<p>when viewing the result files "net1_snaq.err" and "net1_snaq.out" with <code>less</code> within Julia, use arrows to scroll down and type <code>q</code> to quit viewing the files. The "net1_snaq.networks" file contains a list of networks obtained from moving the placement of the hybrid node to another node inside the cycle, along with its pseudolikelihood score.</p>
-<p>The option <code>hmax</code> corresponds to the maximum number of hybridizations allowed, 1 by default. The function name <code>snaq!</code> ends with ! because it modifies the argument <code>d</code> by including the expected CF. Type <code>?</code> then <code>snaq!</code> to get help on that function.</p>
-<p>The estimation function creates a <code>.out</code> file (<code>snaq.out</code> by default) with the estimated network in parenthetical format, which you can also print directly to the screen like this:</p>
-<pre><code class="julia">net1
-writeTopology(net1)                   # topology to screen, full precision for branch lengths and γ
-writeTopology(net1,di=true)           # γ omitted: for dendroscope
-writeTopology(net1, &quot;bestnet_h1.tre&quot;) # topology to file 'bestnet_h1.tre': creates or overwrites file
-less(&quot;bestnet_h1.tre&quot;)                # just view the file
-</code></pre>
+
+<p>Part of the screen output shows this:</p>
+<div class="codehilite"><pre><span></span>MaxNet is (C,D,((B,A):1.395762055180493,(O,E):0.48453400554506426):10.0);
+with -loglik 53.53150526187732
+</pre></div>
+
+
+<p>This parenthetical (extended Newick) description is not very human-friendly, so we plot the tree:</p>
+<div class="codehilite"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">net0</span><span class="p">)</span>
+</pre></div>
+
+
+<p><img alt="" src="../../assets/figures/snaq_plot_net0_1_1.png" /></p>
+<p>We can use this tree as a starting point to search for the best network allowing for at most <code>hmax=1</code> hybrid node (which is the default).</p>
+<div class="codehilite"><pre><span></span><span class="n">net1</span> <span class="o">=</span> <span class="n">snaq!</span><span class="p">(</span><span class="n">net0</span><span class="p">,</span><span class="n">raxmlCF</span><span class="p">,</span> <span class="n">hmax</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s">&quot;net1&quot;</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">2345</span><span class="p">)</span>
+</pre></div>
+
+
+<p>part of screen output:</p>
+<div class="codehilite"><pre><span></span><span class="nt">best</span> <span class="nt">network</span> <span class="nt">and</span> <span class="nt">networks</span> <span class="nt">with</span> <span class="nt">different</span> <span class="nt">hybrid</span><span class="o">/</span><span class="nt">gene</span> <span class="nt">flow</span> <span class="nt">directions</span> <span class="nt">printed</span> <span class="nt">to</span> <span class="p">.</span><span class="nc">networks</span> <span class="nt">file</span>
+<span class="nt">MaxNet</span> <span class="nt">is</span> <span class="o">(</span><span class="nt">C</span><span class="o">,</span><span class="nt">D</span><span class="o">,((</span><span class="nt">O</span><span class="o">,(</span><span class="nt">E</span><span class="o">,</span><span class="p">#</span><span class="nn">H7</span><span class="o">:</span><span class="p">::</span><span class="nd">0</span><span class="p">.</span><span class="nc">19558838614943078</span><span class="o">)</span><span class="p">:</span><span class="nd">0</span><span class="p">.</span><span class="nc">31352437658618976</span><span class="o">)</span><span class="p">:</span><span class="nd">0</span><span class="p">.</span><span class="nc">6640664399202987</span><span class="o">,(</span><span class="nt">B</span><span class="o">,(</span><span class="nt">A</span><span class="o">)</span><span class="p">#</span><span class="nn">H7</span><span class="o">:</span><span class="p">::</span><span class="nd">0</span><span class="p">.</span><span class="nc">8044116138505693</span><span class="o">)</span><span class="p">:</span><span class="nd">10</span><span class="p">.</span><span class="nc">0</span><span class="o">)</span><span class="p">:</span><span class="nd">10</span><span class="p">.</span><span class="nc">0</span><span class="o">);</span>
+<span class="nt">with</span> <span class="nt">-loglik</span> <span class="nt">28</span><span class="p">.</span><span class="nc">31506721890958</span>
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span> <span class="n">showGamma</span><span class="o">=</span><span class="kc">true</span><span class="p">)</span>
+</pre></div>
+
+
+<p><img alt="" src="../../assets/figures/snaq_plot_net1_1_1.png" /></p>
+<p>This network has A as a hybrid, 80.4% sister to B, and 19.6% sister to E (which is otherwise sister to O). C &amp; D are sister to each other. We can also check the output files created by <code>snaq!</code>:</p>
+<div class="codehilite"><pre><span></span><span class="n">less</span><span class="p">(</span><span class="s">&quot;net1.err&quot;</span><span class="p">)</span> <span class="c"># would provide info about errors, if any</span>
+<span class="n">less</span><span class="p">(</span><span class="s">&quot;net1.out&quot;</span><span class="p">)</span> <span class="c"># main output file with the estimated network from each run</span>
+<span class="n">less</span><span class="p">(</span><span class="s">&quot;net1.networks&quot;</span><span class="p">)</span> <span class="c"># extra info</span>
+</pre></div>
+
+
+<p>when viewing these result files with <code>less</code> within Julia, use arrows to scroll down and type <code>q</code> to quit viewing the files. The file <code>net1.networks</code> contains a list of networks obtained from the estimated network, <code>net1</code>, by changing the direction of each hybridization, and by moving the placement of the hybrid node to another node inside the cycle, along with its pseudolikelihood score.</p>
+<p>The function name <code>snaq!</code> ends with ! because it modifies the argument <code>raxmlCF</code> by including the expected CF. Type <code>?</code> then <code>snaq!</code> to get help on that function.</p>
+<p>The main output file, here <code>net1.out</code> (or <code>snaq.out</code> by default) has the estimated network in parenthetical format, but we can also print it directly to the screen:</p>
+<div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">net1</span>
+<span class="n">PhyloNetworks</span><span class="o">.</span><span class="n">HybridNetwork</span><span class="p">,</span> <span class="n">Rooted</span> <span class="n">Network</span>
+<span class="mi">12</span> <span class="n">edges</span>
+<span class="mi">12</span> <span class="n">nodes</span><span class="o">:</span> <span class="mi">6</span> <span class="n">tips</span><span class="p">,</span> <span class="mi">1</span> <span class="n">hybrid</span> <span class="n">nodes</span><span class="p">,</span> <span class="mi">5</span> <span class="n">internal</span> <span class="n">tree</span> <span class="n">nodes</span><span class="o">.</span>
+<span class="n">tip</span> <span class="n">labels</span><span class="o">:</span> <span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="o">...</span>
+<span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="n">D</span><span class="p">,((</span><span class="n">O</span><span class="p">,(</span><span class="n">E</span><span class="p">,</span><span class="c">#H7:::0.196):0.314):0.664,(B,(A)#H7:::0.804):10.0):10.0);</span>
+
+
+<span class="n">julia</span><span class="o">&gt;</span> <span class="n">writeTopology</span><span class="p">(</span><span class="n">net1</span><span class="p">)</span>  <span class="c"># writes to screen, full precision for branch lengths and γ</span>
+<span class="s">&quot;(C,D,((O,(E,#H7:::0.19558838614943078):0.31352437658618976):0.6640664399202987,(B,(A)#H7:::0.8044116138505693):10.0):10.0);&quot;</span>
+
+<span class="n">julia</span><span class="o">&gt;</span> <span class="n">writeTopology</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span> <span class="n">round</span><span class="o">=</span><span class="kc">true</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="s">&quot;(C,D,((O,(E,#H7:::0.2):0.31):0.66,(B,(A)#H7:::0.8):10.0):10.0);&quot;</span>
+
+<span class="n">julia</span><span class="o">&gt;</span> <span class="n">writeTopology</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span><span class="n">di</span><span class="o">=</span><span class="kc">true</span><span class="p">)</span> <span class="c"># γ omitted: for dendroscope</span>
+<span class="s">&quot;(C,D,((O,(E,#H7):0.31352437658618976):0.6640664399202987,(B,(A)#H7):10.0):10.0);&quot;</span>
+
+<span class="n">julia</span><span class="o">&gt;</span> <span class="n">writeTopology</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span> <span class="s">&quot;bestnet_h1.tre&quot;</span><span class="p">)</span> <span class="c"># writes to file: creates or overwrites file</span>
+</pre></div>
+
 
 <p>The option <code>di=true</code> is for the parenthetical format used by <a href="http://dendroscope.org/">Dendroscope</a> (without reticulation heritabilities). Copy this parenthetical description and paste it into Dendroscope, or use the plotting function described below.</p>
-<p><a id='SNaQ-error-1'></a></p>
-<h3 id="snaq-error">SNaQ error</h3>
-<p>Please report any bugs and errors to <em>claudia@stat.wisc.edu</em>, so we can debug it. The easiest way to do it is by checking the <code>.err</code> file which will show the number of runs that failed by a bug and the corresponding seed to replicate the run. This is an example of what the <code>.err</code> file looks like: <code>Total errors: 1 in seeds [4545]</code>. You need to run the following function with the same settings that caused the error:</p>
-<pre><code class="julia">snaqDebug(T,d,hmax=2,seed=4545)
-</code></pre>
+<p>We can go on and let the network have up to 2 or 3 hybrid nodes:</p>
+<div class="codehilite"><pre><span></span><span class="n">net2</span> <span class="o">=</span> <span class="n">snaq!</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span><span class="n">raxmlCF</span><span class="p">,</span> <span class="n">hmax</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s">&quot;net2&quot;</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">3456</span><span class="p">)</span>
+<span class="n">net3</span> <span class="o">=</span> <span class="n">snaq!</span><span class="p">(</span><span class="n">net0</span><span class="p">,</span><span class="n">raxmlCF</span><span class="p">,</span> <span class="n">hmax</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s">&quot;net3&quot;</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">4567</span><span class="p">)</span>
+</pre></div>
 
-<p>This will create two files: <em>snaqDebug.log</em> and <em>debug.log</em> which you can then send to <em>claudia@stat.wisc.edu</em> with subject "SNaQ bug found" or something similar. I will not have access to any part of your data, the files simply print out the steps to retrace the bug, and hopefully fix it.</p>
+
+<p>and plot them (they are identical):</p>
+<div class="codehilite"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">net2</span><span class="p">,</span> <span class="n">showGamma</span><span class="o">=</span><span class="kc">true</span><span class="p">)</span>
+</pre></div>
+
+
+<p><img alt="" src="../../assets/figures/snaq_plot_net23_1.png" /></p>
+<div class="codehilite"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">net3</span><span class="p">,</span> <span class="n">showGamma</span><span class="o">=</span><span class="kc">true</span><span class="p">)</span>
+</pre></div>
+
+
+<p><img alt="" src="../../assets/figures/snaq_plot_net23_2.png" /></p>
+<p>with this screen output for net2 (only 1 hybrid node found):</p>
+<div class="codehilite"><pre><span></span><span class="nt">MaxNet</span> <span class="nt">is</span> <span class="o">(</span><span class="nt">C</span><span class="o">,</span><span class="nt">D</span><span class="o">,((</span><span class="nt">B</span><span class="o">,(</span><span class="nt">A</span><span class="o">)</span><span class="p">#</span><span class="nn">H7</span><span class="o">:</span><span class="p">::</span><span class="nd">0</span><span class="p">.</span><span class="nc">804411606649347</span><span class="o">)</span><span class="p">:</span><span class="nd">10</span><span class="p">.</span><span class="nc">0</span><span class="o">,(</span><span class="nt">O</span><span class="o">,(</span><span class="p">#</span><span class="nn">H7</span><span class="o">:</span><span class="p">::</span><span class="nd">0</span><span class="p">.</span><span class="nc">19558839335065303</span><span class="o">,</span><span class="nt">E</span><span class="o">)</span><span class="p">:</span><span class="nd">0</span><span class="p">.</span><span class="nc">3135243143217013</span><span class="o">)</span><span class="p">:</span><span class="nd">0</span><span class="p">.</span><span class="nc">664066456871298</span><span class="o">)</span><span class="p">:</span><span class="nd">10</span><span class="p">.</span><span class="nc">0</span><span class="o">);</span>
+<span class="nt">with</span> <span class="nt">-loglik</span> <span class="nt">28</span><span class="p">.</span><span class="nc">31506721890957</span>
+</pre></div>
+
+
+<p>and this output for net3 (again, only 1 hybrid found):</p>
+<div class="codehilite"><pre><span></span><span class="nt">MaxNet</span> <span class="nt">is</span> <span class="o">(</span><span class="nt">D</span><span class="o">,</span><span class="nt">C</span><span class="o">,((</span><span class="nt">O</span><span class="o">,(</span><span class="nt">E</span><span class="o">,</span><span class="p">#</span><span class="nn">H7</span><span class="o">:</span><span class="p">::</span><span class="nd">0</span><span class="p">.</span><span class="nc">19558839257941849</span><span class="o">)</span><span class="p">:</span><span class="nd">0</span><span class="p">.</span><span class="nc">3135243301652981</span><span class="o">)</span><span class="p">:</span><span class="nd">0</span><span class="p">.</span><span class="nc">6640664138384673</span><span class="o">,(</span><span class="nt">B</span><span class="o">,(</span><span class="nt">A</span><span class="o">)</span><span class="p">#</span><span class="nn">H7</span><span class="o">:</span><span class="p">::</span><span class="nd">0</span><span class="p">.</span><span class="nc">8044116074205815</span><span class="o">)</span><span class="p">:</span><span class="nd">10</span><span class="p">.</span><span class="nc">0</span><span class="o">)</span><span class="p">:</span><span class="nd">10</span><span class="p">.</span><span class="nc">0</span><span class="o">);</span>
+<span class="nt">with</span> <span class="nt">-loglik</span> <span class="nt">28</span><span class="p">.</span><span class="nc">315067218909626</span>
+</pre></div>
+
+
+<p><a id='choosing-the-number-of-hybridizations-1'></a></p>
+<h2 id="choosing-the-number-of-hybridizations">choosing the number of hybridizations</h2>
+<p>Each network has a <code>loglik</code> attribute, which is its pseudo deviance: twice the negative log-likelihood up to a constant (the constant is such that the score is 0 if the network fits the data perfectly). The lower the better. We can plot these scores across hybrid values:</p>
+<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">Gadfly</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="p">[</span><span class="n">net0</span><span class="o">.</span><span class="n">loglik</span><span class="p">,</span> <span class="n">net1</span><span class="o">.</span><span class="n">loglik</span><span class="p">,</span> <span class="n">net2</span><span class="o">.</span><span class="n">loglik</span><span class="p">,</span> <span class="n">net3</span><span class="o">.</span><span class="n">loglik</span><span class="p">]</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">collect</span><span class="p">(</span><span class="mi">0</span><span class="o">:</span><span class="mi">3</span><span class="p">),</span> <span class="n">y</span><span class="o">=</span><span class="n">scores</span><span class="p">,</span> <span class="n">Geom</span><span class="o">.</span><span class="n">point</span><span class="p">,</span> <span class="n">Geom</span><span class="o">.</span><span class="n">line</span><span class="p">)</span>
+</pre></div>
+
+
+<p><img alt="" src="../../assets/figures/snaq_plot_scores_heuristic_1.png" /></p>
+<p>Here the slope heuristic suggests a single hybrid node: the score does not get much better beyond h=1.</p>
 <p><a id='Network-Visualization-1'></a></p>
 <h2 id="network-visualization">Network Visualization</h2>
-<p>To visualize the network:</p>
-<pre><code class="julia">p = plot(net1, showGamma=true)
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span> <span class="n">showGamma</span><span class="o">=</span><span class="kc">true</span><span class="p">)</span>
+</pre></div>
 
-<p>This function will open a browser where the plot will appear. To get a pdf version of the plot:</p>
-<pre><code class="julia">using Gadfly
-draw(PDF(&quot;bestnet_h1.pdf&quot;, 4inch, 4inch),p)
-</code></pre>
 
-<p>The plot function has many options. Type <code>?</code> to switch to the help mode of Julia, then type the name of the function, here <code>plot</code>. Edge colors can be modified, for instance.</p>
-<pre><code class="julia"># using Gadfly # if not done earlier
-plot(net1, showEdgeLength=true, minorHybridEdgeColor=colorant&quot;tan&quot;)
-</code></pre>
+<p><img alt="" src="../../assets/figures/snaq_plot_net1_1_1.png" /></p>
+<p>This will open a browser where the plot will appear (unless you use <a href="http://junolab.org">Juno</a>, which would capture and display the plot). To get a pdf version, for instance: (see <a href="http://gadflyjl.org/">Gadfly tutorial</a> for other formats)</p>
+<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">Gadfly</span>
+<span class="n">draw</span><span class="p">(</span><span class="n">PDF</span><span class="p">(</span><span class="s">&quot;bestnet_h1.pdf&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="n">inch</span><span class="p">,</span> <span class="mi">4</span><span class="n">inch</span><span class="p">),</span><span class="n">p</span><span class="p">)</span>
+</pre></div>
 
+
+<p>The plot function has many options, to annotate nodes and edges (with γ heritabilities as show above, for example). Type <code>?</code> to switch to the help mode of Julia, then type the name of the function, here <code>plot</code>. Edge colors can be modified, for instance.</p>
+<div class="codehilite"><pre><span></span><span class="c"># using Gadfly # if not done earlier, for colorant</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span> <span class="n">showEdgeLength</span><span class="o">=</span><span class="kc">true</span><span class="p">,</span> <span class="n">minorHybridEdgeColor</span><span class="o">=</span><span class="n">colorant</span><span class="s">&quot;tan&quot;</span><span class="p">)</span>
+</pre></div>
+
+
+<p><img alt="" src="../../assets/figures/snaq_plot_net1_2_1.png" /></p>
+<p>Edge lengths are shown, too. They were estimated in coalescent units: number of generations / effective population size. Some edge lengths are not identifiable, hence not shown.</p>
 <p><a id='Re-rooting-networks-1'></a></p>
 <h2 id="re-rooting-networks">Re-rooting networks</h2>
-<p>SNaQ infers an unrooted semi-directed network, in the sense that the direction of tree edges cannot be inferred, but the direction of hybrid edges can be inferred. To obtain a representative visualization, it is best to root the network first, using one or more outgroup. If there is a single outgroup, the network can be rooted with this outgroup, if compatible, like this:</p>
-<pre><code class="julia">rootatnode!(net1, &quot;4&quot;)
-plot(net1, showGamma=true)
-</code></pre>
-
-<p>Here we used taxon "4" as outgroup. More options are available, to root the network either at a give node or along a given edge. Use the help mode (type <code>?</code>) to get help on the functions <code>rootatnode!</code> and <code>rootonedge!</code> to get more info.</p>
-<p>If the network is plotted with crossing edges, you may identify ways to rotate the children edges at some nodes to untangle some crossing edges. This can be done using the function <code>rotate!</code>. Type <code>?</code> then <code>rotate!</code> to get help and examples.</p>
+<p>SNaQ infers an unrooted semi-directed network. The direction of hybrid edges can be inferred, but the direction of tree edges cannot be inferred. To obtain a representative visualization, it is best to root the network first, using one or more outgroup. Go to <a href="../dist_reroot/#Comparing-and-manipulating-networks-1">Comparing and manipulating networks</a> for this.</p>
 <p><a id='Candidate-Network-Evaluation-1'></a></p>
 <h2 id="candidate-network-evaluation">Candidate Network Evaluation</h2>
-<p>From a set of candidate networks, one might simply need to score of each network to pick the best. Here, the score is the negative log pseudo-likelihood, and the lower the better. See the section to get the score of a <a href="../fixednetworkoptim/#Fixed-Network-1">Fixed Network</a>.</p>
-<p>Else: go next to <a href="../expectedCFs/#Extract-Expected-CFs-1">Extract Expected CFs</a> to see how your network fits your data, or go for a <a href="../bootstrap/#Bootstrap-1">Bootstrap</a> analysis to quantify support for tree edges and hybrid edges.</p>
+<p>From a set of candidate networks, one might simply need to score of each network to pick the best. Here, the score is the negative log pseudo-likelihood, and the lower the better. See the section to get the score of <a href="../fixednetworkoptim/#Candidate-Networks-1">Candidate Networks</a>.</p>
+<p><a id='SNaQ-error-reporting-1'></a></p>
+<h2 id="snaq-error-reporting">SNaQ error reporting</h2>
+<p>Please report any bugs and errors by opening an <a href="https://github.com/crsl4/PhyloNetworks.jl/issues/new">issue</a>. The easiest way to provide information on the error is by checking the <code>.err</code> file, which will show the number of runs that failed and the corresponding seed to replicate the run. In case of an error, the <code>.err</code> file might look like: <code>Total errors: 1 in seeds [4545]</code>. To replicate the bug (necessary to fix it!), you can run the following function with the same settings that caused the error:</p>
+<div class="codehilite"><pre><span></span><span class="n">snaqDebug</span><span class="p">(</span><span class="n">startnetwork</span><span class="p">,</span> <span class="n">raxmlCF</span><span class="p">,</span> <span class="n">hmax</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">4545</span><span class="p">)</span>
+</pre></div>
+
+
+<p>This will create two files: <code>snaqDebug.log</code> and <code>debug.log</code>, with information on steps to retrace the bug. You can attach them to your issue (or send them offline), to help us fix the bug.</p>
                 
                   
                 
@@ -624,13 +725,13 @@ plot(net1, showGamma=true)
           </a>
         
         
-          <a href="../fixednetworkoptim/" title="Fixed Network" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../dist_reroot/" title="Network comparison and manipulation" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Fixed Network
+                Network comparison and manipulation
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">
@@ -660,7 +761,9 @@ plot(net1, showGamma=true)
       
     </div>
     
-      <script src="../../assets/javascripts/application-06a3e72efd.js"></script>
+      <script src="../../assets/javascripts/application-b30566c560.js"></script>
+      
+      
       <script>app.initialize({url:{base:"../.."}})</script>
       
         <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
