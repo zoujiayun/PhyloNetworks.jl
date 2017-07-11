@@ -607,7 +607,7 @@
 
 <p><img alt="" src="../../assets/figures/bootstrap_net1_rotate2_1.png" /></p>
 <p>We can now summarize our bootstrap networks. The functions <code>treeEdgesBootstrap</code> and <code>hybridBootstrapSupport</code> read all bootstrap networks and map the edges / nodes onto a reference network: here net1.</p>
-<div class="codehilite"><pre><span></span><span class="n">BStable</span><span class="p">,</span> <span class="n">tree1</span> <span class="o">=</span> <span class="n">treeEdgesBootstrap</span><span class="p">(</span><span class="n">bootnet</span><span class="p">,</span><span class="n">net1</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><span class="n">BSe_tree</span><span class="p">,</span> <span class="n">tree1</span> <span class="o">=</span> <span class="n">treeEdgesBootstrap</span><span class="p">(</span><span class="n">bootnet</span><span class="p">,</span><span class="n">net1</span><span class="p">)</span>
 </pre></div>
 
 
@@ -617,33 +617,33 @@
 
 
 <p><img alt="" src="../../assets/figures/bootstrap_major_tree_1.png" /></p>
-<p>Next, we can look at bootstrap table <code>BStable</code>, which has one row for each tree edge in <code>net1</code>. One column contains the edge number (same as shown in the plot) and another column contains the edge bootstrap support: the proportion of bootstrap replicates in which this edge was found in the major tree of the inferred network. We can see the full bootstrap table and see which tree edges have bootstrap support lower than 100% (none here) with</p>
-<div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">showall</span><span class="p">(</span><span class="n">BStable</span><span class="p">)</span>
+<p>Next, we can look at bootstrap table <code>BSe_tree</code>, which has one row for each tree edge in <code>net1</code>. One column contains the edge number (same as shown in the plot) and another column contains the edge bootstrap support: the proportion of bootstrap replicates in which this edge was found in the major tree of the inferred network. We can see the full bootstrap table and see which tree edges have bootstrap support lower than 100% (none here) with</p>
+<div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">showall</span><span class="p">(</span><span class="n">BSe_tree</span><span class="p">)</span>
 <span class="mi">3</span><span class="n">×2</span> <span class="n">DataFrames</span><span class="o">.</span><span class="n">DataFrame</span>
 <span class="n">│</span> <span class="n">Row</span> <span class="n">│</span> <span class="n">edgeNumber</span> <span class="n">│</span> <span class="n">proportion</span> <span class="n">│</span>
 <span class="n">├─────┼────────────┼────────────┤</span>
 <span class="n">│</span> <span class="mi">1</span>   <span class="n">│</span> <span class="mi">13</span>         <span class="n">│</span> <span class="mf">100.0</span>      <span class="n">│</span>
 <span class="n">│</span> <span class="mi">2</span>   <span class="n">│</span> <span class="mi">11</span>         <span class="n">│</span> <span class="mf">100.0</span>      <span class="n">│</span>
 <span class="n">│</span> <span class="mi">3</span>   <span class="n">│</span> <span class="mi">12</span>         <span class="n">│</span> <span class="mf">100.0</span>      <span class="n">│</span>
-<span class="n">julia</span><span class="o">&gt;</span> <span class="n">BStable</span><span class="p">[</span><span class="n">BStable</span><span class="p">[</span><span class="o">:</span><span class="n">proportion</span><span class="p">]</span> <span class="o">.&lt;</span> <span class="mf">100.0</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span>
+<span class="n">julia</span><span class="o">&gt;</span> <span class="n">BSe_tree</span><span class="p">[</span><span class="n">BSe_tree</span><span class="p">[</span><span class="o">:</span><span class="n">proportion</span><span class="p">]</span> <span class="o">.&lt;</span> <span class="mf">100.0</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span>
 <span class="mi">0</span><span class="n">×2</span> <span class="n">DataFrames</span><span class="o">.</span><span class="n">DataFrame</span>
 </pre></div>
 
 
 <p>Finally, we can map the bootstrap proportions onto the network or its main tree by passing the bootstrap table to the <code>edgeLabel</code> option of <code>plot</code>:</p>
-<div class="codehilite"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">tree1</span><span class="p">,</span> <span class="n">edgeLabel</span><span class="o">=</span><span class="n">BStable</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">tree1</span><span class="p">,</span> <span class="n">edgeLabel</span><span class="o">=</span><span class="n">BSe_tree</span><span class="p">)</span>
 </pre></div>
 
 
 <p><img alt="" src="../../assets/figures/bootstrap_boot_tree_net_1.png" /></p>
-<div class="codehilite"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span>  <span class="n">edgeLabel</span><span class="o">=</span><span class="n">BStable</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span>  <span class="n">edgeLabel</span><span class="o">=</span><span class="n">BSe_tree</span><span class="p">)</span>
 </pre></div>
 
 
 <p><img alt="" src="../../assets/figures/bootstrap_boot_tree_net_2.png" /></p>
 <p>(Here, it is important that the numbers assigned to edges when building the boostrap table –those in <code>net1</code> at the time– correspond to the current edge numbers in <code>tree1</code> and <code>net1</code>. That was the purpose of reading the network from the output file of <code>snaq!</code> earlier, for consistency across different Julia sessions.)</p>
 <p>If we wanted to plot only certain bootstrap values, like those below 100% (1.0), we could do this:</p>
-<div class="codehilite"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span> <span class="n">edgeLabel</span><span class="o">=</span><span class="n">BStable</span><span class="p">[</span><span class="n">BStable</span><span class="p">[</span><span class="o">:</span><span class="n">proportion</span><span class="p">]</span> <span class="o">.&lt;</span> <span class="mf">100.0</span><span class="p">,</span> <span class="o">:</span><span class="p">])</span>
+<div class="codehilite"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span> <span class="n">edgeLabel</span><span class="o">=</span><span class="n">BSe_tree</span><span class="p">[</span><span class="n">BSe_tree</span><span class="p">[</span><span class="o">:</span><span class="n">proportion</span><span class="p">]</span> <span class="o">.&lt;</span> <span class="mf">100.0</span><span class="p">,</span> <span class="o">:</span><span class="p">])</span>
 </pre></div>
 
 
