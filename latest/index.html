@@ -16,7 +16,7 @@
       
         <link rel="shortcut icon" href="./assets/images/favicon.png">
       
-      <meta name="generator" content="mkdocs-0.16.3, mkdocs-material-1.8.1">
+      <meta name="generator" content="mkdocs-0.16.3, mkdocs-material-1.10.0">
     
     
       
@@ -24,12 +24,12 @@
       
     
     
-      <script src="./assets/javascripts/modernizr-1df76c4e58.js"></script>
+      <script src="./assets/javascripts/modernizr-e826f8942a.js"></script>
     
     
-      <link rel="stylesheet" href="./assets/stylesheets/application-bfecc7305d.css">
+      <link rel="stylesheet" href="./assets/stylesheets/application-b6a6d08807.css">
       
-        <link rel="stylesheet" href="./assets/stylesheets/application-02c2a4388f.palette.css">
+        <link rel="stylesheet" href="./assets/stylesheets/application-23f75ab9c7.palette.css">
       
     
     
@@ -69,11 +69,13 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex">
       <div class="md-flex__cell md-flex__cell--shrink">
-        
-          <a href="." title="PhyloNetworks.jl" class="md-logo md-header-nav__button">
-            <img src="./snaq_small.png" width="24" height="24">
-          </a>
-        
+        <a href="." title="PhyloNetworks.jl" class="md-header-nav__button md-logo">
+          
+            
+              <img src="./snaq_small.png" width="24" height="24">
+            
+          
+        </a>
       </div>
       <div class="md-flex__cell md-flex__cell--shrink">
         <label class="md-icon md-icon--menu md-header-nav__button" for="drawer"></label>
@@ -98,7 +100,7 @@
     <form class="md-search__form" name="search">
       <input type="text" class="md-search__input" name="query" required placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query">
       <label class="md-icon md-search__icon" for="search"></label>
-      <button type="reset" class="md-icon md-search__icon" data-md-component="reset">close</button>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset">&#xE5CD;</button>
     </form>
     <div class="md-search__output">
       <div class="md-search__scrollwrap" data-md-scrollfix>
@@ -155,11 +157,13 @@
                   <div class="md-sidebar__inner">
                     <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="drawer">
-    
-      <i class="md-logo md-nav__button">
-        <img src="./snaq_small.png">
-      </i>
-    
+    <div class="md-nav__button md-logo">
+      
+        
+          <img src="./snaq_small.png">
+        
+      
+    </div>
     PhyloNetworks.jl
   </label>
   
@@ -550,7 +554,7 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/crsl4/PhyloNetworks.jl/edit/master/docs/index.md" title="Edit this page" class="md-icon md-content__icon">edit</a>
+                  <a href="https://github.com/crsl4/PhyloNetworks.jl/edit/master/docs/index.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
                 <p><a id='PhyloNetworks.jl-1'></a></p>
@@ -621,6 +625,7 @@
 <li><a href="man/trait_tree/#Ancestral-State-Reconstruction-1">Ancestral State Reconstruction</a></li>
 <li><a href="man/trait_tree/#Phylogenetic-ANOVA-1">Phylogenetic ANOVA</a></li>
 <li><a href="man/trait_tree/#Pagel's-Lambda-1">Pagel's Lambda</a></li>
+<li><a href="man/trait_tree/#Shifts-and-Heterosis-1">Shifts and Heterosis</a></li>
 </ul>
 </li>
 </ul>
@@ -653,8 +658,8 @@
 <h3 id="functions">Functions</h3>
 <ul>
 <li><a href="lib/public/#Base.getindex-Tuple{PhyloNetworks.TraitSimulation,Symbol}"><code>Base.getindex</code></a></li>
-<li><a href="lib/public/#Gadfly.plot-Tuple{PhyloNetworks.HybridNetwork}"><code>Gadfly.plot</code></a></li>
 <li><a href="lib/public/#Gadfly.plot-Tuple{PhyloNetworks.HybridNetwork,Symbol}"><code>Gadfly.plot</code></a></li>
+<li><a href="lib/public/#Gadfly.plot-Tuple{PhyloNetworks.HybridNetwork}"><code>Gadfly.plot</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.ancestralStateReconstruction"><code>PhyloNetworks.ancestralStateReconstruction</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.bootsnaq"><code>PhyloNetworks.bootsnaq</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.calibrateFromPairwiseDistances!"><code>PhyloNetworks.calibrateFromPairwiseDistances!</code></a></li>
@@ -668,11 +673,14 @@
 <li><a href="lib/public/#PhyloNetworks.expectationsPlot"><code>PhyloNetworks.expectationsPlot</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.fittedQuartetCF"><code>PhyloNetworks.fittedQuartetCF</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.getNodeAges"><code>PhyloNetworks.getNodeAges</code></a></li>
+<li><a href="lib/public/#PhyloNetworks.getShiftEdgeNumber"><code>PhyloNetworks.getShiftEdgeNumber</code></a></li>
+<li><a href="lib/public/#PhyloNetworks.getShiftValue"><code>PhyloNetworks.getShiftValue</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.hardwiredCluster"><code>PhyloNetworks.hardwiredCluster</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.hardwiredClusterDistance"><code>PhyloNetworks.hardwiredClusterDistance</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.hardwiredClusters"><code>PhyloNetworks.hardwiredClusters</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.hybridBootstrapSupport"><code>PhyloNetworks.hybridBootstrapSupport</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.hybridatnode!"><code>PhyloNetworks.hybridatnode!</code></a></li>
+<li><a href="lib/public/#PhyloNetworks.incidenceMatrix"><code>PhyloNetworks.incidenceMatrix</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.lambda_estim"><code>PhyloNetworks.lambda_estim</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.majorTree"><code>PhyloNetworks.majorTree</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.mapAllelesCFtable"><code>PhyloNetworks.mapAllelesCFtable</code></a></li>
@@ -695,11 +703,14 @@
 <li><a href="lib/public/#PhyloNetworks.readTopology"><code>PhyloNetworks.readTopology</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.readTopologyLevel1"><code>PhyloNetworks.readTopologyLevel1</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.readTrees2CF"><code>PhyloNetworks.readTrees2CF</code></a></li>
+<li><a href="lib/public/#PhyloNetworks.regressorHybrid"><code>PhyloNetworks.regressorHybrid</code></a></li>
+<li><a href="lib/public/#PhyloNetworks.regressorShift"><code>PhyloNetworks.regressorShift</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.rootatnode!"><code>PhyloNetworks.rootatnode!</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.rootonedge!"><code>PhyloNetworks.rootonedge!</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.rotate!"><code>PhyloNetworks.rotate!</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.setGamma!"><code>PhyloNetworks.setGamma!</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.setLength!"><code>PhyloNetworks.setLength!</code></a></li>
+<li><a href="lib/public/#PhyloNetworks.shiftHybrid"><code>PhyloNetworks.shiftHybrid</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.sigma2_estim"><code>PhyloNetworks.sigma2_estim</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.simulate"><code>PhyloNetworks.simulate</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.snaq!"><code>PhyloNetworks.snaq!</code></a></li>
@@ -720,17 +731,24 @@
 <li><a href="lib/internals/#PhyloNetworks.deleteNode!"><code>PhyloNetworks.deleteNode!</code></a></li>
 <li><a href="lib/internals/#PhyloNetworks.gammaZero!"><code>PhyloNetworks.gammaZero!</code></a></li>
 <li><a href="lib/internals/#PhyloNetworks.getMajorParent"><code>PhyloNetworks.getMajorParent</code></a></li>
+<li><a href="lib/internals/#PhyloNetworks.getMajorParentEdge"><code>PhyloNetworks.getMajorParentEdge</code></a></li>
+<li><a href="lib/internals/#PhyloNetworks.getMinorParent"><code>PhyloNetworks.getMinorParent</code></a></li>
+<li><a href="lib/internals/#PhyloNetworks.getMinorParentEdge"><code>PhyloNetworks.getMinorParentEdge</code></a></li>
 <li><a href="lib/internals/#PhyloNetworks.moveHybrid!"><code>PhyloNetworks.moveHybrid!</code></a></li>
 <li><a href="lib/internals/#PhyloNetworks.optBL!"><code>PhyloNetworks.optBL!</code></a></li>
 <li><a href="lib/internals/#PhyloNetworks.optTopLevel!"><code>PhyloNetworks.optTopLevel!</code></a></li>
 <li><a href="lib/internals/#PhyloNetworks.optTopRun1!"><code>PhyloNetworks.optTopRun1!</code></a></li>
 <li><a href="lib/internals/#PhyloNetworks.optTopRuns!"><code>PhyloNetworks.optTopRuns!</code></a></li>
 <li><a href="lib/internals/#PhyloNetworks.proposedTop!"><code>PhyloNetworks.proposedTop!</code></a></li>
+<li><a href="lib/internals/#PhyloNetworks.recursionPostOrder"><code>PhyloNetworks.recursionPostOrder</code></a></li>
 <li><a href="lib/internals/#PhyloNetworks.recursionPreOrder"><code>PhyloNetworks.recursionPreOrder</code></a></li>
+<li><a href="lib/internals/#PhyloNetworks.recursionPreOrder!"><code>PhyloNetworks.recursionPreOrder!</code></a></li>
 <li><a href="lib/internals/#PhyloNetworks.sampleBootstrapTrees"><code>PhyloNetworks.sampleBootstrapTrees</code></a></li>
 <li><a href="lib/internals/#PhyloNetworks.sampleCFfromCI"><code>PhyloNetworks.sampleCFfromCI</code></a></li>
 <li><a href="lib/internals/#PhyloNetworks.setNonIdBL!"><code>PhyloNetworks.setNonIdBL!</code></a></li>
 <li><a href="lib/internals/#PhyloNetworks.sharedPathMatrix"><code>PhyloNetworks.sharedPathMatrix</code></a></li>
+<li><a href="lib/internals/#PhyloNetworks.updatePostOrder!"><code>PhyloNetworks.updatePostOrder!</code></a></li>
+<li><a href="lib/internals/#PhyloNetworks.updatePreOrder!"><code>PhyloNetworks.updatePreOrder!</code></a></li>
 </ul>
 <p><a id='Types-1'></a></p>
 <h3 id="types">Types</h3>
@@ -741,6 +759,7 @@
 <li><a href="lib/public/#PhyloNetworks.PhyloNetworkLinearModel"><code>PhyloNetworks.PhyloNetworkLinearModel</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.Quartet"><code>PhyloNetworks.Quartet</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.ReconstructedStates"><code>PhyloNetworks.ReconstructedStates</code></a></li>
+<li><a href="lib/public/#PhyloNetworks.ShiftNet"><code>PhyloNetworks.ShiftNet</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.TraitSimulation"><code>PhyloNetworks.TraitSimulation</code></a></li>
 <li><a href="lib/internals/#PhyloNetworks.ANode"><code>PhyloNetworks.ANode</code></a></li>
 <li><a href="lib/internals/#PhyloNetworks.MatrixTopologicalOrder"><code>PhyloNetworks.MatrixTopologicalOrder</code></a></li>
@@ -800,7 +819,7 @@
       
     </div>
     
-      <script src="./assets/javascripts/application-6940329b9f.js"></script>
+      <script src="./assets/javascripts/application-f3ab9e5ff8.js"></script>
       
       
       <script>app.initialize({url:{base:"."}})</script>
