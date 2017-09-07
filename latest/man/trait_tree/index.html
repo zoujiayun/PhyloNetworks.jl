@@ -784,14 +784,14 @@
  <span class="mf">0.807042</span>
  <span class="mf">0.0</span>     
 
-<span class="n">julia</span><span class="o">&gt;</span> <span class="n">predint</span><span class="p">(</span><span class="n">ancTrait1</span><span class="p">)</span> <span class="c"># prediction interval (default to 95%)</span>
+<span class="n">julia</span><span class="o">&gt;</span> <span class="n">predint</span><span class="p">(</span><span class="n">ancTrait1</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span> <span class="c"># prediction interval (with level 90%)</span>
 <span class="mi">13</span><span class="n">×2</span> <span class="kt">Array</span><span class="p">{</span><span class="kt">Float64</span><span class="p">,</span><span class="mi">2</span><span class="p">}</span><span class="o">:</span>
- <span class="mf">2.94398</span>   <span class="mf">4.16832</span>
- <span class="mf">1.24207</span>   <span class="mf">2.92738</span>
- <span class="mf">0.837628</span>  <span class="mf">4.02123</span>
- <span class="mf">0.681629</span>  <span class="mf">4.54666</span>
- <span class="mf">0.582023</span>  <span class="mf">4.54084</span>
- <span class="mf">0.686076</span>  <span class="mf">3.84962</span>
+ <span class="mf">3.0424</span>    <span class="mf">4.0699</span> 
+ <span class="mf">1.37755</span>   <span class="mf">2.79191</span>
+ <span class="mf">1.09355</span>   <span class="mf">3.76531</span>
+ <span class="mf">0.992327</span>  <span class="mf">4.23596</span>
+ <span class="mf">0.90026</span>   <span class="mf">4.2226</span> 
+ <span class="mf">0.940384</span>  <span class="mf">3.59532</span>
  <span class="mf">2.0</span>       <span class="mf">2.0</span>    
  <span class="mf">4.08298</span>   <span class="mf">4.08298</span>
  <span class="mf">3.10782</span>   <span class="mf">3.10782</span>
@@ -815,6 +815,7 @@
 
 
 <p><img alt="" src="../../assets/figures/trait_tree_ancestral_predint_1.png" /></p>
+<p>The <code>predint</code> and <code>predintPlot</code> functions have an optional argument to state the <code>level</code> of the prediction interval. If not given, the default value is 0.95.</p>
 <p>As we know the true ancestral states here, we can compare them to our estimation.</p>
 <div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">predictions</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">infPred</span><span class="o">=</span><span class="n">predint</span><span class="p">(</span><span class="n">ancTrait1</span><span class="p">)[</span><span class="mi">1</span><span class="o">:</span><span class="mi">7</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
                         <span class="n">trueValue</span><span class="o">=</span><span class="n">sim1</span><span class="p">[</span><span class="o">:</span><span class="n">InternalNodes</span><span class="p">],</span>
@@ -853,12 +854,12 @@
 <p>For convenience, the two steps described above (fitting against the intercept, and then do ancestral state reconstruction) can be done all at once with a single call of the function <a href="../../lib/public/#PhyloNetworks.ancestralStateReconstruction"><code>ancestralStateReconstruction</code></a> on a DataFrame with the trait to reconstruct, and the tip labels:</p>
 <div class="codehilite"><pre><span></span><span class="n">datTrait1</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">trait1</span> <span class="o">=</span> <span class="n">trait1</span><span class="p">,</span> <span class="n">tipNames</span> <span class="o">=</span> <span class="n">tipLabels</span><span class="p">(</span><span class="n">sim1</span><span class="p">))</span>
 <span class="n">ancTrait1Approx</span> <span class="o">=</span> <span class="n">ancestralStateReconstruction</span><span class="p">(</span><span class="n">datTrait1</span><span class="p">,</span> <span class="n">truenet</span><span class="p">)</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">truenet</span><span class="p">,</span> <span class="n">nodeLabel</span> <span class="o">=</span> <span class="n">predintPlot</span><span class="p">(</span><span class="n">ancTrait1Approx</span><span class="p">))</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">truenet</span><span class="p">,</span> <span class="n">nodeLabel</span> <span class="o">=</span> <span class="n">predintPlot</span><span class="p">(</span><span class="n">ancTrait1Approx</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mf">0.9</span><span class="p">))</span>
 </pre></div>
 
 
 <p><img alt="" src="../../assets/figures/trait_tree_ancestral2_1.png" /></p>
-<p>This produces the exact same results.</p>
+<p>This produces the exact same results. Here, we chose a <code>level</code> of 90% for the plotted prediction intervals.</p>
 <p><a id='Data-imputation-1'></a></p>
 <h3 id="data-imputation">Data imputation</h3>
 <p>Note that there is no theoretical difference between an internal node, for which we could not measure the value of the trait, and a missing value at a tip of the network. Consequently, the previous <a href="../../lib/public/#PhyloNetworks.ancestralStateReconstruction"><code>ancestralStateReconstruction</code></a> function can be used to do data imputation. To see this, let's add some missing values in trait 1.</p>
