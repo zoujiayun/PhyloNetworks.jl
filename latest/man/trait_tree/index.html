@@ -690,7 +690,7 @@
 </pre></div>
 
 
-<p>This extractor creates an <code>Array</code> with one column, and as many lines as the number of tips there are in the phylogeny.  It is sorted in the same order as the tips of the phylogeny used to simulate it.   If needed, we could also extract the simulated values at the internal nodes in the tre:</p>
+<p>This extractor creates an <code>Array</code> with one column, and as many lines as the number of tips there are in the phylogeny.  It is sorted in the same order as the tips of the phylogeny used to simulate it.   If needed, we could also extract the simulated values at the internal nodes in the network:</p>
 <div class="codehilite"><pre><span></span><span class="n">sim1</span><span class="p">[</span><span class="o">:</span><span class="n">InternalNodes</span><span class="p">]</span>
 </pre></div>
 
@@ -816,6 +816,12 @@
 
 <p><img alt="" src="../../assets/figures/trait_tree_ancestral_predint_1.png" /></p>
 <p>The <code>predint</code> and <code>predintPlot</code> functions have an optional argument to state the <code>level</code> of the prediction interval. If not given, the default value is 0.95.</p>
+<p>It is also possible to plot both the reconstructed state and the predicted value on the same plot, using the optional keywork argument <code>withExp</code>. As shown below, we could also use the <code>:RCall</code> method from the <a href="../../lib/public/#Gadfly.plot-Tuple{PhyloNetworks.HybridNetwork}"><code>plot</code></a> function.</p>
+<div class="codehilite"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">truenet</span><span class="p">,</span> <span class="o">:</span><span class="n">RCall</span><span class="p">,</span> <span class="n">nodeLabel</span> <span class="o">=</span> <span class="n">predintPlot</span><span class="p">(</span><span class="n">ancTrait1</span><span class="p">,</span> <span class="n">withExp</span><span class="o">=</span><span class="kc">true</span><span class="p">))</span>
+</pre></div>
+
+
+<p>These plots tend to be quite busy, even for small networks.</p>
 <p>As we know the true ancestral states here, we can compare them to our estimation.</p>
 <div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">predictions</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">infPred</span><span class="o">=</span><span class="n">predint</span><span class="p">(</span><span class="n">ancTrait1</span><span class="p">)[</span><span class="mi">1</span><span class="o">:</span><span class="mi">7</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
                         <span class="n">trueValue</span><span class="o">=</span><span class="n">sim1</span><span class="p">[</span><span class="o">:</span><span class="n">InternalNodes</span><span class="p">],</span>
@@ -1014,7 +1020,7 @@
 
 <p><a id='Fit-of-a-Shifted-BM-1'></a></p>
 <h3 id="fit-of-a-shifted-bm">Fit of a Shifted BM</h3>
-<p>Let's assume that we measured <code>trait_sh</code>, and that we want to test whether there were some ancestral hybridizations. To do that, we can use the  custom columns of the <a href="../../lib/public/#PhyloNetworks.incidenceMatrix"><code>incidenceMatrix</code></a>, that can be directly defined thanks to function <a href="../../lib/public/#PhyloNetworks.regressorHybrid"><code>regressorHybrid</code></a>.</p>
+<p>Let's assume that we measured <code>trait_sh</code>, and that we want to test whether there were some ancestral hybridizations. To do that, we can use the  custom columns of the <a href="../../lib/public/#PhyloNetworks.descendenceMatrix"><code>descendenceMatrix</code></a>, that can be directly defined thanks to function <a href="../../lib/public/#PhyloNetworks.regressorHybrid"><code>regressorHybrid</code></a>.</p>
 <div class="codehilite"><pre><span></span><span class="n">df_shift</span> <span class="o">=</span> <span class="n">regressorHybrid</span><span class="p">(</span><span class="n">truenet</span><span class="p">)</span> <span class="c"># Regressors matching Hybrid Shifts</span>
 </pre></div>
 
