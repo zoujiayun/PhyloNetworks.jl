@@ -978,7 +978,7 @@
 
 <p>As it is indeed generated according to a plain BM on the phylogeny, the estimated λ should be close to 1. It can be extracted with function <code>lambda_estim</code>:</p>
 <div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">lambda_estim</span><span class="p">(</span><span class="n">fitPagel</span><span class="p">)</span>
-<span class="mf">0.9073561228997326</span>
+<span class="mf">0.9073561228984233</span>
 </pre></div>
 
 
@@ -1059,8 +1059,28 @@ AIC: 25.7992994631
 
 
 <p>Here, because there is only one hybrid in the network, we can directly see whether the ancestral transgressive evolution is significant or not thanks to the Student test on the coefficient associated with <code>shift_6</code>. In more complex cases, it is possible to do a Fisher test, thanks to the <code>GLM</code> function <code>ftest</code>.</p>
-<div class="codehilite"><pre><span></span><span class="n">fit_null</span> <span class="o">=</span> <span class="n">phyloNetworklm</span><span class="p">(</span><span class="nd">@formula</span><span class="p">(</span><span class="n">trait</span> <span class="o">~</span> <span class="mi">1</span><span class="p">),</span> <span class="n">dat</span><span class="p">,</span> <span class="n">truenet</span><span class="p">)</span> <span class="c"># fit against the null (no shift)</span>
-<span class="n">ftest</span><span class="p">(</span><span class="n">fit_sh</span><span class="p">,</span> <span class="n">fit_null</span><span class="p">)</span>                                      <span class="c"># nested models, from more complex to most simple</span>
+<div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">fit_null</span> <span class="o">=</span> <span class="n">phyloNetworklm</span><span class="p">(</span><span class="nd">@formula</span><span class="p">(</span><span class="n">trait</span> <span class="o">~</span> <span class="mi">1</span><span class="p">),</span> <span class="n">dat</span><span class="p">,</span> <span class="n">truenet</span><span class="p">)</span> <span class="c"># fit against the null (no shift)</span>
+<span class="n">DataFrames</span><span class="o">.</span><span class="n">DataFrameRegressionModel</span><span class="p">{</span><span class="n">PhyloNetworks</span><span class="o">.</span><span class="n">PhyloNetworkLinearModel</span><span class="p">,</span><span class="kt">Array</span><span class="p">{</span><span class="kt">Float64</span><span class="p">,</span><span class="mi">2</span><span class="p">}}</span>
+
+<span class="n">Formula</span><span class="o">:</span> <span class="n">trait</span> <span class="o">~</span> <span class="o">+</span><span class="mi">1</span>
+
+<span class="n">Model</span><span class="o">:</span> <span class="n">BM</span>
+
+<span class="n">Parameter</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">Estimates</span><span class="o">:</span>
+<span class="n">Sigma2</span><span class="o">:</span> <span class="mf">1.43745</span>
+
+<span class="n">Coefficients</span><span class="o">:</span>
+             <span class="n">Estimate</span> <span class="n">Std</span><span class="o">.</span><span class="n">Error</span> <span class="n">t</span> <span class="n">value</span> <span class="n">Pr</span><span class="p">(</span><span class="o">&gt;|</span><span class="n">t</span><span class="o">|</span><span class="p">)</span>
+<span class="p">(</span><span class="n">Intercept</span><span class="p">)</span>   <span class="mf">3.27827</span>   <span class="mf">2.55795</span>  <span class="mf">1.2816</span>   <span class="mf">0.2562</span>
+
+<span class="n">Log</span> <span class="n">Likelihood</span><span class="o">:</span> <span class="o">-</span><span class="mf">14.1557978601</span>
+<span class="n">AIC</span><span class="o">:</span> <span class="mf">32.3115957201</span>
+
+
+<span class="n">julia</span><span class="o">&gt;</span> <span class="n">ftest</span><span class="p">(</span><span class="n">fit_sh</span><span class="p">,</span> <span class="n">fit_null</span><span class="p">)</span>                                      <span class="c"># nested models, from more complex to most simple</span>
+        <span class="n">Res</span><span class="o">.</span> <span class="n">DOF</span> <span class="n">DOF</span> <span class="n">ΔDOF</span>    <span class="n">SSR</span>    <span class="n">ΔSSR</span>     <span class="n">R²</span>    <span class="n">ΔR²</span>      <span class="n">F</span><span class="o">*</span>  <span class="n">p</span><span class="p">(</span><span class="o">&gt;</span><span class="n">F</span><span class="p">)</span>
+<span class="n">Model</span> <span class="mi">1</span>        <span class="mi">4</span>   <span class="mi">3</span>      <span class="mf">2.0874</span>         <span class="mf">0.8143</span>                      
+<span class="n">Model</span> <span class="mi">2</span>        <span class="mi">5</span>   <span class="mi">2</span>   <span class="o">-</span><span class="mi">1</span> <span class="mf">8.6247</span> <span class="o">-</span><span class="mf">6.5373</span> <span class="mf">0.2327</span> <span class="mf">0.5816</span> <span class="mf">12.5272</span> <span class="mf">0.0240</span>
 </pre></div>
 
 
