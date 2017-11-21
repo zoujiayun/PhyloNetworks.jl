@@ -443,8 +443,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#shifts-and-heterosis" title="Shifts and Heterosis" class="md-nav__link">
-    Shifts and Heterosis
+  <a href="#shifts-and-transgressive-evolution" title="Shifts and transgressive evolution" class="md-nav__link">
+    Shifts and transgressive evolution
   </a>
   
     <nav class="md-nav">
@@ -621,8 +621,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#shifts-and-heterosis" title="Shifts and Heterosis" class="md-nav__link">
-    Shifts and Heterosis
+  <a href="#shifts-and-transgressive-evolution" title="Shifts and transgressive evolution" class="md-nav__link">
+    Shifts and transgressive evolution
   </a>
   
     <nav class="md-nav">
@@ -902,7 +902,7 @@
 <p><a id='Phylogenetic-ANOVA-1'></a></p>
 <h2 id="phylogenetic-anova">Phylogenetic ANOVA</h2>
 <p>As mentioned above, the <a href="../../lib/public/#PhyloNetworks.phyloNetworklm"><code>phyloNetworklm</code></a> function is based on the <code>lm</code> function from <a href="https://github.com/JuliaStats/GLM.jl">GLM</a>. This means that it inherits from most of its features, and in particular, it can handle formulas with factors or interactions. For example, in lizards, we might want to do a regression of toe length against body length and the region where each species is found, where this region is coded into 4 categories (say). We might also want to include an interaction effect between body length and region. (This model has no biological basis. It is just meant to show the possibilities of the function).</p>
-<p>To illustrate the use of categorical predictors of particular interest in a network with reticulations, let's assume that some heterosis took place after the hybridization event, so that tips "A" and "B" have larger mean compared to the others.</p>
+<p>To illustrate the use of categorical predictors of particular interest in a network with reticulations, let's assume that some transgressive evolution took place after the hybridization event, so that tips "A" and "B" have larger mean compared to the others.</p>
 <div class="codehilite"><pre><span></span><span class="n">delta</span> <span class="o">=</span> <span class="mf">5.0</span><span class="p">;</span> <span class="c"># value of heterosis</span>
 <span class="n">underHyb</span> <span class="o">=</span> <span class="p">[(</span><span class="n">n</span> <span class="o">==</span> <span class="s">&quot;A&quot;</span> <span class="o">||</span> <span class="n">n</span> <span class="o">==</span> <span class="s">&quot;B&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="kp">in</span> <span class="n">tipLabels</span><span class="p">(</span><span class="n">sim1</span><span class="p">)]</span> <span class="c"># tips under hybrid</span>
 <span class="n">underHyb</span>
@@ -966,8 +966,8 @@
 </pre></div>
 
 
-<p>In this case, the categorical variable indicating which tips are descendants of the reticulation event is indeed relevant, and the heterosis effect is recovered.</p>
-<p>This is a very simple example of how to include heterosis, but some general functions to test for it, on networks with more than on hybrid, are also available.</p>
+<p>In this case, the categorical variable indicating which tips are descendants of the reticulation event is indeed relevant, and the transgressive evolution effect is recovered.</p>
+<p>This is a very simple example of how to include transgressive evolution, but some general functions to test for it, on networks with more than on hybrid, are also available.</p>
 <p><a id='Pagel's-Lambda-1'></a></p>
 <h2 id="pagels-lambda">Pagel's Lambda</h2>
 <p>One classical question about trait evolution is the amount of "phylogenetic signal" in a dataset, that is, the importance of the tree structure to explain variation in the observed traits. One way of doing measuring that is to use Pagel's lambda<sup id="fnref:fn3"><a class="footnote-ref" href="#fn:fn3" rel="footnote">1</a></sup> transformation of the branch lengths. This model assumes a BM on a tree where the internal branches are multiplied by a factor λ, while the external branches are modified so that the total height of the tree is constant. Hence, λ varies between 0 (the tree has no influence on the data) and 1 (the tree is unchanged). Using the same branch length transformations, this model can be straightforwardly extended to phylogenetic networks.</p>
@@ -978,13 +978,13 @@
 
 <p>As it is indeed generated according to a plain BM on the phylogeny, the estimated λ should be close to 1. It can be extracted with function <code>lambda_estim</code>:</p>
 <div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">lambda_estim</span><span class="p">(</span><span class="n">fitPagel</span><span class="p">)</span>
-<span class="mf">0.9073561228984233</span>
+<span class="mf">0.9073561228997326</span>
 </pre></div>
 
 
-<p><a id='Shifts-and-Heterosis-1'></a></p>
-<h2 id="shifts-and-heterosis">Shifts and Heterosis</h2>
-<p>In the ANOVA section above, we showed how to include heterosis in a simple case. In general, heterosis can be seen as a particuliar exemple of a <em>shifted BM</em> on  the phylogenetic network.</p>
+<p><a id='Shifts-and-transgressive-evolution-1'></a></p>
+<h2 id="shifts-and-transgressive-evolution">Shifts and transgressive evolution</h2>
+<p>In the ANOVA section above, we showed how to include transgressive evolution in a simple case. In general, transgressive evolution can be seen as a particuliar exemple of a <em>shifted BM</em> on the phylogenetic network.</p>
 <p><a id='Simulation-of-a-Shifted-BM-1'></a></p>
 <h3 id="simulation-of-a-shifted-bm">Simulation of a Shifted BM</h3>
 <p>In a shifted BM, the trait evolves as a BM on the network most of the time, but <em>shifts</em> on some of the branches. The positions and values of the shifts can be stored in a <a href="../../lib/public/#PhyloNetworks.ShiftNet"><code>ShiftNet</code></a> object. For identifiability reasons, shifts are only allowed on tree-like branches. The position of the shifts can be given using vector of edges. To see this, let's first plot the network with its associated edges and node numbers.</p>
@@ -993,7 +993,7 @@
 
 
 <p><img alt="" src="../../assets/figures/trait_tree_truenet_with_numbers_1.png" /></p>
-<p>Let's say that we want to add a shift with value 5.0 on the branch directly following the hybridization event, in order to model heterosis. We can see on the plot above that this branch is number 6, so we define the following object:</p>
+<p>Let's say that we want to add a shift with value 5.0 on the branch directly following the hybridization event, in order to model transgressive evolution. We can see on the plot above that this branch is number 6, so we define the following object:</p>
 <div class="codehilite"><pre><span></span><span class="n">shift</span> <span class="o">=</span> <span class="n">ShiftNet</span><span class="p">(</span><span class="n">truenet</span><span class="o">.</span><span class="n">edge</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="mf">5.0</span><span class="p">,</span>  <span class="n">truenet</span><span class="p">)</span>
 </pre></div>
 
@@ -1058,7 +1058,7 @@ AIC: 25.7992994631
 </pre></div>
 
 
-<p>Here, because there is only one hybrid in the network, we can directly see whether the ancestral heterosis is significant or not thanks to the  Student test on the coefficient associated with <code>shift_6</code>. In more complex cases, it is possible to do a Fisher test, thanks to the <code>GLM</code> function <code>ftest</code>.</p>
+<p>Here, because there is only one hybrid in the network, we can directly see whether the ancestral transgressive evolution is significant or not thanks to the Student test on the coefficient associated with <code>shift_6</code>. In more complex cases, it is possible to do a Fisher test, thanks to the <code>GLM</code> function <code>ftest</code>.</p>
 <div class="codehilite"><pre><span></span><span class="n">fit_null</span> <span class="o">=</span> <span class="n">phyloNetworklm</span><span class="p">(</span><span class="nd">@formula</span><span class="p">(</span><span class="n">trait</span> <span class="o">~</span> <span class="mi">1</span><span class="p">),</span> <span class="n">dat</span><span class="p">,</span> <span class="n">truenet</span><span class="p">)</span> <span class="c"># fit against the null (no shift)</span>
 <span class="n">ftest</span><span class="p">(</span><span class="n">fit_sh</span><span class="p">,</span> <span class="n">fit_null</span><span class="p">)</span>                                      <span class="c"># nested models, from more complex to most simple</span>
 </pre></div>

@@ -672,12 +672,19 @@ with -loglik 53.53150526187732
 
 <p><a id='parallel-computation-1'></a></p>
 <h2 id="parallel-computation">parallel computation</h2>
-<p>For network estimation, multiple runs can done in parallel. For example, if your machine has 4 or more processors (or cores), you can tell julia to use 4 processors like this below.</p>
+<p>For network estimation, multiple runs can done in parallel. For example, if your machine has 4 or more processors (or cores), you can tell julia to use 4 processors by starting julia with <code>julia -p 4</code>, or by starting julia the usual way (<code>julia</code>) and then adding processors with:</p>
 <div class="codehilite"><pre><span></span><span class="n">addprocs</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 </pre></div>
 
 
-<p>After that, running any of the <code>snaq!(...)</code> command above will use different cores for different runs, as processors become available. Fewer details are printed to the log file when multiple cores are used in parallel. You may tell julia to add more processors than your machine has, but you will not receive any performance benefits.</p>
+<p>If we load a package (<code>using PhyloNetworks</code>) before adding processors, then we need to re-load it again so that all processors have access to it:</p>
+<div class="codehilite"><pre><span></span><span class="nd">@everywhere</span> <span class="k">using</span> <span class="n">PhyloNetworks</span>
+</pre></div>
+
+
+<p>After that, running any of the <code>snaq!(...)</code> command will use different cores for different runs, as processors become available. Fewer details are printed to the log file when multiple cores are used in parallel.</p>
+<p>When running <code>bootsnaq</code>, the analysis of each bootstrap replicate will use multiple cores to parallelize separate runs of that particular bootstrap replicate. You may parallelize things further by running <code>bootsnaq</code> multiple times (on separate machines for instance), each time for a small subset of bootstrap replicates, and with a different seed each time.</p>
+<p>You may tell julia to add more processors than your machine has, but you will not receive any performance benefits. At any time during the julia session, <code>nworkers()</code> tells us how many worker processors julia has access to.</p>
 <p><a id='choosing-the-number-of-hybridizations-1'></a></p>
 <h2 id="choosing-the-number-of-hybridizations">choosing the number of hybridizations</h2>
 <p>Each network has a <code>loglik</code> attribute, which is its pseudo deviance: twice the negative log-likelihood up to a constant (the constant is such that the score is 0 if the network fits the data perfectly). The lower the better. We can plot these scores across hybrid values:</p>
