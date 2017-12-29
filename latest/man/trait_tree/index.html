@@ -32,7 +32,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-0.17.2, mkdocs-material-2.2.1">
+      <meta name="generator" content="mkdocs-0.17.2, mkdocs-material-2.2.6">
     
     
       
@@ -40,7 +40,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/application.41c6761c.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/application.6525f7f6.css">
       
     
     
@@ -676,7 +676,7 @@
 </pre></div>
 
 
-<p><img alt="" src="../../assets/figures/trait_tree_truenet_1.png" /> <img alt="" src="../../assets/figures/trait_tree_truenet_2.png" /></p>
+<p><img alt="" src="../../assets/figures/trait_tree_truenet_1.png" /></p>
 <p><a id='Trait-simulation-1'></a></p>
 <h2 id="trait-simulation">Trait simulation</h2>
 <p>We start by generating continuous traits to study. We simulate three traits on the network (two independent, one dependent), using a Brownian Motion (BM) model of trait evolution on the network. We start by choosing the parameters of the BM (ancestral mean and variance), by creating objects of class <a href="../../lib/public/#PhyloNetworks.ParamsBM"><code>ParamsBM</code></a><code>&lt;:ParamsProcess</code>.</p>
@@ -816,13 +816,13 @@
 </pre></div>
 
 
-<p><img alt="" src="../../assets/figures/trait_tree_ancestral_expe_1.png" /> <img alt="" src="../../assets/figures/trait_tree_ancestral_expe_2.png" /></p>
+<p><img alt="" src="../../assets/figures/trait_tree_ancestral_expe_1.png" /></p>
 <div class="codehilite"><pre><span></span><span class="n">ancInt</span> <span class="o">=</span> <span class="n">predintPlot</span><span class="p">(</span><span class="n">ancTrait1</span><span class="p">)</span> <span class="c"># format the prediction intervals for the plot</span>
 <span class="n">plot</span><span class="p">(</span><span class="n">truenet</span><span class="p">,</span> <span class="n">nodeLabel</span> <span class="o">=</span> <span class="n">ancInt</span><span class="p">)</span>
 </pre></div>
 
 
-<p><img alt="" src="../../assets/figures/trait_tree_ancestral_predint_1.png" /> <img alt="" src="../../assets/figures/trait_tree_ancestral_predint_2.png" /></p>
+<p><img alt="" src="../../assets/figures/trait_tree_ancestral_predint_1.png" /></p>
 <p>The <code>predint</code> and <code>predintPlot</code> functions have an optional argument to state the <code>level</code> of the prediction interval. If not given, the default value is 0.95.</p>
 <p>It is also possible to plot both the reconstructed state and the predicted value on the same plot, using the optional keywork argument <code>withExp</code>. As shown below, we could also use the <code>:RCall</code> method from the <a href="../../lib/public/#Gadfly.plot-Tuple{PhyloNetworks.HybridNetwork}"><code>plot</code></a> function.</p>
 <div class="codehilite"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">truenet</span><span class="p">,</span> <span class="o">:</span><span class="n">RCall</span><span class="p">,</span> <span class="n">nodeLabel</span> <span class="o">=</span> <span class="n">predintPlot</span><span class="p">(</span><span class="n">ancTrait1</span><span class="p">,</span> <span class="n">withExp</span><span class="o">=</span><span class="kc">true</span><span class="p">))</span>
@@ -864,7 +864,7 @@
 </pre></div>
 
 
-<p><img alt="" src="../../assets/figures/trait_tree_ancestral1_1.png" /> <img alt="" src="../../assets/figures/trait_tree_ancestral1_2.png" /></p>
+<p><img alt="" src="../../assets/figures/trait_tree_ancestral1_1.png" /></p>
 <p>For convenience, the two steps described above (fitting against the intercept, and then do ancestral state reconstruction) can be done all at once with a single call of the function <a href="../../lib/public/#PhyloNetworks.ancestralStateReconstruction"><code>ancestralStateReconstruction</code></a> on a DataFrame with the trait to reconstruct, and the tip labels:</p>
 <div class="codehilite"><pre><span></span><span class="n">datTrait1</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">trait1</span> <span class="o">=</span> <span class="n">trait1</span><span class="p">,</span> <span class="n">tipNames</span> <span class="o">=</span> <span class="n">tipLabels</span><span class="p">(</span><span class="n">sim1</span><span class="p">))</span>
 <span class="n">ancTrait1Approx</span> <span class="o">=</span> <span class="n">ancestralStateReconstruction</span><span class="p">(</span><span class="n">datTrait1</span><span class="p">,</span> <span class="n">truenet</span><span class="p">)</span>
@@ -872,7 +872,7 @@
 </pre></div>
 
 
-<p><img alt="" src="../../assets/figures/trait_tree_ancestral2_1.png" /> <img alt="" src="../../assets/figures/trait_tree_ancestral2_2.png" /></p>
+<p><img alt="" src="../../assets/figures/trait_tree_ancestral2_1.png" /></p>
 <p>This produces the exact same results. Here, we chose a <code>level</code> of 90% for the plotted prediction intervals.</p>
 <p><a id='Data-imputation-1'></a></p>
 <h3 id="data-imputation">Data imputation</h3>
@@ -883,7 +883,7 @@
 </pre></div>
 
 
-<p><img alt="" src="../../assets/figures/trait_tree_ancestral3_1.png" /> <img alt="" src="../../assets/figures/trait_tree_ancestral3_2.png" /></p>
+<p><img alt="" src="../../assets/figures/trait_tree_ancestral3_1.png" /></p>
 <p>In the plotting function, a prediction interval is shown for the missing values.</p>
 <p><a id='With-known-predictors-1'></a></p>
 <h3 id="with-known-predictors">With known predictors</h3>
@@ -900,7 +900,7 @@
 </pre></div>
 
 
-<p><img alt="" src="../../assets/figures/trait_tree_ancestral4_1.png" /> <img alt="" src="../../assets/figures/trait_tree_ancestral4_2.png" /></p>
+<p><img alt="" src="../../assets/figures/trait_tree_ancestral4_1.png" /></p>
 <p>where we provided the ancestral predictors as a matrix, containing the intercept, and the known predictor at the nodes. The user must be very careful with this function, as no check is done for the order of the predictors, that must be in the same order as the internal nodes of the phylogeny. As ancestral predictors are often unknown, the use of this functionality is discouraged.</p>
 <p><a id='Phylogenetic-ANOVA-1'></a></p>
 <h2 id="phylogenetic-anova">Phylogenetic ANOVA</h2>
@@ -995,7 +995,7 @@
 </pre></div>
 
 
-<p><img alt="" src="../../assets/figures/trait_tree_truenet_with_numbers_1.png" /> <img alt="" src="../../assets/figures/trait_tree_truenet_with_numbers_2.png" /></p>
+<p><img alt="" src="../../assets/figures/trait_tree_truenet_with_numbers_1.png" /></p>
 <p>Let's say that we want to add a shift with value 5.0 on the branch directly following the hybridization event, in order to model transgressive evolution. We can see on the plot above that this branch is number 6, so we define the following object:</p>
 <div class="codehilite"><pre><span></span><span class="n">shift</span> <span class="o">=</span> <span class="n">ShiftNet</span><span class="p">(</span><span class="n">truenet</span><span class="o">.</span><span class="n">edge</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="mf">5.0</span><span class="p">,</span>  <span class="n">truenet</span><span class="p">)</span>
 </pre></div>
@@ -1165,7 +1165,7 @@ AIC: 25.7992994631
       
     </div>
     
-      <script src="../../assets/javascripts/application.6cdc17f0.js"></script>
+      <script src="../../assets/javascripts/application.cae2244d.js"></script>
       
       <script>app.initialize({version:"0.17.2",url:{base:"../.."}})</script>
       

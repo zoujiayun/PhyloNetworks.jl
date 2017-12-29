@@ -32,7 +32,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-0.17.2, mkdocs-material-2.2.1">
+      <meta name="generator" content="mkdocs-0.17.2, mkdocs-material-2.2.6">
     
     
       
@@ -40,7 +40,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/application.41c6761c.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/application.6525f7f6.css">
       
     
     
@@ -575,7 +575,7 @@
 </pre></div>
 
 
-<p><img alt="" src="../../assets/figures/dist_reroot_net0_O_1.png" /> <img alt="" src="../../assets/figures/dist_reroot_net0_O_2.png" /></p>
+<p><img alt="" src="../../assets/figures/dist_reroot_net0_O_1.png" /></p>
 <p>After trees/networks are rooted with a correct outgroup, their visualization is more meaningful.</p>
 <p>With 1 or more hybridization, the direction of hybrid edges constrain the position of the root, which cannot be downstream of hybrid edges. An attempt to re-root the network at a position incompatible with hybrid edges will fail.</p>
 <p>Networks can be re-rooted at a given node or along a given edge. Get help (type <code>?</code>) on the functions <code>rootatnode!</code> and <code>rootonedge!</code> for more info. There are examples in the <a href="../bootstrap/#Bootstrap-1">Bootstrap</a> section.</p>
@@ -593,7 +593,7 @@
 </pre></div>
 
 
-<p><img alt="" src="../../assets/figures/dist_reroot_net1_O_1.png" /> <img alt="" src="../../assets/figures/dist_reroot_net1_O_2.png" /></p>
+<p><img alt="" src="../../assets/figures/dist_reroot_net1_O_1.png" /></p>
 <p>They differ by 2 clusters: that's because A is of hybrid descent in net1, not in net0.</p>
 <p>To beyond this hybrid difference, we can extract the major tree from the network with 1 hybridization, that is, delete the hybrid edge supported by less than 50% of genes. Then we can compare this tree with the ASTRAL/SNaQ tree net0.</p>
 <div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">tree1</span> <span class="o">=</span> <span class="n">majorTree</span><span class="p">(</span><span class="n">net1</span><span class="p">);</span> <span class="c"># major tree from net1</span>
@@ -612,7 +612,7 @@
 </pre></div>
 
 
-<p><img alt="" src="../../assets/figures/dist_reroot_truenet_1.png" /> <img alt="" src="../../assets/figures/dist_reroot_truenet_2.png" /></p>
+<p><img alt="" src="../../assets/figures/dist_reroot_truenet_1.png" /></p>
 <div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">hardwiredClusterDistance</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span> <span class="n">truenet</span><span class="p">,</span> <span class="kc">true</span><span class="p">)</span>
 <span class="mi">4</span>
 </pre></div>
@@ -752,7 +752,7 @@
       
     </div>
     
-      <script src="../../assets/javascripts/application.6cdc17f0.js"></script>
+      <script src="../../assets/javascripts/application.cae2244d.js"></script>
       
       <script>app.initialize({version:"0.17.2",url:{base:"../.."}})</script>
       
