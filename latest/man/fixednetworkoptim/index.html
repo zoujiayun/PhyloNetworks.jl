@@ -564,7 +564,7 @@
 </pre></div>
 
 
-<p><img alt="truenet_opt" src="../../../assets/figures/fixednetworkoptim_truenet_opt_1.png" /></p>
+<p><img alt="truenet_opt" src="../../assets/figures/fixednetworkoptim_truenet_opt_1.png" /></p>
 <p>We get a score of 29.941, which is comparable to the score of the SNaQ network (net1: 28.315), especially compared to the score of the best tree (net0: 53.532). This begs the question: is the true network within the "range" of uncertainty? We can run a <a href="../bootstrap/#Bootstrap-1">Bootstrap</a> analysis to measure uncertainty in our network inference.</p>
 <p>For a more thorough optimization, we may increase the requirements before the search stops (but the optimization will take longer). It makes no difference on this small data set.</p>
 <div class="codehilite"><pre><span></span><span class="n">net1par</span> <span class="o">=</span> <span class="n">topologyMaxQPseudolik!</span><span class="p">(</span><span class="n">truenet</span><span class="p">,</span> <span class="n">raxmlCF</span><span class="p">,</span> <span class="n">ftolRel</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">,</span> <span class="n">xtolAbs</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">)</span>

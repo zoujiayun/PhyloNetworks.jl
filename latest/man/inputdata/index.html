@@ -597,7 +597,7 @@
 </pre></div>
 
 
-<p><img alt="gene3" src="../../../assets/figures/inputdata_gene3_1.png" /></p>
+<p><img alt="gene3" src="../../assets/figures/inputdata_gene3_1.png" /></p>
 <p>To read in all gene trees and directly summarize them by a list of quartet CFs (proportion of input trees with a given quartet):</p>
 <div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">raxmlCF</span> <span class="o">=</span> <span class="n">readTrees2CF</span><span class="p">(</span><span class="n">raxmltrees</span><span class="p">,</span> <span class="n">CFfile</span><span class="o">=</span><span class="s">&quot;tableCF.txt&quot;</span><span class="p">)</span>
 <span class="n">will</span> <span class="n">use</span> <span class="n">all</span> <span class="n">quartets</span> <span class="n">on</span> <span class="mi">6</span> <span class="n">taxa</span>
@@ -738,7 +738,7 @@
 </pre></div>
 
 
-<p><img alt="astraltree" src="../../../assets/figures/inputdata_astraltree_1.png" /></p>
+<p><img alt="astraltree" src="../../assets/figures/inputdata_astraltree_1.png" /></p>
 <p>To start its search, SNaQ will need a network of "level 1". All trees and all networks with 1 hybridization are of level 1. To make sure that a network with 2 or more hybridizations is of level 1, we can read it in with <code>readTopologyLevel1</code> (which also unroots the tree, resolves polytomies, replaces missing branch lengths by 1 for starting values etc.):</p>
 <div class="codehilite"><pre><span></span><span class="n">T</span><span class="o">=</span><span class="n">readTopologyLevel1</span><span class="p">(</span><span class="s">&quot;startNetwork.txt&quot;</span><span class="p">)</span>
 </pre></div>
