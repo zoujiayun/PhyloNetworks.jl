@@ -833,14 +833,9 @@
 <span class="n">julia</span><span class="o">&gt;</span> <span class="k">using</span> <span class="n">StatsBase</span> <span class="c"># for stderr(), aic(), likelihood() etc.</span>
 
 <span class="n">julia</span><span class="o">&gt;</span> <span class="n">stderr</span><span class="p">(</span><span class="n">ancTrait1</span><span class="p">)</span> <span class="c"># associated standard errors</span>
-<span class="mi">7</span><span class="o">-</span><span class="n">element</span> <span class="kt">Array</span><span class="p">{</span><span class="kt">Float64</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span><span class="o">:</span>
- <span class="mf">0.312339</span>
- <span class="mf">0.429933</span>
- <span class="mf">0.812157</span>
- <span class="mf">0.985996</span>
- <span class="mf">1.00992</span> 
- <span class="mf">0.807042</span>
- <span class="mf">0.0</span>     
+<span class="n">Error</span><span class="o">:</span> <span class="kt">MethodError</span><span class="o">:</span> <span class="n">no</span> <span class="n">method</span> <span class="n">matching</span> <span class="n">stderr</span><span class="p">(</span><span class="o">::</span><span class="n">PhyloNetworks</span><span class="o">.</span><span class="n">ReconstructedStates</span><span class="p">)</span>
+<span class="n">Closest</span> <span class="n">candidates</span> <span class="n">are</span><span class="o">:</span>
+  <span class="n">stderr</span><span class="p">(</span><span class="o">!</span><span class="n">Matched</span><span class="o">::</span><span class="n">StatsBase</span><span class="o">.</span><span class="n">StatisticalModel</span><span class="p">)</span> <span class="n">at</span> <span class="n">deprecated</span><span class="o">.</span><span class="n">jl</span><span class="o">:</span><span class="mi">56</span>
 
 <span class="n">julia</span><span class="o">&gt;</span> <span class="n">predint</span><span class="p">(</span><span class="n">ancTrait1</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span> <span class="c"># prediction interval (with level 90%)</span>
 <span class="mi">13</span><span class="n">×2</span> <span class="kt">Array</span><span class="p">{</span><span class="kt">Float64</span><span class="p">,</span><span class="mi">2</span><span class="p">}</span><span class="o">:</span>
