@@ -599,10 +599,8 @@
 
 <p>WARNING: It is important to update the package regularly as it is undergoing constant development. Join the google group for updates <a href="https://groups.google.com/forum/#!forum/phylonetworks-users/new">here</a>.</p>
 <p><code>Pkg.update()</code> will install the latest registered version, but there could be other improvements in the <code>master</code> branch of the repository. If you want to update to the latest unregistered version of the package, you can do <code>Pkg.checkout("PhyloNetworks")</code> just beware that the latest changes could be not as robust. If you want to go back to the registered package, you can do <code>Pkg.free("PhyloNetworks")</code>.</p>
-<p>Similarly, you can pin a version of the package <code>Pkg.pin("PhyloNetworks")</code> so that <code>Pkg.update()</code> will not modify it. You can always free a pinned package with <code>Pkg.free("PhyloNetworks")</code>. More on checked and pinned packages <a href="http://docs.julialang.org/en/release-0.4/manual/packages/">here</a>.</p>
-<!– If, for some reason, the *Pkg.update* function does not update to the latest version, users can do the following through the terminal:     cd HOME/.julia/v0.4/PhyloNetworks/     git pull where HOME is replaced by your home directory. –>
-
-<p>The PhyloNetworks package has dependencies like NLopt and <a href="http://juliadata.github.io/DataFrames.jl/stable/">DataFrames</a> (see the REQUIRE file for the full list), but everything is installed automatically.</p>
+<p>Similarly, you can pin a version of the package <code>Pkg.pin("PhyloNetworks")</code> so that <code>Pkg.update()</code> will not modify it. You can always free a pinned package with <code>Pkg.free("PhyloNetworks")</code>. More on checked and pinned packages <a href="http://docs.julialang.org/en/stable/manual/packages/">here</a>.</p>
+<p>The PhyloNetworks package has dependencies like <a href="https://github.com/JuliaOpt/NLopt.jl">NLopt</a> and <a href="http://juliadata.github.io/DataFrames.jl/stable/">DataFrames</a> (see the REQUIRE file for the full list), but everything is installed automatically.</p>
 <p>The companion package <a href="https://github.com/cecileane/PhyloPlots.jl">PhyloPlots</a> has utilities to visualize networks, and for interoperability, such as to export networks to R (which can then be plotted via R). To install:</p>
 <div class="codehilite"><pre><span></span><span class="n">Pkg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">&quot;PhyloPlots&quot;</span><span class="p">)</span>
 </pre></div>
@@ -617,12 +615,10 @@
 
 
 <p>This step can also take a while, if Julia needs to pre-compile the code (after a package update for instance). Here is a very small test for the installation of PhyloNetworks.</p>
-<div class="codehilite"><pre><span></span><span class="n">net</span> <span class="o">=</span> <span class="n">readTopology</span><span class="p">(</span><span class="s">&quot;(A,(B,(C,D)));&quot;</span><span class="p">);</span>
-<span class="n">tipLabels</span><span class="p">(</span><span class="n">net</span><span class="p">)</span>
-</pre></div>
+<div class="codehilite"><pre><span></span>julia&gt; net = readTopology(&quot;(A,(B,(C,D)));&quot;);
 
-
-<div class="codehilite"><pre><span></span>4-element Array{String,1}:
+julia&gt; tipLabels(net)
+4-element Array{String,1}:
  &quot;A&quot;
  &quot;B&quot;
  &quot;C&quot;
@@ -638,101 +634,103 @@
 <p>and press <code>?</code> inside Julia to switch to help mode, followed by the name of a function (or type) to get more details about it.</p>
 <p><a id='Julia-types-1'></a></p>
 <h2 id="julia-types">Julia types</h2>
-<p>Objects in Julia are called <em>types</em>. We show here small example on how to get more info on an object, what's its type, and how to manipulate objects. For example, let's take an object <code>raxmlCF</code> created from reading in some data (see <a href="../inputdata/#Input-for-SNaQ-1">Input for SNaQ</a>):</p>
-<div class="codehilite"><pre><span></span><span class="n">raxmltrees</span> <span class="o">=</span> <span class="n">joinpath</span><span class="p">(</span><span class="n">Pkg</span><span class="o">.</span><span class="n">dir</span><span class="p">(</span><span class="s">&quot;PhyloNetworks&quot;</span><span class="p">),</span><span class="s">&quot;examples&quot;</span><span class="p">,</span><span class="s">&quot;raxmltrees.tre&quot;</span><span class="p">)</span>
-<span class="n">raxmlCF</span> <span class="o">=</span> <span class="n">readTrees2CF</span><span class="p">(</span><span class="n">raxmltrees</span><span class="p">);</span>
+<p>Each object in Julia has a <em>type</em>. We show here small examples on how to get more info on an object, what's its type, and how to manipulate objects. For example, let's take an object <code>raxmlCF</code> created from reading in some data (see <a href="../inputdata/#Input-for-SNaQ-1">Input for SNaQ</a>):</p>
+<div class="codehilite"><pre><span></span>julia&gt; raxmltrees = joinpath(Pkg.dir(&quot;PhyloNetworks&quot;),&quot;examples&quot;,&quot;raxmltrees.tre&quot;);
+
+julia&gt; raxmlCF = readTrees2CF(raxmltrees);
+will use all quartets on 6 taxa
+calculating obsCF from 30 gene trees and for 15 quartets
+Reading in quartets...
+0+---------------+100%  
+  ***************  
+table of obsCF printed to file tableCF.txt
+descriptive stat of input data printed to file summaryTreesQuartets.txt
 </pre></div>
 
 
 <p>Typing <code>whos()</code> will provide a list of objects and packages in memory, including <code>raxmlCF</code> that we just created. If we want to know the type of a particular object, we do:</p>
-<div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">typeof</span><span class="p">(</span><span class="n">raxmlCF</span><span class="p">)</span>
-<span class="n">PhyloNetworks</span><span class="o">.</span><span class="n">DataCF</span>
+<div class="codehilite"><pre><span></span>julia&gt; typeof(raxmlCF)
+PhyloNetworks.DataCF
 </pre></div>
 
 
 <p>which shows us that <code>raxmlCF</code> is of type <code>DataCF</code>. If we want to know about the attributes the object has, we can type <code>?</code> in Julia, followed by <code>DataCF</code> for a description. We can also ask for a list of all its attributes with</p>
-<div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">fieldnames</span><span class="p">(</span><span class="n">raxmlCF</span><span class="p">)</span>
-<span class="mi">5</span><span class="o">-</span><span class="n">element</span> <span class="kt">Array</span><span class="p">{</span><span class="kt">Symbol</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span><span class="o">:</span>
- <span class="o">:</span><span class="n">quartet</span>    
- <span class="o">:</span><span class="n">numQuartets</span>
- <span class="o">:</span><span class="n">tree</span>       
- <span class="o">:</span><span class="n">numTrees</span>   
- <span class="o">:</span><span class="n">repSpecies</span> 
+<div class="codehilite"><pre><span></span>julia&gt; fieldnames(raxmlCF)
+5-element Array{Symbol,1}:
+ :quartet
+ :numQuartets
+ :tree
+ :numTrees
+ :repSpecies
 </pre></div>
 
 
 <p>For example, we see that one attribute is <code>numQuartets</code>: its the number of 4-taxon subsets in the data. To see what this number is:</p>
-<div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">raxmlCF</span><span class="o">.</span><span class="n">numQuartets</span>
-<span class="mi">15</span>
+<div class="codehilite"><pre><span></span>julia&gt; raxmlCF.numQuartets
+15
 </pre></div>
 
 
 <p>We also noticed an attribute <code>quartet</code>. It is a vector of Quartet objects inside <code>raxmlCF</code>, so</p>
-<div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">raxmlCF</span><span class="o">.</span><span class="n">quartet</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">taxon</span>
-<span class="mi">4</span><span class="o">-</span><span class="n">element</span> <span class="kt">Array</span><span class="p">{</span><span class="n">String</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span><span class="o">:</span>
- <span class="s">&quot;A&quot;</span>
- <span class="s">&quot;B&quot;</span>
- <span class="s">&quot;C&quot;</span>
- <span class="s">&quot;E&quot;</span>
+<div class="codehilite"><pre><span></span>julia&gt; raxmlCF.quartet[2].taxon
+4-element Array{String,1}:
+ &quot;A&quot;
+ &quot;B&quot;
+ &quot;C&quot;
+ &quot;E&quot;
 </pre></div>
 
 
 <p>will provide the list of taxon names for the second 4-taxon subset in the data. To see the observed CF, we can type</p>
-<div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">raxmlCF</span><span class="o">.</span><span class="n">quartet</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">obsCF</span>
-<span class="mi">3</span><span class="o">-</span><span class="n">element</span> <span class="kt">Array</span><span class="p">{</span><span class="kt">Float64</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span><span class="o">:</span>
- <span class="mf">0.833333</span> 
- <span class="mf">0.0333333</span>
- <span class="mf">0.133333</span> 
+<div class="codehilite"><pre><span></span>julia&gt; raxmlCF.quartet[2].obsCF
+3-element Array{Float64,1}:
+ 0.833333
+ 0.0333333
+ 0.133333
 </pre></div>
 
 
 <p>We can verify the type with</p>
-<div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">typeof</span><span class="p">(</span><span class="n">raxmlCF</span><span class="o">.</span><span class="n">quartet</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
-<span class="n">PhyloNetworks</span><span class="o">.</span><span class="n">Quartet</span>
+<div class="codehilite"><pre><span></span>julia&gt; typeof(raxmlCF.quartet[2])
+PhyloNetworks.Quartet
 </pre></div>
 
 
 <p>We can also read a simple network in Julia and print the list of edges</p>
-<div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">str</span> <span class="o">=</span> <span class="s">&quot;(A,((B,#H1),(C,(D)#H1)));&quot;</span><span class="p">;</span>
+<div class="codehilite"><pre><span></span>julia&gt; str = &quot;(A,((B,#H1),(C,(D)#H1)));&quot;;
 
-<span class="n">julia</span><span class="o">&gt;</span> <span class="n">net</span> <span class="o">=</span> <span class="n">readTopology</span><span class="p">(</span><span class="n">str</span><span class="p">)</span>
-<span class="n">PhyloNetworks</span><span class="o">.</span><span class="n">HybridNetwork</span><span class="p">,</span> <span class="n">Rooted</span> <span class="n">Network</span>
-<span class="mi">9</span> <span class="n">edges</span>
-<span class="mi">9</span> <span class="n">nodes</span><span class="o">:</span> <span class="mi">4</span> <span class="n">tips</span><span class="p">,</span> <span class="mi">1</span> <span class="n">hybrid</span> <span class="n">nodes</span><span class="p">,</span> <span class="mi">4</span> <span class="n">internal</span> <span class="n">tree</span> <span class="n">nodes</span><span class="o">.</span>
-<span class="n">tip</span> <span class="n">labels</span><span class="o">:</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">D</span>
-<span class="p">(</span><span class="n">A</span><span class="p">,((</span><span class="n">B</span><span class="p">,</span><span class="c">#H1),(C,(D)#H1)));</span>
+julia&gt; net = readTopology(str);
 
-
-<span class="n">julia</span><span class="o">&gt;</span> <span class="n">printEdges</span><span class="p">(</span><span class="n">net</span><span class="p">)</span>
-<span class="n">Edge</span>    <span class="n">Node1</span>   <span class="n">Node2</span>   <span class="n">InCycle</span> <span class="n">containRoot</span> <span class="n">istIdentitiable</span> <span class="n">Length</span>  <span class="n">isHybrid</span>    <span class="n">Gamma</span>   <span class="n">isMajor</span>
-<span class="mi">1</span>   <span class="mi">1</span>   <span class="o">-</span><span class="mi">2</span>  <span class="o">-</span><span class="mi">1</span>  <span class="kc">true</span>        <span class="kc">false</span>       <span class="n">NA</span>  <span class="kc">false</span>       <span class="mf">1.0</span> <span class="kc">true</span>
-<span class="mi">2</span>   <span class="mi">2</span>   <span class="o">-</span><span class="mi">4</span>  <span class="o">-</span><span class="mi">1</span>  <span class="kc">true</span>        <span class="kc">false</span>       <span class="n">NA</span>  <span class="kc">false</span>       <span class="mf">1.0</span> <span class="kc">true</span>
-<span class="mi">3</span>   <span class="o">-</span><span class="mi">4</span>  <span class="mi">3</span>   <span class="o">-</span><span class="mi">1</span>  <span class="kc">false</span>       <span class="kc">false</span>       <span class="n">NA</span>  <span class="kc">true</span>        <span class="n">NA</span>  <span class="kc">false</span>
-<span class="mi">4</span>   <span class="o">-</span><span class="mi">4</span>  <span class="o">-</span><span class="mi">3</span>  <span class="o">-</span><span class="mi">1</span>  <span class="kc">true</span>        <span class="kc">true</span>        <span class="n">NA</span>  <span class="kc">false</span>       <span class="mf">1.0</span> <span class="kc">true</span>
-<span class="mi">5</span>   <span class="mi">4</span>   <span class="o">-</span><span class="mi">5</span>  <span class="o">-</span><span class="mi">1</span>  <span class="kc">true</span>        <span class="kc">false</span>       <span class="n">NA</span>  <span class="kc">false</span>       <span class="mf">1.0</span> <span class="kc">true</span>
-<span class="mi">6</span>   <span class="mi">5</span>   <span class="mi">3</span>   <span class="o">-</span><span class="mi">1</span>  <span class="kc">true</span>        <span class="kc">false</span>       <span class="n">NA</span>  <span class="kc">false</span>       <span class="mf">1.0</span> <span class="kc">true</span>
-<span class="mi">7</span>   <span class="mi">3</span>   <span class="o">-</span><span class="mi">5</span>  <span class="o">-</span><span class="mi">1</span>  <span class="kc">false</span>       <span class="kc">true</span>        <span class="n">NA</span>  <span class="kc">true</span>        <span class="n">NA</span>  <span class="kc">true</span>
-<span class="mi">8</span>   <span class="o">-</span><span class="mi">5</span>  <span class="o">-</span><span class="mi">3</span>  <span class="o">-</span><span class="mi">1</span>  <span class="kc">true</span>        <span class="kc">true</span>        <span class="n">NA</span>  <span class="kc">false</span>       <span class="mf">1.0</span> <span class="kc">true</span>
-<span class="mi">9</span>   <span class="o">-</span><span class="mi">3</span>  <span class="o">-</span><span class="mi">2</span>  <span class="o">-</span><span class="mi">1</span>  <span class="kc">true</span>        <span class="kc">true</span>        <span class="n">NA</span>  <span class="kc">false</span>       <span class="mf">1.0</span> <span class="kc">true</span>
+julia&gt; printEdges(net)
+edge parent child  length  hybrid isMajor gamma   containRoot inCycle istIdentitiable
+1    -2     1              false  true    1       true        -1      false
+2    -4     2              false  true    1       true        -1      false
+3    -4     3              true   false           false       -1      false
+4    -3     -4             false  true    1       true        -1      true 
+5    -5     4              false  true    1       true        -1      false
+6    3      5              false  true    1       true        -1      false
+7    -5     3              true   true            false       -1      true 
+8    -3     -5             false  true    1       true        -1      true 
+9    -2     -3             false  true    1       true        -1      true
 </pre></div>
 
 
 <p>We see that the edges do not have branch lengths, and the hybrid edges do not have gamma values. We can set them with</p>
-<div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">setLength!</span><span class="p">(</span><span class="n">net</span><span class="o">.</span><span class="n">edge</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="mf">1.9</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span>julia&gt; setLength!(net.edge[1],1.9)
 
-<span class="n">julia</span><span class="o">&gt;</span> <span class="n">setGamma!</span><span class="p">(</span><span class="n">net</span><span class="o">.</span><span class="n">edge</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span><span class="mf">0.8</span><span class="p">)</span>
+julia&gt; setGamma!(net.edge[3],0.8)
 
-<span class="n">julia</span><span class="o">&gt;</span> <span class="n">printEdges</span><span class="p">(</span><span class="n">net</span><span class="p">)</span>
-<span class="n">Edge</span>    <span class="n">Node1</span>   <span class="n">Node2</span>   <span class="n">InCycle</span> <span class="n">containRoot</span> <span class="n">istIdentitiable</span> <span class="n">Length</span>  <span class="n">isHybrid</span>    <span class="n">Gamma</span>   <span class="n">isMajor</span>
-<span class="mi">1</span>   <span class="mi">1</span>   <span class="o">-</span><span class="mi">2</span>  <span class="o">-</span><span class="mi">1</span>  <span class="kc">true</span>        <span class="kc">false</span>       <span class="mf">1.9</span> <span class="kc">false</span>       <span class="mf">1.0</span> <span class="kc">true</span>
-<span class="mi">2</span>   <span class="mi">2</span>   <span class="o">-</span><span class="mi">4</span>  <span class="o">-</span><span class="mi">1</span>  <span class="kc">true</span>        <span class="kc">false</span>       <span class="n">NA</span>  <span class="kc">false</span>       <span class="mf">1.0</span> <span class="kc">true</span>
-<span class="mi">3</span>   <span class="o">-</span><span class="mi">4</span>  <span class="mi">3</span>   <span class="o">-</span><span class="mi">1</span>  <span class="kc">false</span>       <span class="kc">false</span>       <span class="n">NA</span>  <span class="kc">true</span>        <span class="mf">0.8</span> <span class="kc">true</span>
-<span class="mi">4</span>   <span class="o">-</span><span class="mi">4</span>  <span class="o">-</span><span class="mi">3</span>  <span class="o">-</span><span class="mi">1</span>  <span class="kc">true</span>        <span class="kc">true</span>        <span class="n">NA</span>  <span class="kc">false</span>       <span class="mf">1.0</span> <span class="kc">true</span>
-<span class="mi">5</span>   <span class="mi">4</span>   <span class="o">-</span><span class="mi">5</span>  <span class="o">-</span><span class="mi">1</span>  <span class="kc">true</span>        <span class="kc">false</span>       <span class="n">NA</span>  <span class="kc">false</span>       <span class="mf">1.0</span> <span class="kc">true</span>
-<span class="mi">6</span>   <span class="mi">5</span>   <span class="mi">3</span>   <span class="o">-</span><span class="mi">1</span>  <span class="kc">true</span>        <span class="kc">false</span>       <span class="n">NA</span>  <span class="kc">false</span>       <span class="mf">1.0</span> <span class="kc">true</span>
-<span class="mi">7</span>   <span class="mi">3</span>   <span class="o">-</span><span class="mi">5</span>  <span class="o">-</span><span class="mi">1</span>  <span class="kc">false</span>       <span class="kc">true</span>        <span class="n">NA</span>  <span class="kc">true</span>        <span class="mf">0.2</span> <span class="kc">false</span>
-<span class="mi">8</span>   <span class="o">-</span><span class="mi">5</span>  <span class="o">-</span><span class="mi">3</span>  <span class="o">-</span><span class="mi">1</span>  <span class="kc">true</span>        <span class="kc">true</span>        <span class="n">NA</span>  <span class="kc">false</span>       <span class="mf">1.0</span> <span class="kc">true</span>
-<span class="mi">9</span>   <span class="o">-</span><span class="mi">3</span>  <span class="o">-</span><span class="mi">2</span>  <span class="o">-</span><span class="mi">1</span>  <span class="kc">true</span>        <span class="kc">true</span>        <span class="n">NA</span>  <span class="kc">false</span>       <span class="mf">1.0</span> <span class="kc">true</span>
+julia&gt; printEdges(net)
+edge parent child  length  hybrid isMajor gamma   containRoot inCycle istIdentitiable
+1    -2     1      1.900   false  true    1       true        -1      false
+2    -4     2              false  true    1       true        -1      false
+3    -4     3              true   true    0.8     false       -1      false
+4    -3     -4             false  true    1       true        -1      true 
+5    -5     4              false  true    1       true        -1      false
+6    3      5              false  true    1       true        -1      false
+7    -5     3              true   false   0.2     false       -1      true 
+8    -3     -5             false  true    1       true        -1      true 
+9    -2     -3             false  true    1       true        -1      true
 </pre></div>
 
 

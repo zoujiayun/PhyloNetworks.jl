@@ -552,24 +552,28 @@
 <p>For a given network topology, we can optimize the branch lengths and inheritance probabilities (γ) with the pseudolikelihood. This is useful if we have a few candidate networks to compare. Each network can be optimized individually, and the network with the best pseudolikelihood can be chosen.</p>
 <p>The score being optimized is the pseudo-deviance, i.e. the negative log pseudo-likelihood up to an additive constant (the lower the better).</p>
 <p>Following our example in <a href="../snaq_plot/#Getting-a-Network-1">Getting a Network</a>, we can optimize parameters on the true network (the one originally used to simulate the data):</p>
-<div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">truenet</span> <span class="o">=</span> <span class="n">readTopology</span><span class="p">(</span><span class="s">&quot;((((D:0.4,C:0.4):4.8,((A:0.8,B:0.8):2.2)#H1:2.2::0.7):4.0,(#H1:0::0.3,E:3.0):6.2):2.0,O:11.2);&quot;</span><span class="p">);</span>
+<div class="codehilite"><pre><span></span><span class="nt">julia</span><span class="o">&gt;</span> <span class="nt">truenet</span> <span class="o">=</span> <span class="nt">readTopology</span><span class="o">(</span><span class="s2">&quot;((((D:0.4,C:0.4):4.8,((A:0.8,B:0.8):2.2)#H1:2.2::0.7):4.0,(#H1:0::0.3,E:3.0):6.2):2.0,O:11.2);&quot;</span><span class="o">);</span>
 
-<span class="n">julia</span><span class="o">&gt;</span> <span class="n">net1alt</span> <span class="o">=</span> <span class="n">topologyMaxQPseudolik!</span><span class="p">(</span><span class="n">truenet</span><span class="p">,</span> <span class="n">raxmlCF</span><span class="p">);</span>
+<span class="nt">julia</span><span class="o">&gt;</span> <span class="nt">net1alt</span> <span class="o">=</span> <span class="nt">topologyMaxQPseudolik</span><span class="o">!(</span><span class="nt">truenet</span><span class="o">,</span> <span class="nt">raxmlCF</span><span class="o">);</span>
 
-<span class="n">julia</span><span class="o">&gt;</span> <span class="n">writeTopology</span><span class="p">(</span><span class="n">net1alt</span><span class="p">,</span> <span class="n">round</span><span class="o">=</span><span class="kc">true</span><span class="p">)</span>
-<span class="s">&quot;(D,C,(((A,B):0.987)#H1:8.376::0.721,((#H1:0.0::0.279,E):1.287,O):1.181):7.615);&quot;</span>
+<span class="nt">julia</span><span class="o">&gt;</span> <span class="nt">writeTopology</span><span class="o">(</span><span class="nt">net1alt</span><span class="o">,</span> <span class="nt">round</span><span class="o">=</span><span class="nt">true</span><span class="o">)</span>
+<span class="s2">&quot;(D,C,(((A,B):0.987)#H1:8.376::0.721,((#H1:0.0::0.279,E):1.287,O):1.181):7.615);&quot;</span>
 
-<span class="n">julia</span><span class="o">&gt;</span> <span class="n">net1alt</span><span class="o">.</span><span class="n">loglik</span> <span class="c"># pseudo deviance, actually</span>
-<span class="mf">29.94130186108919</span>
+<span class="nt">julia</span><span class="o">&gt;</span> <span class="nt">net1alt</span><span class="p">.</span><span class="nc">loglik</span> <span class="err">#</span> <span class="nt">pseudo</span> <span class="nt">deviance</span><span class="o">,</span> <span class="nt">actually</span>
+<span class="nt">29</span><span class="p">.</span><span class="nc">94130186108919</span>
 </pre></div>
 
 
-<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">PhyloPlots</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">net1alt</span><span class="p">,</span> <span class="n">showGamma</span><span class="o">=</span><span class="kc">true</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">PhyloPlots</span><span class="p">,</span> <span class="n">RCall</span>
+<span class="n">R</span><span class="s">&quot;name &lt;- function(x) file.path(&#39;..&#39;, &#39;assets&#39;, &#39;figures&#39;, x)&quot;</span>
+<span class="n">R</span><span class="s">&quot;svg(name(&#39;truenet_opt.svg&#39;), width=4, height=4)&quot;</span>
+<span class="n">R</span><span class="s">&quot;par(mar = c(0, 0, 0, 0))&quot;</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">net1alt</span><span class="p">,</span> <span class="o">:</span><span class="n">R</span><span class="p">,</span> <span class="n">showGamma</span><span class="o">=</span><span class="kc">true</span><span class="p">);</span>
+<span class="n">R</span><span class="s">&quot;dev.off()&quot;</span>
 </pre></div>
 
 
-<p><img alt="truenet_opt" src="../../assets/figures/fixednetworkoptim_truenet_opt_1.png" /></p>
+<p><img alt="truenet_opt" src="../../assets/figures/truenet_opt.svg" /></p>
 <p>We get a score of 29.941, which is comparable to the score of the SNaQ network (net1: 28.315), especially compared to the score of the best tree (net0: 53.532). This begs the question: is the true network within the "range" of uncertainty? We can run a <a href="../bootstrap/#Bootstrap-1">Bootstrap</a> analysis to measure uncertainty in our network inference.</p>
 <p>For a more thorough optimization, we may increase the requirements before the search stops (but the optimization will take longer). It makes no difference on this small data set.</p>
 <div class="codehilite"><pre><span></span><span class="n">net1par</span> <span class="o">=</span> <span class="n">topologyMaxQPseudolik!</span><span class="p">(</span><span class="n">truenet</span><span class="p">,</span> <span class="n">raxmlCF</span><span class="p">,</span> <span class="n">ftolRel</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">,</span> <span class="n">xtolAbs</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">)</span>
@@ -580,10 +584,10 @@
 <p><a id='Network-Score-with-no-optimization-1'></a></p>
 <h2 id="network-score-with-no-optimization">Network Score with no optimization</h2>
 <p>For a network with given branch lengths and γ heritabilies, we can compute the pseudolikelihood with:</p>
-<div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">topologyQPseudolik!</span><span class="p">(</span><span class="n">truenet</span><span class="p">,</span><span class="n">raxmlCF</span><span class="p">);</span>
+<div class="codehilite"><pre><span></span>julia&gt; topologyQPseudolik!(truenet,raxmlCF);
 
-<span class="n">julia</span><span class="o">&gt;</span> <span class="n">truenet</span><span class="o">.</span><span class="n">loglik</span>
-<span class="mf">153.5310295393005</span>
+julia&gt; truenet.loglik
+153.5310295393005
 </pre></div>
 
 

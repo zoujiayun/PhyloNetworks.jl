@@ -579,46 +579,52 @@
 <p><a id='Comparing-networks-/-trees-1'></a></p>
 <h2 id="comparing-networks-trees">Comparing networks / trees</h2>
 <p>Is the SNaQ tree (network with h=0) the same as the ASTRAL tree? We can calculate their Robinson-Foulds distance:</p>
-<div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">hardwiredClusterDistance</span><span class="p">(</span><span class="n">astraltree</span><span class="p">,</span> <span class="n">net0</span><span class="p">,</span> <span class="kc">false</span><span class="p">)</span>
-<span class="mi">0</span>
+<div class="codehilite"><pre><span></span>julia&gt; hardwiredClusterDistance(astraltree, net0, false)
+0
 </pre></div>
 
 
 <p>The last option <code>false</code> is to consider topologies as unrooted. The RF distance is 0, so the two unrooted topologies are the same. If we had considered them as rooted, with whatever root they currently have in their internal representation, we would find a difference:</p>
-<div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">hardwiredClusterDistance</span><span class="p">(</span><span class="n">astraltree</span><span class="p">,</span> <span class="n">net0</span><span class="p">,</span> <span class="kc">true</span><span class="p">)</span>
-<span class="mi">5</span>
+<div class="codehilite"><pre><span></span>julia&gt; hardwiredClusterDistance(astraltree, net0, true)
+5
 </pre></div>
 
 
 <p><a id='Re-rooting-trees-and-networks-1'></a></p>
 <h2 id="re-rooting-trees-and-networks">Re-rooting trees and networks</h2>
 <p>We can re-root our networks with the outgroup, O, and then re-compare the ASTRAL tree and the SNaQ tree as rooted topologies (and find no difference):</p>
-<div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">rootatnode!</span><span class="p">(</span><span class="n">astraltree</span><span class="p">,</span> <span class="s">&quot;O&quot;</span><span class="p">)</span>
-<span class="n">PhyloNetworks</span><span class="o">.</span><span class="n">HybridNetwork</span><span class="p">,</span> <span class="n">Rooted</span> <span class="n">Network</span>
-<span class="mi">10</span> <span class="n">edges</span>
-<span class="mi">11</span> <span class="n">nodes</span><span class="o">:</span> <span class="mi">6</span> <span class="n">tips</span><span class="p">,</span> <span class="mi">0</span> <span class="n">hybrid</span> <span class="n">nodes</span><span class="p">,</span> <span class="mi">5</span> <span class="n">internal</span> <span class="n">tree</span> <span class="n">nodes</span><span class="o">.</span>
-<span class="n">tip</span> <span class="n">labels</span><span class="o">:</span> <span class="n">E</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="o">...</span>
-<span class="p">(</span><span class="n">O</span><span class="p">,(((</span><span class="n">C</span><span class="p">,</span><span class="n">D</span><span class="p">)</span><span class="o">:</span><span class="mf">3.029</span><span class="p">,(</span><span class="n">B</span><span class="p">,</span><span class="n">A</span><span class="p">)</span><span class="o">:</span><span class="mf">1.324</span><span class="p">)</span><span class="o">:</span><span class="mf">0.464</span><span class="p">,</span><span class="n">E</span><span class="p">));</span>
+<div class="codehilite"><pre><span></span>julia&gt; rootatnode!(astraltree, &quot;O&quot;)
+INFO: node 2 is a leaf. Will create a new node if needed, to set taxon &quot;O&quot; as outgroup.
+PhyloNetworks.HybridNetwork, Rooted Network
+10 edges
+11 nodes: 6 tips, 0 hybrid nodes, 5 internal tree nodes.
+tip labels: E, O, C, D, ...
+(O,(((C,D):3.029,(B,A):1.324):0.464,E));
 
+julia&gt; rootatnode!(net0, &quot;O&quot;)
+INFO: node 5 is a leaf. Will create a new node if needed, to set taxon &quot;O&quot; as outgroup.
+PhyloNetworks.HybridNetwork, Rooted Network
+10 edges
+11 nodes: 6 tips, 0 hybrid nodes, 5 internal tree nodes.
+tip labels: C, D, B, A, ...
+(O,(E,((B,A):1.396,(C,D):10.0):0.485));
 
-<span class="n">julia</span><span class="o">&gt;</span> <span class="n">rootatnode!</span><span class="p">(</span><span class="n">net0</span><span class="p">,</span> <span class="s">&quot;O&quot;</span><span class="p">)</span>
-<span class="n">PhyloNetworks</span><span class="o">.</span><span class="n">HybridNetwork</span><span class="p">,</span> <span class="n">Rooted</span> <span class="n">Network</span>
-<span class="mi">10</span> <span class="n">edges</span>
-<span class="mi">11</span> <span class="n">nodes</span><span class="o">:</span> <span class="mi">6</span> <span class="n">tips</span><span class="p">,</span> <span class="mi">0</span> <span class="n">hybrid</span> <span class="n">nodes</span><span class="p">,</span> <span class="mi">5</span> <span class="n">internal</span> <span class="n">tree</span> <span class="n">nodes</span><span class="o">.</span>
-<span class="n">tip</span> <span class="n">labels</span><span class="o">:</span> <span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="o">...</span>
-<span class="p">(</span><span class="n">O</span><span class="p">,(</span><span class="n">E</span><span class="p">,((</span><span class="n">B</span><span class="p">,</span><span class="n">A</span><span class="p">)</span><span class="o">:</span><span class="mf">1.396</span><span class="p">,(</span><span class="n">C</span><span class="p">,</span><span class="n">D</span><span class="p">)</span><span class="o">:</span><span class="mf">10.0</span><span class="p">)</span><span class="o">:</span><span class="mf">0.485</span><span class="p">));</span>
-
-
-<span class="n">julia</span><span class="o">&gt;</span> <span class="n">hardwiredClusterDistance</span><span class="p">(</span><span class="n">astraltree</span><span class="p">,</span> <span class="n">net0</span><span class="p">,</span> <span class="kc">true</span><span class="p">)</span>
-<span class="mi">0</span>
+julia&gt; hardwiredClusterDistance(astraltree, net0, true)
+0
 </pre></div>
 
 
-<div class="codehilite"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">net0</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">PhyloPlots</span><span class="p">,</span> <span class="n">RCall</span>
+<span class="n">R</span><span class="s">&quot;name &lt;- function(x) file.path(&#39;..&#39;, &#39;assets&#39;, &#39;figures&#39;, x)&quot;</span>
+<span class="n">R</span><span class="s">&quot;svg(name(&#39;net0_O.svg&#39;), width=4, height=4)&quot;</span>
+<span class="n">R</span><span class="s">&quot;par(mar = c(0, 0, 0, 0))&quot;</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">net0</span><span class="p">,</span> <span class="o">:</span><span class="n">R</span><span class="p">);</span>
+<span class="n">R</span><span class="s">&quot;dev.off()&quot;</span>
 </pre></div>
 
 
-<p><img alt="net0_O" src="../../assets/figures/dist_reroot_net0_O_1.png" /></p>
+<p><img alt="net0_O" src="../../assets/figures/net0_O.svg" /></p>
+<p>Note that, as in previous chapters, we use the possibilities of <code>RCall</code> to save the plot. We only show this commands once, but they will be run behind the scene each time a plot is called.</p>
 <p>After trees/networks are rooted with a correct outgroup, their visualization is more meaningful.</p>
 <p>With 1 or more hybridization, the direction of hybrid edges constrain the position of the root, which cannot be downstream of hybrid edges. An attempt to re-root the network at a position incompatible with hybrid edges will fail.</p>
 <p>Networks can be re-rooted at a given node or along a given edge. Get help (type <code>?</code>) on the functions <code>rootatnode!</code> and <code>rootonedge!</code> for more info. There are examples in the <a href="../bootstrap/#Bootstrap-1">Bootstrap</a> section.</p>
@@ -626,24 +632,30 @@
 <p><a id='Extracting-the-major-tree-1'></a></p>
 <h2 id="extracting-the-major-tree">Extracting the major tree</h2>
 <p>We can also compare the networks estimated with h=0 (net0) and h=1 (net1):</p>
-<div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">rootatnode!</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span> <span class="s">&quot;O&quot;</span><span class="p">);</span> <span class="c"># the ; suppresses screen output</span>
+<div class="codehilite"><pre><span></span><span class="nt">julia</span><span class="o">&gt;</span> <span class="nt">rootatnode</span><span class="o">!(</span><span class="nt">net1</span><span class="o">,</span> <span class="s2">&quot;O&quot;</span><span class="o">);</span> <span class="err">#</span> <span class="nt">the</span> <span class="o">;</span> <span class="nt">suppresses</span> <span class="nt">screen</span> <span class="nt">output</span>
+<span class="nt">INFO</span><span class="o">:</span> <span class="nt">node</span> <span class="nt">3</span> <span class="nt">is</span> <span class="nt">a</span> <span class="nt">leaf</span><span class="o">.</span> <span class="nt">Will</span> <span class="nt">create</span> <span class="nt">a</span> <span class="nt">new</span> <span class="nt">node</span> <span class="nt">if</span> <span class="nt">needed</span><span class="o">,</span> <span class="nt">to</span> <span class="nt">set</span> <span class="nt">taxon</span> <span class="s2">&quot;O&quot;</span> <span class="nt">as</span> <span class="nt">outgroup</span><span class="o">.</span>
+<span class="nt">PhyloNetworks</span><span class="p">.</span><span class="nc">HybridNetwork</span><span class="o">,</span> <span class="nt">Rooted</span> <span class="nt">Network</span>
+<span class="nt">13</span> <span class="nt">edges</span>
+<span class="nt">13</span> <span class="nt">nodes</span><span class="o">:</span> <span class="nt">6</span> <span class="nt">tips</span><span class="o">,</span> <span class="nt">1</span> <span class="nt">hybrid</span> <span class="nt">nodes</span><span class="o">,</span> <span class="nt">6</span> <span class="nt">internal</span> <span class="nt">tree</span> <span class="nt">nodes</span><span class="o">.</span>
+<span class="nt">tip</span> <span class="nt">labels</span><span class="o">:</span> <span class="nt">C</span><span class="o">,</span> <span class="nt">D</span><span class="o">,</span> <span class="nt">O</span><span class="o">,</span> <span class="nt">E</span><span class="o">,</span> <span class="o">...</span>
+<span class="o">(</span><span class="nt">O</span><span class="o">,((</span><span class="nt">E</span><span class="o">,</span><span class="p">#</span><span class="nn">H7</span><span class="o">:</span><span class="p">::</span><span class="nd">0</span><span class="p">.</span><span class="nc">196</span><span class="o">)</span><span class="p">:</span><span class="nd">0</span><span class="p">.</span><span class="nc">314</span><span class="o">,((</span><span class="nt">B</span><span class="o">,(</span><span class="nt">A</span><span class="o">)</span><span class="p">#</span><span class="nn">H7</span><span class="o">:</span><span class="p">::</span><span class="nd">0</span><span class="p">.</span><span class="nc">804</span><span class="o">)</span><span class="p">:</span><span class="nd">10</span><span class="p">.</span><span class="nc">0</span><span class="o">,(</span><span class="nt">C</span><span class="o">,</span><span class="nt">D</span><span class="o">)</span><span class="p">:</span><span class="nd">10</span><span class="p">.</span><span class="nc">0</span><span class="o">)</span><span class="p">:</span><span class="nd">0</span><span class="p">.</span><span class="nc">664</span><span class="o">));</span>
 
-<span class="n">julia</span><span class="o">&gt;</span> <span class="n">hardwiredClusterDistance</span><span class="p">(</span><span class="n">net0</span><span class="p">,</span> <span class="n">net1</span><span class="p">,</span> <span class="kc">true</span><span class="p">)</span>
-<span class="mi">2</span>
+<span class="nt">julia</span><span class="o">&gt;</span> <span class="nt">hardwiredClusterDistance</span><span class="o">(</span><span class="nt">net0</span><span class="o">,</span> <span class="nt">net1</span><span class="o">,</span> <span class="nt">true</span><span class="o">)</span>
+<span class="nt">2</span>
 </pre></div>
 
 
-<div class="codehilite"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span> <span class="n">showGamma</span><span class="o">=</span><span class="kc">true</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span> <span class="o">:</span><span class="n">R</span><span class="p">,</span> <span class="n">showGamma</span><span class="o">=</span><span class="kc">true</span><span class="p">);</span>
 </pre></div>
 
 
-<p><img alt="net1_O" src="../../assets/figures/dist_reroot_net1_O_1.png" /></p>
+<p><img alt="net1_O" src="../../assets/figures/net1_O.svg" /></p>
 <p>They differ by 2 clusters: that's because A is of hybrid descent in net1, not in net0.</p>
 <p>To beyond this hybrid difference, we can extract the major tree from the network with 1 hybridization, that is, delete the hybrid edge supported by less than 50% of genes. Then we can compare this tree with the ASTRAL/SNaQ tree net0.</p>
-<div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">tree1</span> <span class="o">=</span> <span class="n">majorTree</span><span class="p">(</span><span class="n">net1</span><span class="p">);</span> <span class="c"># major tree from net1</span>
+<div class="codehilite"><pre><span></span>julia&gt; tree1 = majorTree(net1); # major tree from net1
 
-<span class="n">julia</span><span class="o">&gt;</span> <span class="n">hardwiredClusterDistance</span><span class="p">(</span><span class="n">net0</span><span class="p">,</span> <span class="n">tree1</span><span class="p">,</span> <span class="kc">true</span><span class="p">)</span>
-<span class="mi">0</span>
+julia&gt; hardwiredClusterDistance(net0, tree1, true)
+0
 </pre></div>
 
 
@@ -651,18 +663,18 @@
 <p>Is the SNaQ network with 1 hybrid node the same as the true network, the one that was initially used to simulate the data?</p>
 <p>(digression on the data: gene trees were simulated under the coalescent along some "true" network, then 500 base-pair alignments were simulated along each gene tree with the HKY model, gene trees were estimated from each alignment with RAxML, and these estimated gene trees served as input to both ASTRAL and SNaQ.)</p>
 <p>The true network is shown below, correctly rooted at the outgroup O, and plotted with branch lengths proportional to their values in coalescence units:</p>
-<div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">truenet</span> <span class="o">=</span> <span class="n">readTopology</span><span class="p">(</span><span class="s">&quot;((((D:0.4,C:0.4):4.8,((A:0.8,B:0.8):2.2)#H1:2.2::0.7):4.0,(#H1:0::0.3,E:3.0):6.2):2.0,O:11.2);&quot;</span><span class="p">);</span>
+<div class="codehilite"><pre><span></span><span class="nt">julia</span><span class="o">&gt;</span> <span class="nt">truenet</span> <span class="o">=</span> <span class="nt">readTopology</span><span class="o">(</span><span class="s2">&quot;((((D:0.4,C:0.4):4.8,((A:0.8,B:0.8):2.2)#H1:2.2::0.7):4.0,(#H1:0::0.3,E:3.0):6.2):2.0,O:11.2);&quot;</span><span class="o">);</span>
 
-<span class="n">julia</span><span class="o">&gt;</span> <span class="n">hardwiredClusterDistance</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span> <span class="n">truenet</span><span class="p">,</span> <span class="kc">true</span><span class="p">)</span>
-<span class="mi">4</span>
+<span class="nt">julia</span><span class="o">&gt;</span> <span class="nt">hardwiredClusterDistance</span><span class="o">(</span><span class="nt">net1</span><span class="o">,</span> <span class="nt">truenet</span><span class="o">,</span> <span class="nt">true</span><span class="o">)</span>
+<span class="nt">4</span>
 </pre></div>
 
 
-<div class="codehilite"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">truenet</span><span class="p">,</span> <span class="n">useEdgeLength</span><span class="o">=</span><span class="kc">true</span><span class="p">,</span> <span class="n">showGamma</span><span class="o">=</span><span class="kc">true</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">truenet</span><span class="p">,</span> <span class="o">:</span><span class="n">R</span><span class="p">,</span> <span class="n">useEdgeLength</span><span class="o">=</span><span class="kc">true</span><span class="p">,</span> <span class="n">showGamma</span><span class="o">=</span><span class="kc">true</span><span class="p">);</span>
 </pre></div>
 
 
-<p><img alt="truenet" src="../../assets/figures/dist_reroot_truenet_1.png" /></p>
+<p><img alt="truenet" src="../../assets/figures/truenet.svg" /></p>
 <p>Our estimated network is not the same as the true network:</p>
 <ul>
 <li>the underlying tree is correctly estimated</li>
@@ -673,57 +685,56 @@
 <p><a id='Displayed-trees-and-subnetworks-1'></a></p>
 <h2 id="displayed-trees-and-subnetworks">Displayed trees and subnetworks</h2>
 <p>We can extract all trees displayed in a network. These trees are obtained by picking one parent hybrid edge at each hybrid node, and dropping the other parent hybrid edge. We can choose to pick the "important" hybrid edges only, with heritability γ at or above a threshold. Below we use a γ threshold of 0, so we get all displayed trees:</p>
-<div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">t</span> <span class="o">=</span> <span class="n">displayedTrees</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="c"># list of trees displayed in network</span>
-<span class="mi">2</span><span class="o">-</span><span class="n">element</span> <span class="kt">Array</span><span class="p">{</span><span class="n">PhyloNetworks</span><span class="o">.</span><span class="n">HybridNetwork</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span><span class="o">:</span>
- <span class="n">PhyloNetworks</span><span class="o">.</span><span class="n">HybridNetwork</span><span class="p">,</span> <span class="n">Rooted</span> <span class="n">Network</span>
-<span class="mi">10</span> <span class="n">edges</span>
-<span class="mi">11</span> <span class="n">nodes</span><span class="o">:</span> <span class="mi">6</span> <span class="n">tips</span><span class="p">,</span> <span class="mi">0</span> <span class="n">hybrid</span> <span class="n">nodes</span><span class="p">,</span> <span class="mi">5</span> <span class="n">internal</span> <span class="n">tree</span> <span class="n">nodes</span><span class="o">.</span>
-<span class="n">tip</span> <span class="n">labels</span><span class="o">:</span> <span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="o">...</span>
-<span class="p">(</span><span class="n">O</span><span class="p">,(((</span><span class="n">B</span><span class="p">,</span><span class="n">A</span><span class="p">)</span><span class="o">:</span><span class="mf">10.0</span><span class="p">,(</span><span class="n">C</span><span class="p">,</span><span class="n">D</span><span class="p">)</span><span class="o">:</span><span class="mf">10.0</span><span class="p">)</span><span class="o">:</span><span class="mf">0.664</span><span class="p">,</span><span class="n">E</span><span class="p">));</span>
+<div class="codehilite"><pre><span></span>julia&gt; t = displayedTrees(net1, 0.0) # list of trees displayed in network
+2-element Array{PhyloNetworks.HybridNetwork,1}:
+ PhyloNetworks.HybridNetwork, Rooted Network
+10 edges
+11 nodes: 6 tips, 0 hybrid nodes, 5 internal tree nodes.
+tip labels: C, D, O, E, ...
+(O,(((B,A):10.0,(C,D):10.0):0.664,E));
 
- <span class="n">PhyloNetworks</span><span class="o">.</span><span class="n">HybridNetwork</span><span class="p">,</span> <span class="n">Rooted</span> <span class="n">Network</span>
-<span class="mi">10</span> <span class="n">edges</span>
-<span class="mi">11</span> <span class="n">nodes</span><span class="o">:</span> <span class="mi">6</span> <span class="n">tips</span><span class="p">,</span> <span class="mi">0</span> <span class="n">hybrid</span> <span class="n">nodes</span><span class="p">,</span> <span class="mi">5</span> <span class="n">internal</span> <span class="n">tree</span> <span class="n">nodes</span><span class="o">.</span>
-<span class="n">tip</span> <span class="n">labels</span><span class="o">:</span> <span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="o">...</span>
-<span class="p">(</span><span class="n">O</span><span class="p">,((</span><span class="n">E</span><span class="p">,</span><span class="n">A</span><span class="p">)</span><span class="o">:</span><span class="mf">0.314</span><span class="p">,((</span><span class="n">C</span><span class="p">,</span><span class="n">D</span><span class="p">)</span><span class="o">:</span><span class="mf">10.0</span><span class="p">,</span><span class="n">B</span><span class="p">)</span><span class="o">:</span><span class="mf">0.664</span><span class="p">));</span>
+ PhyloNetworks.HybridNetwork, Rooted Network
+10 edges
+11 nodes: 6 tips, 0 hybrid nodes, 5 internal tree nodes.
+tip labels: C, D, O, E, ...
+(O,((E,A):0.314,((C,D):10.0,B):0.664));
 
+julia&gt; writeTopology(t[1], round=true)
+&quot;(O,(((B,A):10.0,(C,D):10.0):0.664,E));&quot;
 
-<span class="n">julia</span><span class="o">&gt;</span> <span class="n">writeTopology</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">round</span><span class="o">=</span><span class="kc">true</span><span class="p">)</span>
-<span class="s">&quot;(O,(((B,A):10.0,(C,D):10.0):0.664,E));&quot;</span>
-
-<span class="n">julia</span><span class="o">&gt;</span> <span class="n">writeTopology</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">round</span><span class="o">=</span><span class="kc">true</span><span class="p">)</span>
-<span class="s">&quot;(O,((E,A):0.314,((C,D):10.0,B):0.664));&quot;</span>
+julia&gt; writeTopology(t[2], round=true)
+&quot;(O,((E,A):0.314,((C,D):10.0,B):0.664));&quot;
 </pre></div>
 
 
 <p>If we decide to keep edges with γ&gt;0.2 only, then we are left with a single tree in the list (the major tree). This is because our example has 1 hybrid node with minor γ=0.196.</p>
-<div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">t</span> <span class="o">=</span> <span class="n">displayedTrees</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">)</span>
-<span class="mi">1</span><span class="o">-</span><span class="n">element</span> <span class="kt">Array</span><span class="p">{</span><span class="n">PhyloNetworks</span><span class="o">.</span><span class="n">HybridNetwork</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span><span class="o">:</span>
- <span class="n">PhyloNetworks</span><span class="o">.</span><span class="n">HybridNetwork</span><span class="p">,</span> <span class="n">Rooted</span> <span class="n">Network</span>
-<span class="mi">10</span> <span class="n">edges</span>
-<span class="mi">11</span> <span class="n">nodes</span><span class="o">:</span> <span class="mi">6</span> <span class="n">tips</span><span class="p">,</span> <span class="mi">0</span> <span class="n">hybrid</span> <span class="n">nodes</span><span class="p">,</span> <span class="mi">5</span> <span class="n">internal</span> <span class="n">tree</span> <span class="n">nodes</span><span class="o">.</span>
-<span class="n">tip</span> <span class="n">labels</span><span class="o">:</span> <span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="o">...</span>
-<span class="p">(</span><span class="n">O</span><span class="p">,(((</span><span class="n">B</span><span class="p">,</span><span class="n">A</span><span class="p">)</span><span class="o">:</span><span class="mf">10.0</span><span class="p">,(</span><span class="n">C</span><span class="p">,</span><span class="n">D</span><span class="p">)</span><span class="o">:</span><span class="mf">10.0</span><span class="p">)</span><span class="o">:</span><span class="mf">0.664</span><span class="p">,</span><span class="n">E</span><span class="p">));</span>
+<div class="codehilite"><pre><span></span>julia&gt; t = displayedTrees(net1, 0.2)
+1-element Array{PhyloNetworks.HybridNetwork,1}:
+ PhyloNetworks.HybridNetwork, Rooted Network
+10 edges
+11 nodes: 6 tips, 0 hybrid nodes, 5 internal tree nodes.
+tip labels: C, D, O, E, ...
+(O,(((B,A):10.0,(C,D):10.0):0.664,E));
 </pre></div>
 
 
 <p>We can also delete all "non-important" reticulations, those with a minor heritability γ below some threshold. The function below changes our network <code>net1</code>, as indicated by its name ending with a <code>!</code>.</p>
-<div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">deleteHybridThreshold!</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
-<span class="n">PhyloNetworks</span><span class="o">.</span><span class="n">HybridNetwork</span><span class="p">,</span> <span class="n">Rooted</span> <span class="n">Network</span>
-<span class="mi">13</span> <span class="n">edges</span>
-<span class="mi">13</span> <span class="n">nodes</span><span class="o">:</span> <span class="mi">6</span> <span class="n">tips</span><span class="p">,</span> <span class="mi">1</span> <span class="n">hybrid</span> <span class="n">nodes</span><span class="p">,</span> <span class="mi">6</span> <span class="n">internal</span> <span class="n">tree</span> <span class="n">nodes</span><span class="o">.</span>
-<span class="n">tip</span> <span class="n">labels</span><span class="o">:</span> <span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="o">...</span>
-<span class="p">(</span><span class="n">O</span><span class="p">,((</span><span class="n">E</span><span class="p">,</span><span class="c">#H7:::0.196):0.314,((B,(A)#H7:::0.804):10.0,(C,D):10.0):0.664));</span>
+<div class="codehilite"><pre><span></span><span class="nt">julia</span><span class="o">&gt;</span> <span class="nt">deleteHybridThreshold</span><span class="o">!(</span><span class="nt">net1</span><span class="o">,</span> <span class="nt">0</span><span class="p">.</span><span class="nc">1</span><span class="o">)</span>
+<span class="nt">PhyloNetworks</span><span class="p">.</span><span class="nc">HybridNetwork</span><span class="o">,</span> <span class="nt">Rooted</span> <span class="nt">Network</span>
+<span class="nt">13</span> <span class="nt">edges</span>
+<span class="nt">13</span> <span class="nt">nodes</span><span class="o">:</span> <span class="nt">6</span> <span class="nt">tips</span><span class="o">,</span> <span class="nt">1</span> <span class="nt">hybrid</span> <span class="nt">nodes</span><span class="o">,</span> <span class="nt">6</span> <span class="nt">internal</span> <span class="nt">tree</span> <span class="nt">nodes</span><span class="o">.</span>
+<span class="nt">tip</span> <span class="nt">labels</span><span class="o">:</span> <span class="nt">C</span><span class="o">,</span> <span class="nt">D</span><span class="o">,</span> <span class="nt">O</span><span class="o">,</span> <span class="nt">E</span><span class="o">,</span> <span class="o">...</span>
+<span class="o">(</span><span class="nt">O</span><span class="o">,((</span><span class="nt">E</span><span class="o">,</span><span class="p">#</span><span class="nn">H7</span><span class="o">:</span><span class="p">::</span><span class="nd">0</span><span class="p">.</span><span class="nc">196</span><span class="o">)</span><span class="p">:</span><span class="nd">0</span><span class="p">.</span><span class="nc">314</span><span class="o">,((</span><span class="nt">B</span><span class="o">,(</span><span class="nt">A</span><span class="o">)</span><span class="p">#</span><span class="nn">H7</span><span class="o">:</span><span class="p">::</span><span class="nd">0</span><span class="p">.</span><span class="nc">804</span><span class="o">)</span><span class="p">:</span><span class="nd">10</span><span class="p">.</span><span class="nc">0</span><span class="o">,(</span><span class="nt">C</span><span class="o">,</span><span class="nt">D</span><span class="o">)</span><span class="p">:</span><span class="nd">10</span><span class="p">.</span><span class="nc">0</span><span class="o">)</span><span class="p">:</span><span class="nd">0</span><span class="p">.</span><span class="nc">664</span><span class="o">));</span>
 </pre></div>
 
 
 <p>Nothing happened to our network: because its γ is above 0.1. But if we set the threshold to 0.3, then our reticulation disappears:</p>
-<div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">deleteHybridThreshold!</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">)</span>
-<span class="n">PhyloNetworks</span><span class="o">.</span><span class="n">HybridNetwork</span><span class="p">,</span> <span class="n">Rooted</span> <span class="n">Network</span>
-<span class="mi">10</span> <span class="n">edges</span>
-<span class="mi">11</span> <span class="n">nodes</span><span class="o">:</span> <span class="mi">6</span> <span class="n">tips</span><span class="p">,</span> <span class="mi">0</span> <span class="n">hybrid</span> <span class="n">nodes</span><span class="p">,</span> <span class="mi">5</span> <span class="n">internal</span> <span class="n">tree</span> <span class="n">nodes</span><span class="o">.</span>
-<span class="n">tip</span> <span class="n">labels</span><span class="o">:</span> <span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="o">...</span>
-<span class="p">(</span><span class="n">O</span><span class="p">,(((</span><span class="n">B</span><span class="p">,</span><span class="n">A</span><span class="p">)</span><span class="o">:</span><span class="mf">10.0</span><span class="p">,(</span><span class="n">C</span><span class="p">,</span><span class="n">D</span><span class="p">)</span><span class="o">:</span><span class="mf">10.0</span><span class="p">)</span><span class="o">:</span><span class="mf">0.664</span><span class="p">,</span><span class="n">E</span><span class="p">));</span>
+<div class="codehilite"><pre><span></span>julia&gt; deleteHybridThreshold!(net1, 0.3)
+PhyloNetworks.HybridNetwork, Rooted Network
+10 edges
+11 nodes: 6 tips, 0 hybrid nodes, 5 internal tree nodes.
+tip labels: C, D, O, E, ...
+(O,(((B,A):10.0,(C,D):10.0):0.664,E));
 </pre></div>
 
 
