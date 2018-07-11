@@ -36,7 +36,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="./assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-0.17.4, mkdocs-material-2.9.2">
+      <meta name="generator" content="mkdocs-0.17.5, mkdocs-material-2.9.2">
     
     
       
@@ -746,6 +746,7 @@
 <li><a href="lib/public/#PhyloNetworks.displayedTrees"><code>PhyloNetworks.displayedTrees</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.expectations"><code>PhyloNetworks.expectations</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.expectationsPlot"><code>PhyloNetworks.expectationsPlot</code></a></li>
+<li><a href="lib/public/#PhyloNetworks.fitDiscrete"><code>PhyloNetworks.fitDiscrete</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.fittedQuartetCF"><code>PhyloNetworks.fittedQuartetCF</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.getNodeAges"><code>PhyloNetworks.getNodeAges</code></a></li>
 <li><a href="lib/public/#PhyloNetworks.getShiftEdgeNumber"><code>PhyloNetworks.getShiftEdgeNumber</code></a></li>
@@ -814,11 +815,15 @@
 <li><a href="lib/internals/#PhyloNetworks.breakedge!-Tuple{PhyloNetworks.Edge,PhyloNetworks.HybridNetwork}"><code>PhyloNetworks.breakedge!</code></a></li>
 <li><a href="lib/internals/#PhyloNetworks.calculateObsCFAll!-Tuple{PhyloNetworks.DataCF,Union{Array{Int64,1}, Array{String,1}}}"><code>PhyloNetworks.calculateObsCFAll!</code></a></li>
 <li><a href="lib/internals/#PhyloNetworks.checkNumHybEdges!-Tuple{PhyloNetworks.HybridNetwork}"><code>PhyloNetworks.checkNumHybEdges!</code></a></li>
+<li><a href="lib/internals/#PhyloNetworks.check_matchtaxonnames!-Tuple{AbstractArray{T,1} where T,AbstractArray{T,1} where T,PhyloNetworks.HybridNetwork}"><code>PhyloNetworks.check_matchtaxonnames!</code></a></li>
 <li><a href="lib/internals/#PhyloNetworks.deleteEdge!-Tuple{PhyloNetworks.HybridNetwork,PhyloNetworks.Edge}"><code>PhyloNetworks.deleteEdge!</code></a></li>
 <li><a href="lib/internals/#PhyloNetworks.deleteHybridEdge!"><code>PhyloNetworks.deleteHybridEdge!</code></a></li>
 <li><a href="lib/internals/#PhyloNetworks.deleteLeaf!-Tuple{PhyloNetworks.Network,AbstractString}"><code>PhyloNetworks.deleteLeaf!</code></a></li>
 <li><a href="lib/internals/#PhyloNetworks.deleteNode!-Tuple{PhyloNetworks.HybridNetwork,PhyloNetworks.Node}"><code>PhyloNetworks.deleteNode!</code></a></li>
 <li><a href="lib/internals/#PhyloNetworks.descendants-Tuple{PhyloNetworks.Edge}"><code>PhyloNetworks.descendants</code></a></li>
+<li><a href="lib/internals/#PhyloNetworks.discrete_backwardlikelihood_tree!-Tuple{PhyloNetworks.StatisticalSubstitutionModel{T} where T,Integer,Integer}"><code>PhyloNetworks.discrete_backwardlikelihood_tree!</code></a></li>
+<li><a href="lib/internals/#PhyloNetworks.discrete_corelikelihood!-Tuple{PhyloNetworks.StatisticalSubstitutionModel{T} where T}"><code>PhyloNetworks.discrete_corelikelihood!</code></a></li>
+<li><a href="lib/internals/#PhyloNetworks.discrete_corelikelihood_tree!"><code>PhyloNetworks.discrete_corelikelihood_tree!</code></a></li>
 <li><a href="lib/internals/#PhyloNetworks.displayedNetworks!"><code>PhyloNetworks.displayedNetworks!</code></a></li>
 <li><a href="lib/internals/#PhyloNetworks.fuseedgesat!-Tuple{Integer,PhyloNetworks.HybridNetwork}"><code>PhyloNetworks.fuseedgesat!</code></a></li>
 <li><a href="lib/internals/#PhyloNetworks.gammaZero!-Tuple{PhyloNetworks.HybridNetwork,PhyloNetworks.DataCF,PhyloNetworks.Edge,Bool,Bool,Integer,Array{Int64,1}}"><code>PhyloNetworks.gammaZero!</code></a></li>
@@ -833,8 +838,8 @@
 <li><a href="lib/internals/#PhyloNetworks.getParents-Tuple{PhyloNetworks.Node}"><code>PhyloNetworks.getParents</code></a></li>
 <li><a href="lib/internals/#PhyloNetworks.getPartner-Tuple{Any}"><code>PhyloNetworks.getPartner</code></a></li>
 <li><a href="lib/internals/#PhyloNetworks.getTipSubmatrix-Tuple{Array{T,2} where T,PhyloNetworks.HybridNetwork}"><code>PhyloNetworks.getTipSubmatrix</code></a></li>
-<li><a href="lib/internals/#PhyloNetworks.hybridEdges-Tuple{PhyloNetworks.Node,PhyloNetworks.Edge}"><code>PhyloNetworks.hybridEdges</code></a></li>
 <li><a href="lib/internals/#PhyloNetworks.hybridEdges-Tuple{PhyloNetworks.Node}"><code>PhyloNetworks.hybridEdges</code></a></li>
+<li><a href="lib/internals/#PhyloNetworks.hybridEdges-Tuple{PhyloNetworks.Node,PhyloNetworks.Edge}"><code>PhyloNetworks.hybridEdges</code></a></li>
 <li><a href="lib/internals/#PhyloNetworks.inheritanceWeight-Tuple{PhyloNetworks.HybridNetwork}"><code>PhyloNetworks.inheritanceWeight</code></a></li>
 <li><a href="lib/internals/#PhyloNetworks.initializeWeightsFromLeaves!-Tuple{AbstractArray,PhyloNetworks.HybridNetwork,Any,Any,Symbol}"><code>PhyloNetworks.initializeWeightsFromLeaves!</code></a></li>
 <li><a href="lib/internals/#PhyloNetworks.initializeWeightsFromLeavesSoftwired!-Tuple{AbstractArray,PhyloNetworks.HybridNetwork,Any,Any}"><code>PhyloNetworks.initializeWeightsFromLeavesSoftwired!</code></a></li>
@@ -885,10 +890,12 @@
 <li><a href="lib/internals/#PhyloNetworks.symmetricTree"><code>PhyloNetworks.symmetricTree</code></a></li>
 <li><a href="lib/internals/#PhyloNetworks.synchronizePartnersData!-Tuple{PhyloNetworks.Edge,PhyloNetworks.Node}"><code>PhyloNetworks.synchronizePartnersData!</code></a></li>
 <li><a href="lib/internals/#PhyloNetworks.taxadiff-Tuple{Array{PhyloNetworks.Quartet,1},PhyloNetworks.HybridNetwork}"><code>PhyloNetworks.taxadiff</code></a></li>
+<li><a href="lib/internals/#PhyloNetworks.traitlabels2indices-Tuple{AbstractArray{T,1} where T,PhyloNetworks.TraitSubstitutionModel}"><code>PhyloNetworks.traitlabels2indices</code></a></li>
 <li><a href="lib/internals/#PhyloNetworks.traverseContainRoot!-Tuple{PhyloNetworks.Node,PhyloNetworks.Edge,Array{PhyloNetworks.Edge,1},Array{Bool,1}}"><code>PhyloNetworks.traverseContainRoot!</code></a></li>
 <li><a href="lib/internals/#PhyloNetworks.updatePostOrder!"><code>PhyloNetworks.updatePostOrder!</code></a></li>
 <li><a href="lib/internals/#PhyloNetworks.updatePreOrder!"><code>PhyloNetworks.updatePreOrder!</code></a></li>
 <li><a href="lib/internals/#PhyloNetworks.writeTopologyLevel1-Tuple{PhyloNetworks.HybridNetwork}"><code>PhyloNetworks.writeTopologyLevel1</code></a></li>
+<li><a href="lib/internals/#StatsBase.fit-Tuple{Type{PhyloNetworks.StatisticalSubstitutionModel},PhyloNetworks.HybridNetwork,PhyloNetworks.TraitSubstitutionModel,AbstractArray{T,1} where T}"><code>StatsBase.fit</code></a></li>
 </ul>
 <p><a id='Types-1'></a></p>
 <h3 id="types">Types</h3>
@@ -907,6 +914,7 @@
 <li><a href="lib/public/#PhyloNetworks.TwoBinaryTraitSubstitutionModel"><code>PhyloNetworks.TwoBinaryTraitSubstitutionModel</code></a></li>
 <li><a href="lib/internals/#PhyloNetworks.ANode"><code>PhyloNetworks.ANode</code></a></li>
 <li><a href="lib/internals/#PhyloNetworks.MatrixTopologicalOrder"><code>PhyloNetworks.MatrixTopologicalOrder</code></a></li>
+<li><a href="lib/internals/#PhyloNetworks.StatisticalSubstitutionModel"><code>PhyloNetworks.StatisticalSubstitutionModel</code></a></li>
 </ul>
                 
                   
@@ -967,7 +975,7 @@
     
       <script src="./assets/javascripts/application.a59e2a89.js"></script>
       
-      <script>app.initialize({version:"0.17.4",url:{base:"."}})</script>
+      <script>app.initialize({version:"0.17.5",url:{base:"."}})</script>
       
         <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
       
