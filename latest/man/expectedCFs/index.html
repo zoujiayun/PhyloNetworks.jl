@@ -538,18 +538,28 @@ julia&gt; df_long = fittedQuartetCF(raxmlCF, :long)
 
 <p>It is important to have run <code>snaq!</code>, <code>topologyQPseudolik!</code> or <code>topologyMaxQPseudolik!</code> before making these tables, or the result would be meaningless. These functions update the fitted concordance factors (those expected under the network) inside the DataCF object <code>raxmlCF</code>.</p>
 <p>Here is one way to plot them, via R again, and using the R package <code>ggplot2</code>.</p>
-<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">RCall</span>
-</pre></div>
+<p>```@example expCFs
+using RCall
+obsCF = df_long[:obsCF]; expCF = df_long[:expCF]; # hide
+R"name &lt;- function(x) file.path('..', 'assets', 'figures', x)"; # hide
+R"svg(name('expCFs_obsvsfitted.svg'), width=5, height=4)"; # hide
+R"par(mar=c(2.5,2.6,.5,.5), mgp=c(1.5,.4,0), tck=-0.01, las=1, pty='s')"; # hide
+R"plot(0:1, 0:1, type='l', bty='L', lwd=0.3, col='#008080', xlab='quartet CF observed in gene trees', ylab='quartet CF expected from network')"; # hide
+R"set.seed(1234)"; # hide
+R"points(jitter($obsCF,amount=0.005),jitter($expCF,amount=0.005),col='#008080',bg='#00808090',pch=21)"; # hide
+R"dev.off()"; # hide</p>
+<div class="codehilite"><pre><span></span>To install ggplot2 if not installed already, do: `R&quot;install.packages(&#39;ggplot2&#39;, dep=TRUE)&quot;`
 
 
-<p>To install ggplot2 if not installed already, do: <code>R"install.packages('ggplot2', dep=TRUE)"</code></p>
-<!– next: not run, would require installing ggplot2 by travis: about 6min –>
+&lt;!– next: not run, would require installing ggplot2 by travis: about 6min –&gt;
 
-<div class="codehilite"><pre><span></span><span class="nd">@rlibrary</span> <span class="n">ggplot2</span>
-<span class="n">ggplot</span><span class="p">(</span><span class="n">df_long</span><span class="p">,</span> <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=:</span><span class="n">obsCF</span><span class="p">,</span><span class="n">y</span><span class="o">=:</span><span class="n">expCF</span><span class="p">))</span> <span class="o">+</span> <span class="n">theme_classic</span><span class="p">()</span> <span class="o">+</span>
-    <span class="n">geom_segment</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">xend</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">yend</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;#008080&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span> <span class="o">+</span> <span class="c"># diagonal line</span>
-    <span class="n">geom_point</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;#008080&quot;</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="n">position_jitter</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mf">0.005</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.005</span><span class="p">))</span> <span class="o">+</span>
-    <span class="n">ylab</span><span class="p">(</span><span class="s">&quot;quartet CF expected from network&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">xlab</span><span class="p">(</span><span class="s">&quot;quartet CF observed in gene trees&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">coord_equal</span><span class="p">(</span><span class="n">ratio</span><span class="o">=</span><span class="mi">1</span><span class="p">);</span>
+
+```julia
+@rlibrary ggplot2
+ggplot(df_long, aes(x=:obsCF,y=:expCF)) + theme_classic() +
+    geom_segment(x=0,y=0,xend=1,yend=1, color=&quot;#008080&quot;, size=0.3) + # diagonal line
+    geom_point(alpha=0.5, color=&quot;#008080&quot;, position=position_jitter(width=0.005, height=0.005)) +
+    ylab(&quot;quartet CF expected from network&quot;) + xlab(&quot;quartet CF observed in gene trees&quot;) + coord_equal(ratio=1);
 </pre></div>
 
 
@@ -571,45 +581,31 @@ julia&gt; df_long = fittedQuartetCF(raxmlCF, :long)
 
 
 <p>We could highlight quartets that include taxon A, say, if we suspect that it is an unrecognized hybrid. Many points are overlapping, like before, so they are again "jittered" a bit.</p>
-<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">DataFrames</span>
-<span class="n">df_long</span><span class="p">[</span><span class="o">:</span><span class="n">has_A</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;no&quot;</span> <span class="c"># add a column to our data, to indicate which 4-taxon sets have A or not</span>
-<span class="k">for</span> <span class="n">r</span> <span class="kp">in</span> <span class="n">eachrow</span><span class="p">(</span><span class="n">df_long</span><span class="p">)</span>
-    <span class="k">if</span> <span class="s">&quot;A&quot;</span> <span class="o">∈</span> <span class="p">[</span><span class="n">r</span><span class="p">[</span><span class="o">:</span><span class="n">tx1</span><span class="p">],</span> <span class="n">r</span><span class="p">[</span><span class="o">:</span><span class="n">tx2</span><span class="p">],</span> <span class="n">r</span><span class="p">[</span><span class="o">:</span><span class="n">tx3</span><span class="p">],</span> <span class="n">r</span><span class="p">[</span><span class="o">:</span><span class="n">tx4</span><span class="p">]]</span>
-       <span class="n">r</span><span class="p">[</span><span class="o">:</span><span class="n">has_A</span><span class="p">]</span><span class="o">=</span><span class="s">&quot;yes&quot;</span>
-    <span class="k">end</span>
-<span class="k">end</span>
-<span class="n">df_long</span>
-</pre></div>
-
-
-<div class="codehilite"><pre><span></span>45×8 DataFrames.DataFrame
-│ Row │ tx1 │ tx2 │ tx3 │ tx4 │ quartet │ obsCF     │ expCF      │ has_A │
-├─────┼─────┼─────┼─────┼─────┼─────────┼───────────┼────────────┼───────┤
-│ 1   │ A   │ B   │ C   │ D   │ 12_34   │ 1.0       │ 0.999949   │ yes   │
-│ 2   │ A   │ B   │ C   │ D   │ 13_24   │ 0.0       │ 2.52737e-5 │ yes   │
-│ 3   │ A   │ B   │ C   │ D   │ 14_23   │ 0.0       │ 2.52737e-5 │ yes   │
-│ 4   │ A   │ B   │ C   │ E   │ 12_34   │ 0.833333  │ 0.835101   │ yes   │
-│ 5   │ A   │ B   │ C   │ E   │ 13_24   │ 0.0333333 │ 0.0824494  │ yes   │
-│ 6   │ A   │ B   │ C   │ E   │ 14_23   │ 0.133333  │ 0.0824494  │ yes   │
-│ 7   │ A   │ B   │ C   │ O   │ 12_34   │ 0.866667  │ 0.860271   │ yes   │
-│ 8   │ A   │ B   │ C   │ O   │ 13_24   │ 0.0       │ 0.0698646  │ yes   │
-⋮
-│ 37  │ B   │ C   │ E   │ O   │ 12_34   │ 0.666667  │ 0.598761   │ no    │
-│ 38  │ B   │ C   │ E   │ O   │ 13_24   │ 0.266667  │ 0.302023   │ no    │
-│ 39  │ B   │ C   │ E   │ O   │ 14_23   │ 0.0666667 │ 0.099216   │ no    │
-│ 40  │ B   │ D   │ E   │ O   │ 12_34   │ 0.666667  │ 0.598761   │ no    │
-│ 41  │ B   │ D   │ E   │ O   │ 13_24   │ 0.266667  │ 0.302023   │ no    │
-│ 42  │ B   │ D   │ E   │ O   │ 14_23   │ 0.0666667 │ 0.099216   │ no    │
-│ 43  │ C   │ D   │ E   │ O   │ 12_34   │ 1.0       │ 0.999898   │ no    │
-│ 44  │ C   │ D   │ E   │ O   │ 13_24   │ 0.0       │ 5.09658e-5 │ no    │
-│ 45  │ C   │ D   │ E   │ O   │ 14_23   │ 0.0       │ 5.09658e-5 │ no    │
-</pre></div>
-
-
-<div class="codehilite"><pre><span></span><span class="n">ggplot</span><span class="p">(</span><span class="n">df_long</span><span class="p">,</span> <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=:</span><span class="n">obsCF</span><span class="p">,</span> <span class="n">y</span><span class="o">=:</span><span class="n">expCF</span><span class="p">,</span> <span class="n">color</span><span class="o">=:</span><span class="n">has_A</span><span class="p">))</span> <span class="o">+</span> <span class="n">theme_classic</span><span class="p">()</span> <span class="o">+</span>
-    <span class="n">geom_segment</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">xend</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">yend</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;black&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span> <span class="o">+</span> <span class="c"># diagonal line</span>
-    <span class="n">geom_point</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="n">position_jitter</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mf">0.005</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.005</span><span class="p">))</span> <span class="o">+</span>
-    <span class="n">ylab</span><span class="p">(</span><span class="s">&quot;quartet CF expected from network&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">xlab</span><span class="p">(</span><span class="s">&quot;quartet CF observed in gene trees&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">coord_equal</span><span class="p">(</span><span class="n">ratio</span><span class="o">=</span><span class="mi">1</span><span class="p">);</span>
+<p>```@example expCFs
+using DataFrames
+df_long[:has_A] = "no" # add a column to our data, to indicate which 4-taxon sets have A or not
+for r in eachrow(df_long)
+    if "A" ∈ [r[:tx1], r[:tx2], r[:tx3], r[:tx4]]
+       r[:has_A]="yes"
+    end
+end
+has_A = df_long[:has_A]; # hide
+nq = length(has_A) # hide
+R"colA=rep('#008080',$nq); bgA=rep('#00808090',$nq);"; # hide
+R"colA[$has_A=='yes']='#F8766D'; bgA[$has_A=='yes']='#F8766D90'"; # hide
+R"svg(name('expCFs_obsvsfitted_A.svg'), width=5, height=4)"; # hide
+R"par(mar=c(2.5,2.6,.5,.5), mgp=c(1.5,.4,0), tck=-0.01, las=1, pty='s')"; # hide
+R"plot(0:1, 0:1, type='l', bty='L', lwd=0.3, col='black', xlab='quartet CF observed in gene trees', ylab='quartet CF expected from network')"; # hide
+R"set.seed(2345)" # hide
+R"points(jitter($obsCF,amount=0.005),jitter($expCF,amount=0.005),col=colA,bg=bgA,pch=21)"; # hide
+R"legend(x=0.7,y=0.3,pch=21,col=c('#008080','#F8766D'),legend=c('no','yes'),title='has A?', bty='n',bg=c('#00808090','#F8766D90'))"; # hide
+R"dev.off()"; # hide
+df_long</p>
+<div class="codehilite"><pre><span></span>```julia
+ggplot(df_long, aes(x=:obsCF, y=:expCF, color=:has_A)) + theme_classic() +
+    geom_segment(x=0,y=0,xend=1,yend=1, color=&quot;black&quot;, size=0.3) + # diagonal line
+    geom_point(alpha=0.5, position=position_jitter(width=0.005, height=0.005)) +
+    ylab(&quot;quartet CF expected from network&quot;) + xlab(&quot;quartet CF observed in gene trees&quot;) + coord_equal(ratio=1);
 </pre></div>
 
 
