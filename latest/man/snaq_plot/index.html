@@ -350,6 +350,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#parallel-computations" title="parallel computations" class="md-nav__link">
+    parallel computations
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#choosing-the-number-of-hybridizations" title="choosing the number of hybridizations" class="md-nav__link">
     choosing the number of hybridizations
   </a>
@@ -359,6 +366,27 @@
         <li class="md-nav__item">
   <a href="#network-visualization" title="Network Visualization" class="md-nav__link">
     Network Visualization
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#re-rooting-networks" title="Re-rooting networks" class="md-nav__link">
+    Re-rooting networks
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#candidate-network-evaluation" title="Candidate Network Evaluation" class="md-nav__link">
+    Candidate Network Evaluation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#snaq-error-reporting" title="SNaQ error reporting" class="md-nav__link">
+    SNaQ error reporting
   </a>
   
 </li>
@@ -527,6 +555,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#parallel-computations" title="parallel computations" class="md-nav__link">
+    parallel computations
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#choosing-the-number-of-hybridizations" title="choosing the number of hybridizations" class="md-nav__link">
     choosing the number of hybridizations
   </a>
@@ -536,6 +571,27 @@
         <li class="md-nav__item">
   <a href="#network-visualization" title="Network Visualization" class="md-nav__link">
     Network Visualization
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#re-rooting-networks" title="Re-rooting networks" class="md-nav__link">
+    Re-rooting networks
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#candidate-network-evaluation" title="Candidate Network Evaluation" class="md-nav__link">
+    Candidate Network Evaluation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#snaq-error-reporting" title="SNaQ error reporting" class="md-nav__link">
+    SNaQ error reporting
   </a>
   
 </li>
@@ -576,22 +632,14 @@ with -loglik 53.53150526187732
 
 
 <p>This parenthetical (extended Newick) description is not very human-friendly, so we plot the tree (more about plotting networks below: <a href="./#Network-Visualization-1">Network Visualization</a> ).</p>
-<p>```@example snaqplot
-using PhyloPlots
-using RCall # hide
-R"name &lt;- function(x) file.path('..', 'assets', 'figures', x)" # hide
-R"svg(name('snaqplot_net0_1.svg'), width=4, height=3)" # hide
-R"par(mar = c(0, 0, 0, 0))" # hide
-plot(net0, :R);
-R"dev.off()"; # hide</p>
-<div class="codehilite"><pre><span></span>![net0_1](../assets/figures/snaqplot_net0_1.svg)
+<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">PhyloPlots</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">net0</span><span class="p">,</span> <span class="o">:</span><span class="n">R</span><span class="p">);</span>
+</pre></div>
 
 
-We can use this tree as a starting point to search for the best network allowing for at most `hmax=1` hybrid node (which is the default).
-
-
-```julia
-net1 = snaq!(net0, raxmlCF, hmax=1, filename=&quot;net1&quot;, seed=2345)
+<p><img alt="net0_1" src="../../assets/figures/snaqplot_net0_1.svg" /></p>
+<p>We can use this tree as a starting point to search for the best network allowing for at most <code>hmax=1</code> hybrid node (which is the default).</p>
+<div class="codehilite"><pre><span></span><span class="n">net1</span> <span class="o">=</span> <span class="n">snaq!</span><span class="p">(</span><span class="n">net0</span><span class="p">,</span> <span class="n">raxmlCF</span><span class="p">,</span> <span class="n">hmax</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s">&quot;net1&quot;</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">2345</span><span class="p">)</span>
 </pre></div>
 
 
@@ -603,21 +651,15 @@ net1 = snaq!(net0, raxmlCF, hmax=1, filename=&quot;net1&quot;, seed=2345)
 
 
 <p>We can visualize the estimated network and its inheritance values γ, which measure the proportion of genes inherited via each parent at a reticulation event (e.g. proportion of genes inherited via gene flow).</p>
-<p>```@example snaqplot
-R"svg(name('snaqplot_net1_1.svg'), width=4, height=3)" # hide
-R"par(mar = c(0, 0, 0, 0))" # hide
-plot(net1, :R, showGamma=true);
-R"dev.off()"; # hide</p>
-<div class="codehilite"><pre><span></span>![net1_1](../assets/figures/snaqplot_net1_1.svg)
+<div class="codehilite"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span> <span class="o">:</span><span class="n">R</span><span class="p">,</span> <span class="n">showGamma</span><span class="o">=</span><span class="kc">true</span><span class="p">);</span>
+</pre></div>
 
 
-This network has A as a hybrid, 80.4% sister to B, and 19.6% sister to E (which is otherwise sister to O). C &amp; D are sister to each other. We can also check the output files created by `snaq!`:
-
-
-```julia
-less(&quot;net1.err&quot;) # would provide info about errors, if any
-less(&quot;net1.out&quot;) # main output file with the estimated network from each run
-less(&quot;net1.networks&quot;) # extra info
+<p><img alt="net1_1" src="../../assets/figures/snaqplot_net1_1.svg" /></p>
+<p>This network has A as a hybrid, 80.4% sister to B, and 19.6% sister to E (which is otherwise sister to O). C &amp; D are sister to each other. We can also check the output files created by <code>snaq!</code>:</p>
+<div class="codehilite"><pre><span></span><span class="n">less</span><span class="p">(</span><span class="s">&quot;net1.err&quot;</span><span class="p">)</span> <span class="c"># would provide info about errors, if any</span>
+<span class="n">less</span><span class="p">(</span><span class="s">&quot;net1.out&quot;</span><span class="p">)</span> <span class="c"># main output file with the estimated network from each run</span>
+<span class="n">less</span><span class="p">(</span><span class="s">&quot;net1.networks&quot;</span><span class="p">)</span> <span class="c"># extra info</span>
 </pre></div>
 
 
@@ -652,41 +694,33 @@ less(&quot;net1.networks&quot;) # extra info
 
 
 <p>and plot them (they are identical and they both have a single reticulation):</p>
-<p>```@example snaqplot
-R"svg(name('snaqplot_net23.svg'), width=7, height=3)" # hide
-using RCall                  # to be able to tweak our plot within R
-R"layout(matrix(1:2, 1, 2))" # to get 2 plots into a single figure: 1 row, 2 columns
-R"par(mar = c(0,0,1,0))"     # for smaller margins
-plot(net2, :R, showGamma=true);
-R"mtext('hmax=2')"           # add text annotation: title here
-plot(net3, :R, showGamma=true);
-R"mtext('hmax=3')"
-R"dev.off()"; # hide</p>
-<div class="codehilite"><pre><span></span>![net23](../assets/figures/snaqplot_net23.svg)
-
-
-with this screen output for net2 (only 1 hybrid node found):
+<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">RCall</span>                  <span class="c"># to be able to tweak our plot within R</span>
+<span class="n">R</span><span class="s">&quot;layout(matrix(1:2, 1, 2))&quot;</span> <span class="c"># to get 2 plots into a single figure: 1 row, 2 columns</span>
+<span class="n">R</span><span class="s">&quot;par(mar = c(0,0,1,0))&quot;</span>     <span class="c"># for smaller margins</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">net2</span><span class="p">,</span> <span class="o">:</span><span class="n">R</span><span class="p">,</span> <span class="n">showGamma</span><span class="o">=</span><span class="kc">true</span><span class="p">);</span>
+<span class="n">R</span><span class="s">&quot;mtext(&#39;hmax=2&#39;)&quot;</span>           <span class="c"># add text annotation: title here</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">net3</span><span class="p">,</span> <span class="o">:</span><span class="n">R</span><span class="p">,</span> <span class="n">showGamma</span><span class="o">=</span><span class="kc">true</span><span class="p">);</span>
+<span class="n">R</span><span class="s">&quot;mtext(&#39;hmax=3&#39;)&quot;</span>
 </pre></div>
 
 
-<p>MaxNet is (C,D,((B,(A)#H7:::0.804411606649347):10.0,(O,(#H7:::0.19558839335065303,E):0.3135243143217013):0.664066456871298):10.0);
-with -loglik 28.31506721890957</p>
-<div class="codehilite"><pre><span></span>and this output for net3 (again, only 1 hybrid found):
+<p><img alt="net23" src="../../assets/figures/snaqplot_net23.svg" /></p>
+<p>with this screen output for net2 (only 1 hybrid node found):</p>
+<div class="codehilite"><pre><span></span><span class="nt">MaxNet</span> <span class="nt">is</span> <span class="o">(</span><span class="nt">C</span><span class="o">,</span><span class="nt">D</span><span class="o">,((</span><span class="nt">B</span><span class="o">,(</span><span class="nt">A</span><span class="o">)</span><span class="p">#</span><span class="nn">H7</span><span class="o">:</span><span class="p">::</span><span class="nd">0</span><span class="p">.</span><span class="nc">804411606649347</span><span class="o">)</span><span class="p">:</span><span class="nd">10</span><span class="p">.</span><span class="nc">0</span><span class="o">,(</span><span class="nt">O</span><span class="o">,(</span><span class="p">#</span><span class="nn">H7</span><span class="o">:</span><span class="p">::</span><span class="nd">0</span><span class="p">.</span><span class="nc">19558839335065303</span><span class="o">,</span><span class="nt">E</span><span class="o">)</span><span class="p">:</span><span class="nd">0</span><span class="p">.</span><span class="nc">3135243143217013</span><span class="o">)</span><span class="p">:</span><span class="nd">0</span><span class="p">.</span><span class="nc">664066456871298</span><span class="o">)</span><span class="p">:</span><span class="nd">10</span><span class="p">.</span><span class="nc">0</span><span class="o">);</span>
+<span class="nt">with</span> <span class="nt">-loglik</span> <span class="nt">28</span><span class="p">.</span><span class="nc">31506721890957</span>
 </pre></div>
 
 
-<p>MaxNet is (D,C,((O,(E,#H7:::0.19558839257941849):0.3135243301652981):0.6640664138384673,(B,(A)#H7:::0.8044116074205815):10.0):10.0);
-with -loglik 28.315067218909626</p>
-<div class="codehilite"><pre><span></span><span class="nt">&lt;a</span> <span class="na">id=</span><span class="s">&#39;parallel-computations-1&#39;</span><span class="nt">&gt;&lt;/a&gt;</span>
-
-## parallel computations
-
-
-For network estimation, multiple runs can done in parallel. For example, if your machine has 4 or more processors (or cores), you can tell julia to use 4 processors by starting julia with `julia -p 4`, or by starting julia the usual way (`julia`) and then adding processors with:
+<p>and this output for net3 (again, only 1 hybrid found):</p>
+<div class="codehilite"><pre><span></span><span class="nt">MaxNet</span> <span class="nt">is</span> <span class="o">(</span><span class="nt">D</span><span class="o">,</span><span class="nt">C</span><span class="o">,((</span><span class="nt">O</span><span class="o">,(</span><span class="nt">E</span><span class="o">,</span><span class="p">#</span><span class="nn">H7</span><span class="o">:</span><span class="p">::</span><span class="nd">0</span><span class="p">.</span><span class="nc">19558839257941849</span><span class="o">)</span><span class="p">:</span><span class="nd">0</span><span class="p">.</span><span class="nc">3135243301652981</span><span class="o">)</span><span class="p">:</span><span class="nd">0</span><span class="p">.</span><span class="nc">6640664138384673</span><span class="o">,(</span><span class="nt">B</span><span class="o">,(</span><span class="nt">A</span><span class="o">)</span><span class="p">#</span><span class="nn">H7</span><span class="o">:</span><span class="p">::</span><span class="nd">0</span><span class="p">.</span><span class="nc">8044116074205815</span><span class="o">)</span><span class="p">:</span><span class="nd">10</span><span class="p">.</span><span class="nc">0</span><span class="o">)</span><span class="p">:</span><span class="nd">10</span><span class="p">.</span><span class="nc">0</span><span class="o">);</span>
+<span class="nt">with</span> <span class="nt">-loglik</span> <span class="nt">28</span><span class="p">.</span><span class="nc">315067218909626</span>
+</pre></div>
 
 
-```julia
-addprocs(4)
+<p><a id='parallel-computations-1'></a></p>
+<h2 id="parallel-computations">parallel computations</h2>
+<p>For network estimation, multiple runs can done in parallel. For example, if your machine has 4 or more processors (or cores), you can tell julia to use 4 processors by starting julia with <code>julia -p 4</code>, or by starting julia the usual way (<code>julia</code>) and then adding processors with:</p>
+<div class="codehilite"><pre><span></span><span class="n">addprocs</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 </pre></div>
 
 
@@ -730,6 +764,7 @@ addprocs(4)
 <span class="n">addprocs</span><span class="p">(</span><span class="n">nruns</span><span class="p">)</span>
 <span class="nd">@everywhere</span> <span class="k">using</span> <span class="n">PhyloNetworks</span>
 <span class="n">net0</span> <span class="o">=</span> <span class="n">readTopology</span><span class="p">(</span><span class="s">&quot;astraltree.tre&quot;</span><span class="p">);</span>
+<span class="k">using</span> <span class="n">CSV</span>
 <span class="n">df_sp</span> <span class="o">=</span> <span class="n">CSV</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s">&quot;tableCF_speciesNames.csv&quot;</span><span class="p">,</span> <span class="n">categorical</span><span class="o">=</span><span class="kc">false</span><span class="p">);</span>
 <span class="n">d_sp</span> <span class="o">=</span> <span class="n">readTableCF!</span><span class="p">(</span><span class="n">df_sp</span><span class="p">);</span>
 <span class="n">net</span> <span class="o">=</span> <span class="n">snaq!</span><span class="p">(</span><span class="n">net0</span><span class="p">,</span> <span class="n">d_sp</span><span class="p">,</span> <span class="n">hmax</span><span class="o">=</span><span class="n">h</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">outputfile</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">,</span> <span class="n">runs</span><span class="o">=</span><span class="n">nruns</span><span class="p">)</span>
@@ -759,24 +794,16 @@ addprocs(4)
 <p><a id='choosing-the-number-of-hybridizations-1'></a></p>
 <h2 id="choosing-the-number-of-hybridizations">choosing the number of hybridizations</h2>
 <p>Each network has a <code>loglik</code> attribute, which is its pseudo deviance: twice the negative log-likelihood up to a constant (the constant is such that the score is 0 if the network fits the data perfectly). The lower the better. We can plot these scores across hybrid values:</p>
-<p>```@example snaqplot
-scores = [net0.loglik, net1.loglik, net2.loglik, net3.loglik]
-R"svg(name('snaqplot_scores_heuristic.svg'), width=4, height=3)" # hide
-R"par(mar=c(2.5,2.5,.5,.5), mgp=c(1.4,.4,0), tck=-0.02)";  # hide
-R"plot($scores, type='b', ylab='network score', xlab='hmax', col='blue')"
-R"dev.off()"; # hide</p>
-<div class="codehilite"><pre><span></span>![scores_heuristic](../assets/figures/snaqplot_scores_heuristic.svg)
+<div class="codehilite"><pre><span></span><span class="n">scores</span> <span class="o">=</span> <span class="p">[</span><span class="n">net0</span><span class="o">.</span><span class="n">loglik</span><span class="p">,</span> <span class="n">net1</span><span class="o">.</span><span class="n">loglik</span><span class="p">,</span> <span class="n">net2</span><span class="o">.</span><span class="n">loglik</span><span class="p">,</span> <span class="n">net3</span><span class="o">.</span><span class="n">loglik</span><span class="p">]</span>
+<span class="n">R</span><span class="s">&quot;plot(</span><span class="si">$scores</span><span class="s">, type=&#39;b&#39;, ylab=&#39;network score&#39;, xlab=&#39;hmax&#39;, col=&#39;blue&#39;)&quot;</span>
+</pre></div>
 
 
-Here the slope heuristic suggests a single hybrid node: the score does not get much better beyond h=1.
-
-
-We made the plot via R above. A more Julian way would use a Julia plotting package such as [Gadfly](http://gadflyjl.org/stable/) or [Plots](http://docs.juliaplots.org/latest/ecosystem/), like this for instance:
-
-
-```julia
-using Gadfly
-plot(x=collect(0:3), y=scores, Geom.point, Geom.line)
+<p><img alt="scores_heuristic" src="../../assets/figures/snaqplot_scores_heuristic.svg" /></p>
+<p>Here the slope heuristic suggests a single hybrid node: the score does not get much better beyond h=1.</p>
+<p>We made the plot via R above. A more Julian way would use a Julia plotting package such as <a href="http://gadflyjl.org/stable/">Gadfly</a> or <a href="http://docs.juliaplots.org/latest/ecosystem/">Plots</a>, like this for instance:</p>
+<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">Gadfly</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">collect</span><span class="p">(</span><span class="mi">0</span><span class="o">:</span><span class="mi">3</span><span class="p">),</span> <span class="n">y</span><span class="o">=</span><span class="n">scores</span><span class="p">,</span> <span class="n">Geom</span><span class="o">.</span><span class="n">point</span><span class="p">,</span> <span class="n">Geom</span><span class="o">.</span><span class="n">line</span><span class="p">)</span>
 </pre></div>
 
 
@@ -785,31 +812,22 @@ plot(x=collect(0:3), y=scores, Geom.point, Geom.line)
 <p><a id='Network-Visualization-1'></a></p>
 <h2 id="network-visualization">Network Visualization</h2>
 <p>To visualize the estimated network, we can use the companion package <a href="https://github.com/cecileane/PhyloPlots.jl">PhyloPlots</a>. In the example below, julia creates and sends the plot to R via <a href="https://github.com/JuliaInterop/RCall.jl">RCall</a>, so we can tweak the plot in various ways via commands sent to R. To save the plot in a file: we first tell R to create an image file, then we send the plot of the network, then we tell R to wrap up and save its image file.</p>
-<p>```@example snaqplot
-using PhyloPlots # to visualize networks
-using RCall      # to send additional commands to R like this: R"..."
-R"name = function(x) file.path('..', 'assets', 'figures', x)" # function to create file name in appropriate folder
-R"svg(name('snaqplot_net1_2.svg'), width=4, height=3)" # starts image file
-R"par(mar = c(0,0,0,0))" # to reduce margins (no margins at all here)
-plot(net1, :R, showGamma=true, showEdgeNumber=true); # network is plotted &amp; sent to file
-R"dev.off()"; # wrap up and save image file</p>
-<div class="codehilite"><pre><span></span><span class="o">!</span><span class="p">[</span><span class="n">net1_2</span><span class="p">](..</span><span class="o">/</span><span class="n">assets</span><span class="o">/</span><span class="n">figures</span><span class="o">/</span><span class="n">snaqplot_net1_2</span><span class="p">.</span><span class="n">svg</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">PhyloPlots</span> <span class="c"># to visualize networks</span>
+<span class="k">using</span> <span class="n">RCall</span>      <span class="c"># to send additional commands to R like this: R&quot;...&quot;</span>
+<span class="n">R</span><span class="s">&quot;name = function(x) file.path(&#39;..&#39;, &#39;assets&#39;, &#39;figures&#39;, x)&quot;</span> <span class="c"># function to create file name in appropriate folder</span>
+<span class="n">R</span><span class="s">&quot;svg(name(&#39;snaqplot_net1_2.svg&#39;), width=4, height=3)&quot;</span> <span class="c"># starts image file</span>
+<span class="n">R</span><span class="s">&quot;par(mar = c(0,0,0,0))&quot;</span> <span class="c"># to reduce margins (no margins at all here)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span> <span class="o">:</span><span class="n">R</span><span class="p">,</span> <span class="n">showGamma</span><span class="o">=</span><span class="kc">true</span><span class="p">,</span> <span class="n">showEdgeNumber</span><span class="o">=</span><span class="kc">true</span><span class="p">);</span> <span class="c"># network is plotted &amp; sent to file</span>
+<span class="n">R</span><span class="s">&quot;dev.off()&quot;</span><span class="p">;</span> <span class="c"># wrap up and save image file</span>
+</pre></div>
 
 
-<span class="o">&lt;!</span><span class="err">–</span> <span class="n">This</span> <span class="n">will</span> <span class="n">open</span> <span class="n">a</span> <span class="n">browser</span> <span class="n">where</span> <span class="n">the</span> <span class="n">plot</span> <span class="n">will</span> <span class="n">appear</span> <span class="p">(</span><span class="n">unless</span> <span class="n">you</span> <span class="n">use</span> <span class="p">[</span><span class="n">Juno</span><span class="p">](</span><span class="nl">http</span><span class="p">:</span><span class="c1">//junolab.org), which would capture and display the plot). To get a pdf version, for instance (see [Gadfly tutorial](http://gadflyjl.org/) for other formats): using Gadfly; p=pdf(...); draw(PDF(&quot;bestnet_h1.pdf&quot;, 4inch, 4inch),p) –&gt;</span>
+<p><img alt="net1_2" src="../../assets/figures/snaqplot_net1_2.svg" /></p>
+<!– This will open a browser where the plot will appear (unless you use [Juno](http://junolab.org), which would capture and display the plot). To get a pdf version, for instance (see [Gadfly tutorial](http://gadflyjl.org/) for other formats): using Gadfly; p=pdf(...); draw(PDF("bestnet_h1.pdf", 4inch, 4inch),p) –>
 
-
-<span class="n">The</span> <span class="n">plot</span> <span class="n">function</span> <span class="n">has</span> <span class="n">many</span> <span class="n">options</span><span class="p">,</span> <span class="n">to</span> <span class="n">annotate</span> <span class="n">nodes</span> <span class="n">and</span> <span class="n">edges</span><span class="p">.</span> <span class="n">In</span> <span class="n">the</span> <span class="n">example</span> <span class="n">above</span><span class="p">,</span> <span class="n">hybrid</span> <span class="n">edges</span> <span class="n">were</span> <span class="n">annotated</span> <span class="n">with</span> <span class="n">their</span> <span class="err">γ</span> <span class="n">inheritance</span> <span class="n">values</span> <span class="p">(</span><span class="k">in</span> <span class="nl">blue</span><span class="p">:</span> <span class="n">light</span> <span class="n">blue</span> <span class="k">for</span> <span class="n">the</span> <span class="n">minor</span> <span class="n">edge</span> <span class="n">with</span> <span class="err">γ</span><span class="o">&lt;</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">and</span> <span class="n">dark</span> <span class="n">blue</span> <span class="k">for</span> <span class="n">the</span> <span class="n">major</span> <span class="n">edge</span> <span class="n">with</span> <span class="err">γ</span><span class="o">&gt;</span><span class="mf">0.5</span><span class="p">),</span> <span class="n">and</span> <span class="n">edges</span> <span class="n">were</span> <span class="n">annotated</span> <span class="n">with</span> <span class="n">their</span> <span class="n">internal</span> <span class="n">numbers</span><span class="p">.</span>
-
-
-<span class="n">Type</span> <span class="err">`</span><span class="o">?</span><span class="err">`</span> <span class="n">to</span> <span class="k">switch</span> <span class="n">to</span> <span class="n">the</span> <span class="n">help</span> <span class="n">mode</span> <span class="n">of</span> <span class="n">Julia</span><span class="p">,</span> <span class="n">then</span> <span class="n">type</span> <span class="n">the</span> <span class="n">name</span> <span class="n">of</span> <span class="n">the</span> <span class="n">function</span><span class="p">,</span> <span class="n">here</span> <span class="err">`</span><span class="n">plot</span><span class="err">`</span><span class="p">.</span> <span class="n">Edge</span> <span class="n">colors</span> <span class="n">can</span> <span class="n">be</span> <span class="n">modified</span><span class="p">,</span> <span class="k">for</span> <span class="n">instance</span><span class="p">.</span>
-
-
-<span class="err">```</span><span class="p">@</span><span class="n">example</span> <span class="n">snaqplot</span>
-<span class="n">R</span><span class="s">&quot;svg(name(&#39;snaqplot_net1_3.svg&#39;), width=4, height=3)&quot;</span> <span class="err">#</span> <span class="n">hide</span>
-<span class="n">R</span><span class="s">&quot;par(mar = c(0,0,0,0))&quot;</span> <span class="err">#</span> <span class="n">hide</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span> <span class="o">:</span><span class="n">R</span><span class="p">,</span> <span class="n">showEdgeLength</span><span class="o">=</span><span class="nb">true</span><span class="p">,</span> <span class="n">minorHybridEdgeColor</span><span class="o">=</span><span class="s">&quot;tan&quot;</span><span class="p">)</span>
-<span class="n">R</span><span class="s">&quot;dev.off()&quot;</span><span class="p">;</span> <span class="err">#</span> <span class="n">hide</span>
+<p>The plot function has many options, to annotate nodes and edges. In the example above, hybrid edges were annotated with their γ inheritance values (in blue: light blue for the minor edge with γ&lt;0.5, and dark blue for the major edge with γ&gt;0.5), and edges were annotated with their internal numbers.</p>
+<p>Type <code>?</code> to switch to the help mode of Julia, then type the name of the function, here <code>plot</code>. Edge colors can be modified, for instance.</p>
+<div class="codehilite"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span> <span class="o">:</span><span class="n">R</span><span class="p">,</span> <span class="n">showEdgeLength</span><span class="o">=</span><span class="kc">true</span><span class="p">,</span> <span class="n">minorHybridEdgeColor</span><span class="o">=</span><span class="s">&quot;tan&quot;</span><span class="p">)</span>
 </pre></div>
 
 
@@ -818,41 +836,22 @@ R"dev.off()"; # wrap up and save image file</p>
 
 <p>Edge lengths are shown, too. They were estimated in coalescent units: number of generations / effective population size. Some edge lengths are not identifiable, hence not shown.</p>
 <p>Below is another example, where space was added between the network and the taxon names via the <code>tipOffset</code> option. Also, edge colors were changed, and the nodes numbers are shown (used internally)</p>
-<p>```@example snaqplot
-R"svg(name('snaqplot_net1_4.svg'), width=4, height=3)" # hide
-R"par(mar = c(0,0,0,0))" # hide
-plot(net1,:R, tipOffset=0.5, showNodeNumber=true, edgeColor="tomato4",
-     minorHybridEdgeColor="skyblue", majorHybridEdgeColor="tan");
-R"dev.off()"; # hide</p>
-<div class="codehilite"><pre><span></span><span class="o">!</span><span class="p">[</span><span class="n">net1_4</span><span class="p">](..</span><span class="o">/</span><span class="n">assets</span><span class="o">/</span><span class="n">figures</span><span class="o">/</span><span class="n">snaqplot_net1_4</span><span class="p">.</span><span class="n">svg</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span><span class="o">:</span><span class="n">R</span><span class="p">,</span> <span class="n">tipOffset</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">showNodeNumber</span><span class="o">=</span><span class="kc">true</span><span class="p">,</span> <span class="n">edgeColor</span><span class="o">=</span><span class="s">&quot;tomato4&quot;</span><span class="p">,</span>
+     <span class="n">minorHybridEdgeColor</span><span class="o">=</span><span class="s">&quot;skyblue&quot;</span><span class="p">,</span> <span class="n">majorHybridEdgeColor</span><span class="o">=</span><span class="s">&quot;tan&quot;</span><span class="p">);</span>
+</pre></div>
 
 
-<span class="o">&lt;</span><span class="n">a</span> <span class="kt">id</span><span class="o">=</span><span class="err">&#39;</span><span class="n">Re</span><span class="o">-</span><span class="n">rooting</span><span class="o">-</span><span class="n">networks</span><span class="o">-</span><span class="mi">1</span><span class="err">&#39;</span><span class="o">&gt;&lt;/</span><span class="n">a</span><span class="o">&gt;</span>
-
-<span class="cp">## Re-rooting networks</span>
-
-
-<span class="n">SNaQ</span> <span class="n">infers</span> <span class="n">an</span> <span class="n">unrooted</span> <span class="n">semi</span><span class="o">-</span><span class="n">directed</span> <span class="n">network</span><span class="p">.</span> <span class="n">The</span> <span class="n">direction</span> <span class="n">of</span> <span class="n">hybrid</span> <span class="n">edges</span> <span class="n">can</span> <span class="n">be</span> <span class="n">inferred</span><span class="p">,</span> <span class="n">but</span> <span class="n">the</span> <span class="n">direction</span> <span class="n">of</span> <span class="n">tree</span> <span class="n">edges</span> <span class="n">cannot</span> <span class="n">be</span> <span class="n">inferred</span><span class="p">.</span> <span class="n">To</span> <span class="n">obtain</span> <span class="n">a</span> <span class="n">representative</span> <span class="n">visualization</span><span class="p">,</span> <span class="n">it</span> <span class="n">is</span> <span class="n">best</span> <span class="n">to</span> <span class="n">root</span> <span class="n">the</span> <span class="n">network</span> <span class="n">first</span><span class="p">,</span> <span class="n">using</span> <span class="n">one</span> <span class="n">or</span> <span class="n">more</span> <span class="n">outgroup</span><span class="p">.</span> <span class="n">Go</span> <span class="n">to</span> <span class="p">[</span><span class="n">Re</span><span class="o">-</span><span class="n">rooting</span> <span class="n">trees</span> <span class="n">and</span> <span class="n">networks</span><span class="p">](</span><span class="n">dist_reroot</span><span class="p">.</span><span class="n">md</span><span class="err">#</span><span class="n">Re</span><span class="o">-</span><span class="n">rooting</span><span class="o">-</span><span class="n">trees</span><span class="o">-</span><span class="n">and</span><span class="o">-</span><span class="n">networks</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">this</span><span class="p">.</span> <span class="n">If</span> <span class="n">your</span> <span class="n">outgroup</span> <span class="n">conflicts</span> <span class="n">with</span> <span class="n">the</span> <span class="n">direction</span> <span class="n">of</span> <span class="n">reticulations</span> <span class="k">in</span> <span class="n">the</span> <span class="n">estimated</span> <span class="n">network</span><span class="p">,</span> <span class="n">see</span> <span class="n">section</span> <span class="p">[</span><span class="n">Candidate</span> <span class="n">networks</span> <span class="n">compatible</span> <span class="n">with</span> <span class="n">a</span> <span class="n">known</span> <span class="n">outgroup</span><span class="p">](</span><span class="n">fixednetworkoptim</span><span class="p">.</span><span class="n">md</span><span class="err">#</span><span class="n">Candidate</span><span class="o">-</span><span class="n">networks</span><span class="o">-</span><span class="n">compatible</span><span class="o">-</span><span class="n">with</span><span class="o">-</span><span class="n">a</span><span class="o">-</span><span class="n">known</span><span class="o">-</span><span class="n">outgroup</span><span class="o">-</span><span class="mi">1</span><span class="p">).</span>
-
-
-<span class="o">&lt;</span><span class="n">a</span> <span class="kt">id</span><span class="o">=</span><span class="err">&#39;</span><span class="n">Candidate</span><span class="o">-</span><span class="n">Network</span><span class="o">-</span><span class="n">Evaluation</span><span class="o">-</span><span class="mi">1</span><span class="err">&#39;</span><span class="o">&gt;&lt;/</span><span class="n">a</span><span class="o">&gt;</span>
-
-<span class="cp">## Candidate Network Evaluation</span>
-
-
-<span class="n">From</span> <span class="n">a</span> <span class="n">set</span> <span class="n">of</span> <span class="n">candidate</span> <span class="n">networks</span><span class="p">,</span> <span class="n">one</span> <span class="n">might</span> <span class="n">simply</span> <span class="n">need</span> <span class="n">to</span> <span class="n">score</span> <span class="n">of</span> <span class="n">each</span> <span class="n">network</span> <span class="n">to</span> <span class="n">pick</span> <span class="n">the</span> <span class="n">best</span><span class="p">.</span> <span class="n">Here</span><span class="p">,</span> <span class="n">the</span> <span class="n">score</span> <span class="n">is</span> <span class="n">the</span> <span class="n">negative</span> <span class="n">log</span> <span class="n">pseudo</span><span class="o">-</span><span class="n">likelihood</span><span class="p">,</span> <span class="n">and</span> <span class="n">the</span> <span class="n">lower</span> <span class="n">the</span> <span class="n">better</span><span class="p">.</span> <span class="n">See</span> <span class="n">the</span> <span class="n">section</span> <span class="n">to</span> <span class="n">get</span> <span class="n">the</span> <span class="n">score</span> <span class="n">of</span> <span class="p">[</span><span class="n">Candidate</span> <span class="n">Networks</span><span class="p">](</span><span class="n">fixednetworkoptim</span><span class="p">.</span><span class="n">md</span><span class="err">#</span><span class="n">Candidate</span><span class="o">-</span><span class="n">Networks</span><span class="o">-</span><span class="mi">1</span><span class="p">).</span>
-
-
-<span class="o">&lt;</span><span class="n">a</span> <span class="kt">id</span><span class="o">=</span><span class="err">&#39;</span><span class="n">SNaQ</span><span class="o">-</span><span class="n">error</span><span class="o">-</span><span class="n">reporting</span><span class="o">-</span><span class="mi">1</span><span class="err">&#39;</span><span class="o">&gt;&lt;/</span><span class="n">a</span><span class="o">&gt;</span>
-
-<span class="cp">## SNaQ error reporting</span>
-
-
-<span class="n">Please</span> <span class="n">report</span> <span class="n">any</span> <span class="n">bugs</span> <span class="n">and</span> <span class="n">errors</span> <span class="n">by</span> <span class="n">opening</span> <span class="n">an</span> <span class="p">[</span><span class="n">issue</span><span class="p">](</span><span class="nl">https</span><span class="p">:</span><span class="c1">//github.com/crsl4/PhyloNetworks.jl/issues/new). The easiest way to provide information on the error is by checking the `.err` file, which will show the number of runs that failed and the corresponding seed to replicate the run. In case of an error, the `.err` file might look like: `Total errors: 1 in seeds [4545]`. To replicate the bug (necessary to fix it!), you can run the following function with the same settings that caused the error:</span>
-
-
-<span class="err">```</span><span class="n">julia</span>
-<span class="n">snaqDebug</span><span class="p">(</span><span class="n">startnetwork</span><span class="p">,</span> <span class="n">raxmlCF</span><span class="p">,</span> <span class="n">hmax</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">4545</span><span class="p">)</span>
+<p><img alt="net1_4" src="../../assets/figures/snaqplot_net1_4.svg" /></p>
+<p><a id='Re-rooting-networks-1'></a></p>
+<h2 id="re-rooting-networks">Re-rooting networks</h2>
+<p>SNaQ infers an unrooted semi-directed network. The direction of hybrid edges can be inferred, but the direction of tree edges cannot be inferred. To obtain a representative visualization, it is best to root the network first, using one or more outgroup. Go to <a href="../dist_reroot/#Re-rooting-trees-and-networks-1">Re-rooting trees and networks</a> for this. If your outgroup conflicts with the direction of reticulations in the estimated network, see section <a href="../fixednetworkoptim/#Candidate-networks-compatible-with-a-known-outgroup-1">Candidate networks compatible with a known outgroup</a>.</p>
+<p><a id='Candidate-Network-Evaluation-1'></a></p>
+<h2 id="candidate-network-evaluation">Candidate Network Evaluation</h2>
+<p>From a set of candidate networks, one might simply need to score of each network to pick the best. Here, the score is the negative log pseudo-likelihood, and the lower the better. See the section to get the score of <a href="../fixednetworkoptim/#Candidate-Networks-1">Candidate Networks</a>.</p>
+<p><a id='SNaQ-error-reporting-1'></a></p>
+<h2 id="snaq-error-reporting">SNaQ error reporting</h2>
+<p>Please report any bugs and errors by opening an <a href="https://github.com/crsl4/PhyloNetworks.jl/issues/new">issue</a>. The easiest way to provide information on the error is by checking the <code>.err</code> file, which will show the number of runs that failed and the corresponding seed to replicate the run. In case of an error, the <code>.err</code> file might look like: <code>Total errors: 1 in seeds [4545]</code>. To replicate the bug (necessary to fix it!), you can run the following function with the same settings that caused the error:</p>
+<div class="codehilite"><pre><span></span><span class="n">snaqDebug</span><span class="p">(</span><span class="n">startnetwork</span><span class="p">,</span> <span class="n">raxmlCF</span><span class="p">,</span> <span class="n">hmax</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">4545</span><span class="p">)</span>
 </pre></div>
 
 

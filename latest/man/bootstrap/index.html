@@ -419,6 +419,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#where-is-the-origin-of-gene-flow" title="Where is the origin of gene flow?" class="md-nav__link">
+    Where is the origin of gene flow?
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -561,6 +568,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#where-is-the-origin-of-gene-flow" title="Where is the origin of gene flow?" class="md-nav__link">
+    Where is the origin of gene flow?
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -638,44 +652,26 @@
 
 
 <p>It turns out that the direction of gene flow is quite uncertain in this example (see below) with a wrong direction inferred sometimes, so we re-root our best network net1 to the base of O,E, for the figures to be less confusing later.</p>
-<p>```@example bootstrap
-using PhyloPlots, RCall
-R"name &lt;- function(x) file.path('..', 'assets', 'figures', x)" # hide
-R"svg(name('net1_rotate1_1.svg'), width=4, height=4)" # hide
-R"par(mar = c(0, 0, 0, 0))" # hide
-plot(net1, :R, showEdgeNumber=true); # edge 7 leads to O+E
-R"dev.off()" # hide
-rootonedge!(net1, 7) # makes (O,E) outgroup clade
-R"svg(name('net1_rotate1_2.svg'), width=4, height=4)" # hide
-R"par(mar = c(0, 0, 0, 0))" # hide
-plot(net1, :R, showNodeNumber=true);
-R"dev.off()" # hide
-nothing # hide</p>
-<div class="codehilite"><pre><span></span>![net1_rotate1 1](../assets/figures/net1_rotate1_1.svg) ![net1_rotate1 2](../assets/figures/net1_rotate1_2.svg)
-
-
-Edges cross: but rotating at node -6 should remove this crossing of edges
-
-
-```julia
-rotate!(net1, -6)
+<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">PhyloPlots</span><span class="p">,</span> <span class="n">RCall</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span> <span class="o">:</span><span class="n">R</span><span class="p">,</span> <span class="n">showEdgeNumber</span><span class="o">=</span><span class="kc">true</span><span class="p">);</span> <span class="c"># edge 7 leads to O+E</span>
+<span class="n">rootonedge!</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span> <span class="c"># makes (O,E) outgroup clade</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span> <span class="o">:</span><span class="n">R</span><span class="p">,</span> <span class="n">showNodeNumber</span><span class="o">=</span><span class="kc">true</span><span class="p">);</span>
 </pre></div>
 
 
-<p>```@example bootstrap
-R"svg(name('net1_rotate2.svg'), width=4, height=4)" # hide
-R"par(mar = c(0, 0, 0, 0))" # hide
-plot(net1, :R, showGamma=true);
-R"dev.off()" # hide
-nothing # hide</p>
-<div class="codehilite"><pre><span></span>![net1_rotate2](../assets/figures/net1_rotate2.svg)
+<p><img alt="net1_rotate1 1" src="../../assets/figures/net1_rotate1_1.svg" /> <img alt="net1_rotate1 2" src="../../assets/figures/net1_rotate1_2.svg" /></p>
+<p>Edges cross: but rotating at node -6 should remove this crossing of edges</p>
+<div class="codehilite"><pre><span></span><span class="n">rotate!</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span> <span class="o">-</span><span class="mi">6</span><span class="p">)</span>
+</pre></div>
 
 
-We can now summarize our bootstrap networks. The functions `treeEdgesBootstrap` and `hybridBootstrapSupport` read all bootstrap networks and map the edges / nodes onto a reference network: here net1.
+<div class="codehilite"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span> <span class="o">:</span><span class="n">R</span><span class="p">,</span> <span class="n">showGamma</span><span class="o">=</span><span class="kc">true</span><span class="p">);</span>
+</pre></div>
 
 
-```julia
-BSe_tree, tree1 = treeEdgesBootstrap(bootnet,net1);
+<p><img alt="net1_rotate2" src="../../assets/figures/net1_rotate2.svg" /></p>
+<p>We can now summarize our bootstrap networks. The functions <code>treeEdgesBootstrap</code> and <code>hybridBootstrapSupport</code> read all bootstrap networks and map the edges / nodes onto a reference network: here net1.</p>
+<div class="codehilite"><pre><span></span><span class="n">BSe_tree</span><span class="p">,</span> <span class="n">tree1</span> <span class="o">=</span> <span class="n">treeEdgesBootstrap</span><span class="p">(</span><span class="n">bootnet</span><span class="p">,</span><span class="n">net1</span><span class="p">);</span>
 </pre></div>
 
 
@@ -687,20 +683,13 @@ BSe_tree, tree1 = treeEdgesBootstrap(bootnet,net1);
 
 
 <p>This calculates the major tree <code>tree1</code> displayed in <code>net1</code>, that is, the tree obtained by following the major parent (γ&gt;0.5) of each hybrid node. This tree can be visualized like this, with edge numbers shown for later use.</p>
-<p>```@example bootstrap
-R"svg(name('major_tree.svg'), width=4, height=4)" # hide
-R"par(mar = c(0, 0, 0, 0))" # hide
-plot(tree1, :R, showEdgeNumber=true);
-R"dev.off()" # hide
-nothing # hide</p>
-<div class="codehilite"><pre><span></span>![major_tree](../assets/figures/major_tree.svg)
+<div class="codehilite"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">tree1</span><span class="p">,</span> <span class="o">:</span><span class="n">R</span><span class="p">,</span> <span class="n">showEdgeNumber</span><span class="o">=</span><span class="kc">true</span><span class="p">);</span>
+</pre></div>
 
 
-Next, we can look at bootstrap table `BSe_tree`, which has one row for each tree edge in `net1`. One column contains the edge number (same as shown in the plot) and another column contains the edge bootstrap support: the proportion of bootstrap replicates in which this edge was found in the major tree of the inferred network. We can see the full bootstrap table and see which tree edges have bootstrap support lower than 100% (none here) with
-
-
-```julia-repl
-julia&gt; showall(BSe_tree)
+<p><img alt="major_tree" src="../../assets/figures/major_tree.svg" /></p>
+<p>Next, we can look at bootstrap table <code>BSe_tree</code>, which has one row for each tree edge in <code>net1</code>. One column contains the edge number (same as shown in the plot) and another column contains the edge bootstrap support: the proportion of bootstrap replicates in which this edge was found in the major tree of the inferred network. We can see the full bootstrap table and see which tree edges have bootstrap support lower than 100% (none here) with</p>
+<div class="codehilite"><pre><span></span>julia&gt; showall(BSe_tree)
 3×2 DataFrames.DataFrame
 │ Row │ edgeNumber │ proportion │
 ├─────┼────────────┼────────────┤
@@ -713,27 +702,15 @@ julia&gt; BSe_tree[BSe_tree[:proportion] .&lt; 100.0, :]
 
 
 <p>Finally, we can map the bootstrap proportions onto the network or its main tree by passing the bootstrap table to the <code>edgeLabel</code> option of <code>plot</code>:</p>
-<p>```@example bootstrap
-R"svg(name('boot_tree_net_1.svg'), width=4, height=4)" # hide
-R"par(mar = c(0, 0, 0, 0))" # hide
-plot(tree1, :R, edgeLabel=BSe_tree);
-R"dev.off()" # hide
-R"svg(name('boot_tree_net_2.svg'), width=4, height=4)" # hide
-R"par(mar = c(0, 0, 0, 0))" # hide
-plot(net1, :R, edgeLabel=BSe_tree);
-R"dev.off()" # hide
-nothing # hide</p>
-<div class="codehilite"><pre><span></span>![boot_tree_net 1](../assets/figures/boot_tree_net_1.svg) ![boot_tree_net 2](../assets/figures/boot_tree_net_2.svg)
+<div class="codehilite"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">tree1</span><span class="p">,</span> <span class="o">:</span><span class="n">R</span><span class="p">,</span> <span class="n">edgeLabel</span><span class="o">=</span><span class="n">BSe_tree</span><span class="p">);</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span> <span class="o">:</span><span class="n">R</span><span class="p">,</span> <span class="n">edgeLabel</span><span class="o">=</span><span class="n">BSe_tree</span><span class="p">);</span>
+</pre></div>
 
 
-(Here, it is important that the numbers assigned to edges when building the boostrap table –those in `net1` at the time– correspond to the current edge numbers in `tree1` and `net1`. That was the purpose of reading the network from the output file of `snaq!` earlier, for consistency across different Julia sessions.)
-
-
-If we wanted to plot only certain bootstrap values, like those below 100% (1.0), we could do this:
-
-
-```julia
-plot(net1, :R, edgeLabel=BSe_tree[BSe_tree[:proportion] .&lt; 100.0, :]);
+<p><img alt="boot_tree_net 1" src="../../assets/figures/boot_tree_net_1.svg" /> <img alt="boot_tree_net 2" src="../../assets/figures/boot_tree_net_2.svg" /></p>
+<p>(Here, it is important that the numbers assigned to edges when building the boostrap table –those in <code>net1</code> at the time– correspond to the current edge numbers in <code>tree1</code> and <code>net1</code>. That was the purpose of reading the network from the output file of <code>snaq!</code> earlier, for consistency across different Julia sessions.)</p>
+<p>If we wanted to plot only certain bootstrap values, like those below 100% (1.0), we could do this:</p>
+<div class="codehilite"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span> <span class="o">:</span><span class="n">R</span><span class="p">,</span> <span class="n">edgeLabel</span><span class="o">=</span><span class="n">BSe_tree</span><span class="p">[</span><span class="n">BSe_tree</span><span class="p">[</span><span class="o">:</span><span class="n">proportion</span><span class="p">]</span> <span class="o">.&lt;</span> <span class="mf">100.0</span><span class="p">,</span> <span class="o">:</span><span class="p">]);</span>
 </pre></div>
 
 
@@ -818,24 +795,13 @@ julia&gt; BSc[:taxa][BSc[:H7]]
 
 <p>lists all the hybrid edges in the best network, two for each hybrid node: the major parent edge and then the minor parent edge. In our case, there is only one reticulation, so only 2 hybrid edges.</p>
 <p>We can plot the bootstrap values of the 2 hybrid edges in the best network:</p>
-<p>```@example bootstrap
-R"svg(name('boot_net_net.svg'), width=4, height=4)" # hide
-R"par(mar = c(0, 0, 0, 0))" # hide
-plot(net1, :R, edgeLabel=BSe[[:edge,:BS_hybrid_edge]]);
-R"dev.off()" # hide
-nothing # hide</p>
-<div class="codehilite"><pre><span></span>![boot_net_net](../assets/figures/boot_net_net.svg)
+<div class="codehilite"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span> <span class="o">:</span><span class="n">R</span><span class="p">,</span> <span class="n">edgeLabel</span><span class="o">=</span><span class="n">BSe</span><span class="p">[[</span><span class="o">:</span><span class="n">edge</span><span class="p">,</span><span class="o">:</span><span class="n">BS_hybrid_edge</span><span class="p">]]);</span>
+</pre></div>
 
 
-This is showing the bootstrap support each hybrid edge: percentage of bootstrap trees with an edge from the same sister clade to the same hybrid clade. Alternatively, we could show the bootstrap support for the full reticulation relationships in the network, one at each hybrid node (support for same hybrid with same sister clades). Here, we find that A received gene flow from E (and is sister to B otherwise) in just 32% of bootstrap networks. In another 1% bootstrap, A received gene flow from another source.
-
-
-```@example bootstrap
-R&quot;svg(name(&#39;boot_net_ret.svg&#39;), width=4, height=4)&quot; # hide
-R&quot;par(mar = c(0, 0, 0, 0))&quot; # hide
-plot(net1, :R, nodeLabel=BSn[[:hybridnode,:BS_hybrid_samesisters]]);
-R&quot;dev.off()&quot; # hide
-nothing # hide
+<p><img alt="boot_net_net" src="../../assets/figures/boot_net_net.svg" /></p>
+<p>This is showing the bootstrap support each hybrid edge: percentage of bootstrap trees with an edge from the same sister clade to the same hybrid clade. Alternatively, we could show the bootstrap support for the full reticulation relationships in the network, one at each hybrid node (support for same hybrid with same sister clades). Here, we find that A received gene flow from E (and is sister to B otherwise) in just 32% of bootstrap networks. In another 1% bootstrap, A received gene flow from another source.</p>
+<div class="codehilite"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span> <span class="o">:</span><span class="n">R</span><span class="p">,</span> <span class="n">nodeLabel</span><span class="o">=</span><span class="n">BSn</span><span class="p">[[</span><span class="o">:</span><span class="n">hybridnode</span><span class="p">,</span><span class="o">:</span><span class="n">BS_hybrid_samesisters</span><span class="p">]]);</span>
 </pre></div>
 
 
@@ -852,39 +818,17 @@ nothing # hide
 <p><a id='Who-are-the-hybrids-in-bootstrap-networks?-1'></a></p>
 <h3 id="who-are-the-hybrids-in-bootstrap-networks">Who are the hybrids in bootstrap networks?</h3>
 <p>On a different plot, we can show the bootstrap support for hybrid clades, first mapped to each node with positive hybrid support, and then mapped on the parent edge of these nodes. A is estimated as a hybrid in only 33% of our bootstrap networks. In another 44%, it is the lineage to (E,O) that is estimated as being of hybrid origin.</p>
-<p>```@example bootstrap
-R"svg(name('boot_net_hyb_1.svg'), width=4, height=4)" # hide
-R"par(mar = c(0, 0, 0, 0))" # hide
-plot(net1, :R, nodeLabel=BSn[BSn[:BS_hybrid].&gt;0, [:hybridnode,:BS_hybrid]]);
-R"dev.off()" # hide
-nothing # hide
-R"svg(name('boot_net_hyb_2.svg'), width=4, height=4)" # hide
-R"par(mar = c(0, 0, 0, 0))" # hide
-plot(net1, :R, edgeLabel=BSn[BSn[:BS_hybrid].&gt;0, [:edge,:BS_hybrid]]);
-R"dev.off()" # hide
-nothing # hide</p>
-<div class="codehilite"><pre><span></span>![boot_net_hyb 1](../assets/figures/boot_net_hyb_1.svg) ![boot_net_hyb 2](../assets/figures/boot_net_hyb_2.svg)
+<div class="codehilite"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span> <span class="o">:</span><span class="n">R</span><span class="p">,</span> <span class="n">nodeLabel</span><span class="o">=</span><span class="n">BSn</span><span class="p">[</span><span class="n">BSn</span><span class="p">[</span><span class="o">:</span><span class="n">BS_hybrid</span><span class="p">]</span><span class="o">.&gt;</span><span class="mi">0</span><span class="p">,</span> <span class="p">[</span><span class="o">:</span><span class="n">hybridnode</span><span class="p">,</span><span class="o">:</span><span class="n">BS_hybrid</span><span class="p">]]);</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span> <span class="o">:</span><span class="n">R</span><span class="p">,</span> <span class="n">edgeLabel</span><span class="o">=</span><span class="n">BSn</span><span class="p">[</span><span class="n">BSn</span><span class="p">[</span><span class="o">:</span><span class="n">BS_hybrid</span><span class="p">]</span><span class="o">.&gt;</span><span class="mi">0</span><span class="p">,</span> <span class="p">[</span><span class="o">:</span><span class="n">edge</span><span class="p">,</span><span class="o">:</span><span class="n">BS_hybrid</span><span class="p">]]);</span>
+</pre></div>
 
 
-<span class="nt">&lt;a</span> <span class="na">id=</span><span class="s">&#39;Where-is-the-origin-of-gene-flow?-1&#39;</span><span class="nt">&gt;&lt;/a&gt;</span>
-
-### Where is the origin of gene flow?
-
-
-We can plot the support for the various placements of the gene flow origin (minor sister clade), first mapped to each node with positive support for being the origin of gene flow, and then mapped along the parent edge of these nodes. We filtered clades to show those with sister support &gt; 5%:
-
-
-```@example bootstrap
-R&quot;svg(name(&#39;boot_net_clade_1.svg&#39;), width=4, height=4)&quot; # hide
-R&quot;par(mar = c(0, 0, 0, 0))&quot; # hide
-plot(net1, :R, nodeLabel=BSn[BSn[:BS_minor_sister].&gt;5, [:node,:BS_minor_sister]]);
-R&quot;dev.off()&quot; # hide
-nothing # hide
-R&quot;svg(name(&#39;boot_net_clade_2.svg&#39;), width=4, height=4)&quot; # hide
-R&quot;par(mar = c(0, 0, 0, 0))&quot; # hide
-plot(net1, :R, edgeLabel=BSn[BSn[:BS_minor_sister].&gt;5, [:edge,:BS_minor_sister]]);
-R&quot;dev.off()&quot; # hide
-nothing # hide
+<p><img alt="boot_net_hyb 1" src="../../assets/figures/boot_net_hyb_1.svg" /> <img alt="boot_net_hyb 2" src="../../assets/figures/boot_net_hyb_2.svg" /></p>
+<p><a id='Where-is-the-origin-of-gene-flow?-1'></a></p>
+<h3 id="where-is-the-origin-of-gene-flow">Where is the origin of gene flow?</h3>
+<p>We can plot the support for the various placements of the gene flow origin (minor sister clade), first mapped to each node with positive support for being the origin of gene flow, and then mapped along the parent edge of these nodes. We filtered clades to show those with sister support &gt; 5%:</p>
+<div class="codehilite"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span> <span class="o">:</span><span class="n">R</span><span class="p">,</span> <span class="n">nodeLabel</span><span class="o">=</span><span class="n">BSn</span><span class="p">[</span><span class="n">BSn</span><span class="p">[</span><span class="o">:</span><span class="n">BS_minor_sister</span><span class="p">]</span><span class="o">.&gt;</span><span class="mi">5</span><span class="p">,</span> <span class="p">[</span><span class="o">:</span><span class="n">node</span><span class="p">,</span><span class="o">:</span><span class="n">BS_minor_sister</span><span class="p">]]);</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">net1</span><span class="p">,</span> <span class="o">:</span><span class="n">R</span><span class="p">,</span> <span class="n">edgeLabel</span><span class="o">=</span><span class="n">BSn</span><span class="p">[</span><span class="n">BSn</span><span class="p">[</span><span class="o">:</span><span class="n">BS_minor_sister</span><span class="p">]</span><span class="o">.&gt;</span><span class="mi">5</span><span class="p">,</span> <span class="p">[</span><span class="o">:</span><span class="n">edge</span><span class="p">,</span><span class="o">:</span><span class="n">BS_minor_sister</span><span class="p">]]);</span>
 </pre></div>
 
 

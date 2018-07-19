@@ -331,30 +331,23 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#to-run-mrbayes-you-already-have-alignments" title="To run MrBayes: You already have alignments" class="md-nav__link">
-    To run MrBayes: You already have alignments
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#to-run-bucky-you-already-have-mrbayes-output" title="To run BUCKy: You already have MrBayes output" class="md-nav__link">
-    To run BUCKy: You already have MrBayes output
+  <a href="#to-run-mrbayes-we-already-have-alignments" title="To run MrBayes: we already have alignments" class="md-nav__link">
+    To run MrBayes: we already have alignments
   </a>
   
     <nav class="md-nav">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#to-run-mbsum-on-the-output-of-mrbayes-for-each-gene" title="To run mbsum on the output of MrBayes for each gene" class="md-nav__link">
-    To run mbsum on the output of MrBayes for each gene
+  <a href="#no-scheduler-pipeline" title="no-scheduler pipeline" class="md-nav__link">
+    no-scheduler pipeline
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#to-run-bucky-on-all-4-taxon-sets-you-already-have-the-mbsum-output" title="To run bucky on all 4-taxon sets: you already have the mbsum output" class="md-nav__link">
-    To run bucky on all 4-taxon sets: you already have the mbsum output
+  <a href="#slurm-pipeline" title="slurm pipeline" class="md-nav__link">
+    slurm pipeline
   </a>
   
 </li>
@@ -533,30 +526,23 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#to-run-mrbayes-you-already-have-alignments" title="To run MrBayes: You already have alignments" class="md-nav__link">
-    To run MrBayes: You already have alignments
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#to-run-bucky-you-already-have-mrbayes-output" title="To run BUCKy: You already have MrBayes output" class="md-nav__link">
-    To run BUCKy: You already have MrBayes output
+  <a href="#to-run-mrbayes-we-already-have-alignments" title="To run MrBayes: we already have alignments" class="md-nav__link">
+    To run MrBayes: we already have alignments
   </a>
   
     <nav class="md-nav">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#to-run-mbsum-on-the-output-of-mrbayes-for-each-gene" title="To run mbsum on the output of MrBayes for each gene" class="md-nav__link">
-    To run mbsum on the output of MrBayes for each gene
+  <a href="#no-scheduler-pipeline" title="no-scheduler pipeline" class="md-nav__link">
+    no-scheduler pipeline
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#to-run-bucky-on-all-4-taxon-sets-you-already-have-the-mbsum-output" title="To run bucky on all 4-taxon sets: you already have the mbsum output" class="md-nav__link">
-    To run bucky on all 4-taxon sets: you already have the mbsum output
+  <a href="#slurm-pipeline" title="slurm pipeline" class="md-nav__link">
+    slurm pipeline
   </a>
   
 </li>
@@ -589,34 +575,174 @@
 <h1 id="ticr-pipeline">TICR pipeline</h1>
 <p>PhyloNetworks' <a href="https://github.com/crsl4/PhyloNetworks.jl/wiki/TICR:-from-alignments-to-quartet-concordance-factors">wiki</a> has a step-by-step tutorial, to go from multiple sequence alignments to a table of quartet gene frequencies (concordance factors: CFs), through BUCKy (to integrate out gene tree uncertainty) or through RAxML. To get the <code>raxml.pl</code> perl script to run RAxML on each gene, download the content of that wiki with</p>
 <p><code>git clone https://github.com/crsl4/PhyloNetworks.jl.wiki.git</code></p>
-<p>then go to the <code>script/</code> folder.   Below is more detail to insert data into the TICR pipeline at various stages. Full information and code for this pipeline is <a href="https://github.com/nstenz/TICR">here</a>.</p>
-<p><a id='To-run-MrBayes:-You-already-have-alignments-1'></a></p>
-<h2 id="to-run-mrbayes-you-already-have-alignments">To run MrBayes: You already have alignments</h2>
-<p>If you don't need to run mdl.pl because you already have aligned gene sequences which you would like to run through MrBayes, you can simply create a tarball of the Nexus files (fasta won't work at this stage) you wish to use. This command assumes that you want to use all the files ending with ".nex" in the current directory, one file per locus:</p>
-<p><code>tar czf my-genes.tar.gz *.nex</code></p>
-<p>Once the tarball has been successfully generated, you can then specify this file as input for <a href="https://github.com/nstenz/TICR/blob/master/scripts/mb.pl">mb.pl</a> assuming you have a a valid MrBayes block located in the file "bayes.txt":</p>
-<p><code>mb.pl my-genes.tar.gz -m bayes.txt -o my-genes-mb</code></p>
-<p>If you get an error message like <code>mb.pl: Command not found</code>, it might be because <code>mb.pl</code> has no execute permission or your current directory is not in your path. An easy fix is to run this command instead:</p>
-<p><code>perl mb.pl my-genes.tar.gz -m bayes.txt -o my-genes-mb</code></p>
-<p>The resulting output tarball would now be located in my-genes-mb/my-genes.mb.tar, and can be used normally with <a href="https://github.com/nstenz/TICR/blob/master/scripts/bucky.pl">bucky.pl</a>, that is, like this:</p>
-<p><code>bucky.pl my-genes-mb/my-genes.mb.tar -o mygenes-bucky</code></p>
-<p>The output, with the table of concordance factors for all sets of 4 taxa, will be in a file named <code>my-genes.CFs.csv</code> inside a directory named <code>mygenes-bucky</code>. That's the file containing the quartet concordance factors to give to SNaQ as input.</p>
-<p><a id='To-run-BUCKy:-You-already-have-MrBayes-output-1'></a></p>
-<h2 id="to-run-bucky-you-already-have-mrbayes-output">To run BUCKy: You already have MrBayes output</h2>
-<p><a id='To-run-mbsum-on-the-output-of-MrBayes-for-each-gene-1'></a></p>
-<h3 id="to-run-mbsum-on-the-output-of-mrbayes-for-each-gene">To run mbsum on the output of MrBayes for each gene</h3>
-<p>You must now run <code>mbsum</code> separately on each gene's MrBayes output. For a gene with output tree files named gene1.run1.t gene1.run2.t gene1.run3.t, and a desired burnin of 1000 trees per tree file:</p>
-<p><code>mbsum -n 1000 -o gene1.in gene1.run1.t gene1.run2.t gene1.run3.t</code></p>
-<p>This <code>mbsum</code> command will need to be executed for each gene. Now continue to the next section.</p>
-<p><a id='To-run-bucky-on-all-4-taxon-sets:-you-already-have-the-mbsum-output-1'></a></p>
-<h3 id="to-run-bucky-on-all-4-taxon-sets-you-already-have-the-mbsum-output">To run bucky on all 4-taxon sets: you already have the mbsum output</h3>
-<p>If you have already run mbsum on each individual gene's MrBayes output, you can simply create a tarball containing all the mbsum output files. So if you had mbsum output in files named gene1.in, gene2.in, ... , gene100.in, you would want to run something similar to the following command:</p>
-<p><code>tar czf my-genes-mbsum.tar.gz gene*.in</code></p>
-<p>You can now use this tarball along with the -s option in <a href="https://github.com/nstenz/TICR/blob/master/scripts/bucky.pl">bucky.pl</a> like this:</p>
-<p><code>bucky.pl my-genes-mbsum.tar.gz -s -o mygenes-bucky</code></p>
-<p>Again, if you get an error like <code>bucky.pl: Command not found</code>, run instead</p>
-<p><code>bucky.pl my-genes-mbsum.tar.gz -s -o mygenes-bucky</code></p>
-<p>The output, with the table of concordance factors for all sets of 4 taxa, will be in a file named <code>my-genes.CFs.csv</code> inside directory <code>mygenes-bucky</code>. That's the file containing the quartet concordance factors to give to SNaQ as input.</p>
+<p>then go to the <code>script/</code> folder.   Full information and code is <a href="https://github.com/nstenz/TICR">here</a>. Below is more detail to insert data into the pipeline at various stages, using one of <strong>two pipelines</strong>, depending on your machine configuration:</p>
+<ul>
+<li>"no-scheduler" pipeline: original set of Perl scripts from the TICR pipeline, well suited for a machine or a cluster of machines without a job scheduler. The scripts automatically parallelize the work across the available cores.</li>
+<li>"slurm" pipeline: well suited for a cluster where users submit jobs via a job scheduler like <a href="https://slurm.schedmd.com/">SLURM</a> or <a href="https://en.wikipedia.org/wiki/Oracle_Grid_Engine">SGE</a>. The job scheduler does the work of parallelizing the work across available cores. The scripts, in this second pipeline, were created to take full advantage of job scheduler capabilities. They were developed for a cluster running SLURM. Adjustments to the submit scripts will be needed, to adapt to your own SLURM configuration or to the syntax that your job scheduler wants.</li>
+</ul>
+<p><a id='To-run-MrBayes:-we-already-have-alignments-1'></a></p>
+<h2 id="to-run-mrbayes-we-already-have-alignments">To run MrBayes: we already have alignments</h2>
+<p><a id='no-scheduler-pipeline-1'></a></p>
+<h3 id="no-scheduler-pipeline">no-scheduler pipeline</h3>
+<p>We don't need to run <code>mdl.pl</code> if we already have aligned gene sequences from separate loci. To run MrBayes on each locus, we can simply create a tarball of the Nexus files we wish to use (fasta won't work at this stage). The command below assumes that we want to use all the files ending with ".nex" in the current directory, one file per locus:</p>
+<div class="codehilite"><pre><span></span>tar czf my-genes.tar.gz *.nex
+</pre></div>
+
+
+<p>Once the tarball has been successfully generated, we can then specify this file as input for <a href="https://github.com/nstenz/TICR/blob/master/scripts/mb.pl">mb.pl</a> assuming we have a valid MrBayes block located in the file "bayes.txt":</p>
+<div class="codehilite"><pre><span></span>mb.pl my-genes.tar.gz -m bayes.txt -o my-genes-mb
+</pre></div>
+
+
+<p>If we get an error message like <code>mb.pl: Command not found</code>, it might be because <code>mb.pl</code> has no execute permission, or the current directory is not in our "path". An easy fix is to run this command instead:</p>
+<div class="codehilite"><pre><span></span>perl mb.pl my-genes.tar.gz -m bayes.txt -o my-genes-mb
+</pre></div>
+
+
+<p>The resulting output tarball would now be located in <code>my-genes-mb/my-genes.mb.tar</code>, and can be used normally with <a href="https://github.com/nstenz/TICR/blob/master/scripts/bucky.pl">bucky.pl</a>, that is, like this:</p>
+<div class="codehilite"><pre><span></span>bucky.pl my-genes-mb/my-genes.mb.tar -o mygenes-bucky
+</pre></div>
+
+
+<p>The output, with the table of concordance factors for all sets of 4 taxa, will be in a file named <code>my-genes.CFs.csv</code> inside a directory named <code>mygenes-bucky</code>. That's the file containing the quartet concordance factors to give to SNaQ as input. There is <em>no</em> need to do any of the steps below: they are already done by <code>bucky.pl</code>.</p>
+<p><a id='slurm-pipeline-1'></a></p>
+<h3 id="slurm-pipeline">slurm pipeline</h3>
+<p>SLURM will parallelize the MrBayes runs across genes.</p>
+<ol>
+<li>Place all nexus files in a given folder.</li>
+</ol>
+<p>Include in this folder a text file with the MrBayes block for all the genes.   If we want a different MrBayes block per gene, step 2 should be skipped,   and we should instead find some other way to put the specific MrBayes block   at the end of each nexus file.</p>
+<ol>
+<li>Copy the julia script</li>
+</ol>
+<p><a href="https://github.com/nstenz/TICR/blob/master/scripts-cluster/paste-mb-block.jl"><code>paste-mb-block.jl</code></a>   and run it inside this folder. This script will read all the   nexus files in the directory, will read the text file with the MrBayes block to paste   onto all nexus files (option <code>‑m, ‑‑mb‑block</code> in the original <code>mb.pl</code> script),   will create a new directory, and will create new nexus files (containing the MrBayes block)   as <code>1.nex, 2.nex, ...</code> in the new directory. A <code>translate.txt</code> file will also be created   to map the original gene file names to the new (numbered) file names.</p>
+<ol>
+<li>Modify the submit script</li>
+</ol>
+<p><a href="https://github.com/nstenz/TICR/blob/master/scripts-cluster/mb-slurm-submit.sh"><code>mb-slurm-submit.sh</code></a>,   which will parallelize all the individual-gene MrBayes runs with SLURM:</p>
+<ul>
+<li>change <code>--array</code> to the correct number of genes</li>
+<li>change <code>--mail-user</code> to the user's email (if this is an option for your job scheduler)</li>
+<li>replace the <code>/workspace/software/bin</code> in <code>PATH="/workspace/software/bin:$PATH"</code> to the path where the <code>mb</code> executable is located or put the whole path in the command: <code>/s/mrbayes-3.2.6-1/bin/mb</code></li>
+</ul>
+<p>In slurm, we can then submit the MrBayes array job with:</p>
+<div class="codehilite"><pre><span></span>  sbatch mb-slurm-submit.sh
+  <span class="sb">```</span>
+
+  With this slurm pipeline, the steps below need to be <span class="k">done</span>: keep reading.
+
+<span class="c1">## To run mbsum on the output of MrBayes for each gene</span>
+
+If we have the output of MrBayes and want to run BUCKy,
+we must first run <span class="sb">`</span>mbsum<span class="sb">`</span> on the output from MrBayes, separately <span class="k">for</span> each gene.
+
+For a gene with output tree files named <span class="sb">`</span>gene1.run1.t<span class="sb">`</span>, <span class="sb">`</span>gene1.run2.t<span class="sb">`</span> and <span class="sb">`</span>gene1.run3.t<span class="sb">`</span>,
+and a desired burnin of <span class="m">1000</span> trees per tree file, we <span class="k">do</span> this:
+</pre></div>
+
+
+<p>bash mbsum -n 1000 -o gene1.in gene1.run1.t gene1.run2.t gene1.run3.t</p>
+<div class="codehilite"><pre><span></span>This `mbsum` command will need to be executed for each gene.
+Then we can continue to the next section to run bucky.
+
+Alternatively, we can use the julia script
+[`mbsum-t-files.jl`](https://github.com/nstenz/TICR/blob/master/scripts-cluster/mbsum-t-files.jl),
+from within the directory that has the output tree files from MrBayes,
+to run mbsum for *all* the genes.
+`mbsum` is fast, so there is no attempt to parallelize the various mbsum commands.
+</pre></div>
+
+
+<p>bash julia mbsum-t-files.jl</p>
+<div class="codehilite"><pre><span></span>**Warning:** this script is hard-coded to 3 independent runs per gene in MrBayes, and
+for 2500 generations of burnin. Both can easily be changed:
+edit this very short script and adapt to your number of runs and burnin.
+
+## To run bucky on all 4-taxon sets: we already have the mbsum output
+
+### no-scheduler pipeline
+
+If we already ran `mbsum` on the output from MrBayes, for each individual gene,
+we can simply create a tarball containing all the mbsum output files.
+So if we had mbsum output in files named `gene1.in`, `gene2.in`, ... , `gene100.in`,
+we would want to run something similar to the following command to create the tarball:
+</pre></div>
+
+
+<p>bash tar czf my-genes-mbsum.tar.gz gene*.in</p>
+<div class="codehilite"><pre><span></span>We can now use this tarball along with the `-s` option in
+[bucky.pl](https://github.com/nstenz/TICR/blob/master/scripts/bucky.pl) like this:
+</pre></div>
+
+
+<p>bash bucky.pl my-genes-mbsum.tar.gz -s -o mygenes-bucky</p>
+<div class="codehilite"><pre><span></span>Again, if we get an error like `bucky.pl: Command not found`, we could run instead
+</pre></div>
+
+
+<p>bash perl bucky.pl my-genes-mbsum.tar.gz -s -o mygenes-bucky</p>
+<div class="codehilite"><pre><span></span>The output, with the table of concordance factors for all sets of 4 taxa,
+will be in a file named `my-genes.CFs.csv` inside directory `mygenes-bucky`.
+That&#39;s the file containing the quartet concordance factors to give to SNaQ as input.
+
+### slurm pipeline
+
+We want to run `bucky` on every 4-taxon set.
+SLURM will parallelize these jobs with the submit script
+[`bucky-slurm-submit.sh`](https://github.com/nstenz/TICR/blob/master/scripts-cluster/bucky-slurm-submit.sh),
+which calls the perl script
+[`bucky-slurm.pl`](https://github.com/nstenz/TICR/blob/master/scripts-cluster/bucky-slurm.pl).
+
+The perl script
+[`bucky-slurm.pl`](https://github.com/nstenz/TICR/blob/master/scripts-cluster/bucky-slurm.pl)
+runs `bucky` on a single 4-taxon set.
+It takes the following arguments, which must be modified in the submit script
+[`bucky-slurm-submit.sh`](https://github.com/nstenz/TICR/blob/master/scripts-cluster/bucky-slurm-submit.sh):
+- name of the folder containing the `mbsum` output files from previous step
+  (this folder is named `mbsum` in the submit script: adapt)
+- output name with option `-o`: option not used in the default submit script
+- bucky arguments (with [options](https://github.com/nstenz/TICR#command-line-options-2), not used either)
+- integer for the given quartet, via option `-q`.
+  The quartet ID is specified by SLURM with its own array ID: `$SLURM_ARRAY_TASK_ID`.
+
+In the submit script that gives instructions to the job scheduler:
+- adapt the name of the `$SLURM_ARRAY_TASK_ID` variable, which captures the task number
+  in the array of tasks, to your scheduler syntax
+- change `--array` to the correct number of 4-taxon sets.
+  For example, if there are 15 taxa in the dataset, there are `1365` 4-taxon sets.
+  To get this number, if you are unsure, use `choose(15,4)` in R or `binomial(15,4)` in Julia,
+  but replace 15 by your actual number of individuals.
+- change `--mail-user` to the user&#39;s email (if this is an option for your job scheduler)
+- replace the `/workspace/software/bin` in `PATH=&quot;/workspace/software/bin:$PATH&quot;`
+  by the path where the `bucky` executable is located.
+  Also, replace `/workspace/claudia/software/TICR/scripts/` by the full path where the
+  `bucky-slurm.pl` script is located.
+
+
+In slurm, you would submit the BUCKy array job with:
+</pre></div>
+
+
+<p>bash sbatch bucky-slurm-submit.sh</p>
+<div class="codehilite"><pre><span></span>At the end, the array job will produce
+- a `.concordance` file for every 4-taxon set
+- a `.cf` file with the parsed output for that same 4-taxon set,
+  in the format needed for the final CF table.
+
+The `.cf` files can be concatenated to produce the file containing
+the quartet concordance factors across all 4-taxon sets, to give to SNaQ as input:
+</pre></div>
+
+
+<p>bash cat *.cf &gt; CFtable.csv</p>
+<div class="codehilite"><pre><span></span>Alternatively, if the list of `.cf` files is not easily captured by `*.cf`
+(because the list is too long for a bash command), the following julia script
+can do the concatenation. Just copy-paste the commands below within a Julia session,
+started from the directory that contains the `.cf` files:
+</pre></div>
+
+
+<p>julia files = String[] # empty vector of strings: will contain the .cf file names later for f in filter(x -&gt; endswith(x, ".cf"), readdir())     push!(files,f) end println("found :(length(files)) cf files") # to check how many .cf output files were found open("CFtable.csv","w") do f_out   for file in files     @show file # to see the .cf file name: comment this out if that's too much screen output     open(file) do f_in         line = readstring(f_in)         write(f_out, string(line,"\n"))     end # closes "file" safely   end end # closes "CFtable.csv" safely ```</p>
                 
                   
                 
