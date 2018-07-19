@@ -357,6 +357,40 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#to-run-mbsum-on-the-output-of-mrbayes-for-each-gene" title="To run mbsum on the output of MrBayes for each gene" class="md-nav__link">
+    To run mbsum on the output of MrBayes for each gene
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#to-run-bucky-on-all-4-taxon-sets-we-already-have-the-mbsum-output" title="To run bucky on all 4-taxon sets: we already have the mbsum output" class="md-nav__link">
+    To run bucky on all 4-taxon sets: we already have the mbsum output
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#no-scheduler-pipeline_1" title="no-scheduler pipeline" class="md-nav__link">
+    no-scheduler pipeline
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slurm-pipeline_1" title="slurm pipeline" class="md-nav__link">
+    slurm pipeline
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
       
       
       
@@ -552,6 +586,40 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#to-run-mbsum-on-the-output-of-mrbayes-for-each-gene" title="To run mbsum on the output of MrBayes for each gene" class="md-nav__link">
+    To run mbsum on the output of MrBayes for each gene
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#to-run-bucky-on-all-4-taxon-sets-we-already-have-the-mbsum-output" title="To run bucky on all 4-taxon sets: we already have the mbsum output" class="md-nav__link">
+    To run bucky on all 4-taxon sets: we already have the mbsum output
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#no-scheduler-pipeline_1" title="no-scheduler pipeline" class="md-nav__link">
+    no-scheduler pipeline
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slurm-pipeline_1" title="slurm pipeline" class="md-nav__link">
+    slurm pipeline
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
       
       
       
@@ -609,140 +677,106 @@
 <h3 id="slurm-pipeline">slurm pipeline</h3>
 <p>SLURM will parallelize the MrBayes runs across genes.</p>
 <ol>
-<li>Place all nexus files in a given folder.</li>
-</ol>
-<p>Include in this folder a text file with the MrBayes block for all the genes.   If we want a different MrBayes block per gene, step 2 should be skipped,   and we should instead find some other way to put the specific MrBayes block   at the end of each nexus file.</p>
-<ol>
-<li>Copy the julia script</li>
-</ol>
-<p><a href="https://github.com/nstenz/TICR/blob/master/scripts-cluster/paste-mb-block.jl"><code>paste-mb-block.jl</code></a>   and run it inside this folder. This script will read all the   nexus files in the directory, will read the text file with the MrBayes block to paste   onto all nexus files (option <code>‑m, ‑‑mb‑block</code> in the original <code>mb.pl</code> script),   will create a new directory, and will create new nexus files (containing the MrBayes block)   as <code>1.nex, 2.nex, ...</code> in the new directory. A <code>translate.txt</code> file will also be created   to map the original gene file names to the new (numbered) file names.</p>
-<ol>
-<li>Modify the submit script</li>
-</ol>
-<p><a href="https://github.com/nstenz/TICR/blob/master/scripts-cluster/mb-slurm-submit.sh"><code>mb-slurm-submit.sh</code></a>,   which will parallelize all the individual-gene MrBayes runs with SLURM:</p>
+<li>Place all nexus files in a given folder. Include in this folder a text file with the MrBayes block for all the genes. If we want a different MrBayes block per gene, step 2 should be skipped, and we should instead find some other way to put the specific MrBayes block at the end of each nexus file.</li>
+<li>Copy the julia script <a href="https://github.com/nstenz/TICR/blob/master/scripts-cluster/paste-mb-block.jl"><code>paste-mb-block.jl</code></a> and run it inside this folder. This script will read all the nexus files in the directory, will read the text file with the MrBayes block to paste onto all nexus files (option <code>‑m, ‑‑mb‑block</code> in the original <code>mb.pl</code> script), will create a new directory, and will create new nexus files (containing the MrBayes block) as <code>1.nex, 2.nex, ...</code> in the new directory. A <code>translate.txt</code> file will also be created to map the original gene file names to the new (numbered) file names.</li>
+<li>
+<p>Modify the submit script <a href="https://github.com/nstenz/TICR/blob/master/scripts-cluster/mb-slurm-submit.sh"><code>mb-slurm-submit.sh</code></a>, which will parallelize all the individual-gene MrBayes runs with SLURM:</p>
 <ul>
 <li>change <code>--array</code> to the correct number of genes</li>
 <li>change <code>--mail-user</code> to the user's email (if this is an option for your job scheduler)</li>
 <li>replace the <code>/workspace/software/bin</code> in <code>PATH="/workspace/software/bin:$PATH"</code> to the path where the <code>mb</code> executable is located or put the whole path in the command: <code>/s/mrbayes-3.2.6-1/bin/mb</code></li>
 </ul>
 <p>In slurm, we can then submit the MrBayes array job with:</p>
-<div class="codehilite"><pre><span></span>  sbatch mb-slurm-submit.sh
-  <span class="sb">```</span>
-
-  With this slurm pipeline, the steps below need to be <span class="k">done</span>: keep reading.
-
-<span class="c1">## To run mbsum on the output of MrBayes for each gene</span>
-
-If we have the output of MrBayes and want to run BUCKy,
-we must first run <span class="sb">`</span>mbsum<span class="sb">`</span> on the output from MrBayes, separately <span class="k">for</span> each gene.
-
-For a gene with output tree files named <span class="sb">`</span>gene1.run1.t<span class="sb">`</span>, <span class="sb">`</span>gene1.run2.t<span class="sb">`</span> and <span class="sb">`</span>gene1.run3.t<span class="sb">`</span>,
-and a desired burnin of <span class="m">1000</span> trees per tree file, we <span class="k">do</span> this:
+</li>
+</ol>
+<div class="codehilite"><pre><span></span>sbatch mb-slurm-submit.sh
 </pre></div>
 
 
-<p>bash mbsum -n 1000 -o gene1.in gene1.run1.t gene1.run2.t gene1.run3.t</p>
-<div class="codehilite"><pre><span></span>This `mbsum` command will need to be executed for each gene.
-Then we can continue to the next section to run bucky.
-
-Alternatively, we can use the julia script
-[`mbsum-t-files.jl`](https://github.com/nstenz/TICR/blob/master/scripts-cluster/mbsum-t-files.jl),
-from within the directory that has the output tree files from MrBayes,
-to run mbsum for *all* the genes.
-`mbsum` is fast, so there is no attempt to parallelize the various mbsum commands.
+<p>With this slurm pipeline, the steps below are needed: keep reading.</p>
+<p><a id='To-run-mbsum-on-the-output-of-MrBayes-for-each-gene-1'></a></p>
+<h2 id="to-run-mbsum-on-the-output-of-mrbayes-for-each-gene">To run mbsum on the output of MrBayes for each gene</h2>
+<p>If we have the output of MrBayes and want to run BUCKy, we must first run <code>mbsum</code> on the output from MrBayes, separately for each gene.</p>
+<p>For a gene with output tree files named <code>gene1.run1.t</code>, <code>gene1.run2.t</code> and <code>gene1.run3.t</code>, and a desired burnin of 1000 trees per tree file, we do this:</p>
+<div class="codehilite"><pre><span></span>mbsum -n <span class="m">1000</span> -o gene1.in gene1.run1.t gene1.run2.t gene1.run3.t
 </pre></div>
 
 
-<p>bash julia mbsum-t-files.jl</p>
-<div class="codehilite"><pre><span></span>**Warning:** this script is hard-coded to 3 independent runs per gene in MrBayes, and
-for 2500 generations of burnin. Both can easily be changed:
-edit this very short script and adapt to your number of runs and burnin.
-
-## To run bucky on all 4-taxon sets: we already have the mbsum output
-
-### no-scheduler pipeline
-
-If we already ran `mbsum` on the output from MrBayes, for each individual gene,
-we can simply create a tarball containing all the mbsum output files.
-So if we had mbsum output in files named `gene1.in`, `gene2.in`, ... , `gene100.in`,
-we would want to run something similar to the following command to create the tarball:
+<p>This <code>mbsum</code> command will need to be executed for each gene. Then we can continue to the next section to run bucky.</p>
+<p>Alternatively, we can use the julia script <a href="https://github.com/nstenz/TICR/blob/master/scripts-cluster/mbsum-t-files.jl"><code>mbsum-t-files.jl</code></a>, from within the directory that has the output tree files from MrBayes, to run mbsum for <em>all</em> the genes. <code>mbsum</code> is fast, so there is no attempt to parallelize the various mbsum commands.</p>
+<div class="codehilite"><pre><span></span>julia mbsum-t-files.jl
 </pre></div>
 
 
-<p>bash tar czf my-genes-mbsum.tar.gz gene*.in</p>
-<div class="codehilite"><pre><span></span>We can now use this tarball along with the `-s` option in
-[bucky.pl](https://github.com/nstenz/TICR/blob/master/scripts/bucky.pl) like this:
+<p><strong>Warning:</strong> this script is hard-coded to 3 independent runs per gene in MrBayes, and for 2500 generations of burnin. Both can easily be changed: edit this very short script and adapt to your number of runs and burnin.</p>
+<p><a id='To-run-bucky-on-all-4-taxon-sets:-we-already-have-the-mbsum-output-1'></a></p>
+<h2 id="to-run-bucky-on-all-4-taxon-sets-we-already-have-the-mbsum-output">To run bucky on all 4-taxon sets: we already have the mbsum output</h2>
+<p><a id='no-scheduler-pipeline-2'></a></p>
+<h3 id="no-scheduler-pipeline_1">no-scheduler pipeline</h3>
+<p>If we already ran <code>mbsum</code> on the output from MrBayes, for each individual gene, we can simply create a tarball containing all the mbsum output files. So if we had mbsum output in files named <code>gene1.in</code>, <code>gene2.in</code>, ... , <code>gene100.in</code>, we would want to run something similar to the following command to create the tarball:</p>
+<div class="codehilite"><pre><span></span>tar czf my-genes-mbsum.tar.gz gene*.in
 </pre></div>
 
 
-<p>bash bucky.pl my-genes-mbsum.tar.gz -s -o mygenes-bucky</p>
-<div class="codehilite"><pre><span></span>Again, if we get an error like `bucky.pl: Command not found`, we could run instead
+<p>We can now use this tarball along with the <code>-s</code> option in <a href="https://github.com/nstenz/TICR/blob/master/scripts/bucky.pl">bucky.pl</a> like this:</p>
+<div class="codehilite"><pre><span></span>bucky.pl my-genes-mbsum.tar.gz -s -o mygenes-bucky
 </pre></div>
 
 
-<p>bash perl bucky.pl my-genes-mbsum.tar.gz -s -o mygenes-bucky</p>
-<div class="codehilite"><pre><span></span>The output, with the table of concordance factors for all sets of 4 taxa,
-will be in a file named `my-genes.CFs.csv` inside directory `mygenes-bucky`.
-That&#39;s the file containing the quartet concordance factors to give to SNaQ as input.
-
-### slurm pipeline
-
-We want to run `bucky` on every 4-taxon set.
-SLURM will parallelize these jobs with the submit script
-[`bucky-slurm-submit.sh`](https://github.com/nstenz/TICR/blob/master/scripts-cluster/bucky-slurm-submit.sh),
-which calls the perl script
-[`bucky-slurm.pl`](https://github.com/nstenz/TICR/blob/master/scripts-cluster/bucky-slurm.pl).
-
-The perl script
-[`bucky-slurm.pl`](https://github.com/nstenz/TICR/blob/master/scripts-cluster/bucky-slurm.pl)
-runs `bucky` on a single 4-taxon set.
-It takes the following arguments, which must be modified in the submit script
-[`bucky-slurm-submit.sh`](https://github.com/nstenz/TICR/blob/master/scripts-cluster/bucky-slurm-submit.sh):
-- name of the folder containing the `mbsum` output files from previous step
-  (this folder is named `mbsum` in the submit script: adapt)
-- output name with option `-o`: option not used in the default submit script
-- bucky arguments (with [options](https://github.com/nstenz/TICR#command-line-options-2), not used either)
-- integer for the given quartet, via option `-q`.
-  The quartet ID is specified by SLURM with its own array ID: `$SLURM_ARRAY_TASK_ID`.
-
-In the submit script that gives instructions to the job scheduler:
-- adapt the name of the `$SLURM_ARRAY_TASK_ID` variable, which captures the task number
-  in the array of tasks, to your scheduler syntax
-- change `--array` to the correct number of 4-taxon sets.
-  For example, if there are 15 taxa in the dataset, there are `1365` 4-taxon sets.
-  To get this number, if you are unsure, use `choose(15,4)` in R or `binomial(15,4)` in Julia,
-  but replace 15 by your actual number of individuals.
-- change `--mail-user` to the user&#39;s email (if this is an option for your job scheduler)
-- replace the `/workspace/software/bin` in `PATH=&quot;/workspace/software/bin:$PATH&quot;`
-  by the path where the `bucky` executable is located.
-  Also, replace `/workspace/claudia/software/TICR/scripts/` by the full path where the
-  `bucky-slurm.pl` script is located.
-
-
-In slurm, you would submit the BUCKy array job with:
+<p>Again, if we get an error like <code>bucky.pl: Command not found</code>, we could run instead</p>
+<div class="codehilite"><pre><span></span>perl bucky.pl my-genes-mbsum.tar.gz -s -o mygenes-bucky
 </pre></div>
 
 
-<p>bash sbatch bucky-slurm-submit.sh</p>
-<div class="codehilite"><pre><span></span>At the end, the array job will produce
-- a `.concordance` file for every 4-taxon set
-- a `.cf` file with the parsed output for that same 4-taxon set,
-  in the format needed for the final CF table.
-
-The `.cf` files can be concatenated to produce the file containing
-the quartet concordance factors across all 4-taxon sets, to give to SNaQ as input:
+<p>The output, with the table of concordance factors for all sets of 4 taxa, will be in a file named <code>my-genes.CFs.csv</code> inside directory <code>mygenes-bucky</code>. That's the file containing the quartet concordance factors to give to SNaQ as input.</p>
+<p><a id='slurm-pipeline-2'></a></p>
+<h3 id="slurm-pipeline_1">slurm pipeline</h3>
+<p>We want to run <code>bucky</code> on every 4-taxon set. SLURM will parallelize these jobs with the submit script <a href="https://github.com/nstenz/TICR/blob/master/scripts-cluster/bucky-slurm-submit.sh"><code>bucky-slurm-submit.sh</code></a>, which calls the perl script <a href="https://github.com/nstenz/TICR/blob/master/scripts-cluster/bucky-slurm.pl"><code>bucky-slurm.pl</code></a>.</p>
+<p>The perl script <a href="https://github.com/nstenz/TICR/blob/master/scripts-cluster/bucky-slurm.pl"><code>bucky-slurm.pl</code></a> runs <code>bucky</code> on a single 4-taxon set. It takes the following arguments, which must be modified in the submit script <a href="https://github.com/nstenz/TICR/blob/master/scripts-cluster/bucky-slurm-submit.sh"><code>bucky-slurm-submit.sh</code></a>:</p>
+<ul>
+<li>name of the folder containing the <code>mbsum</code> output files from previous step (this folder is named <code>mbsum</code> in the submit script: adapt)</li>
+<li>output name with option <code>-o</code>: option not used in the default submit script</li>
+<li>bucky arguments (with <a href="https://github.com/nstenz/TICR#command-line-options-2">options</a>, not used either)</li>
+<li>integer for the given quartet, via option <code>-q</code>. The quartet ID is specified by SLURM with its own array ID: <code>$SLURM_ARRAY_TASK_ID</code>.</li>
+</ul>
+<p>In the submit script that gives instructions to the job scheduler:</p>
+<ul>
+<li>adapt the name of the <code>$SLURM_ARRAY_TASK_ID</code> variable, which captures the task number in the array of tasks, to your scheduler syntax</li>
+<li>change <code>--array</code> to the correct number of 4-taxon sets. For example, if there are 15 taxa in the dataset, there are <code>1365</code> 4-taxon sets. To get this number, if you are unsure, use <code>choose(15,4)</code> in R or <code>binomial(15,4)</code> in Julia, but replace 15 by your actual number of individuals.</li>
+<li>change <code>--mail-user</code> to the user's email (if this is an option for your job scheduler)</li>
+<li>replace the <code>/workspace/software/bin</code> in <code>PATH="/workspace/software/bin:$PATH"</code> by the path where the <code>bucky</code> executable is located. Also, replace <code>/workspace/claudia/software/TICR/scripts/</code> by the full path where the <code>bucky-slurm.pl</code> script is located.</li>
+</ul>
+<p>In slurm, you would submit the BUCKy array job with:</p>
+<div class="codehilite"><pre><span></span>sbatch bucky-slurm-submit.sh
 </pre></div>
 
 
-<p>bash cat *.cf &gt; CFtable.csv</p>
-<div class="codehilite"><pre><span></span>Alternatively, if the list of `.cf` files is not easily captured by `*.cf`
-(because the list is too long for a bash command), the following julia script
-can do the concatenation. Just copy-paste the commands below within a Julia session,
-started from the directory that contains the `.cf` files:
+<p>At the end, the array job will produce</p>
+<ul>
+<li>a <code>.concordance</code> file for every 4-taxon set</li>
+<li>a <code>.cf</code> file with the parsed output for that same 4-taxon set, in the format needed for the final CF table.</li>
+</ul>
+<p>The <code>.cf</code> files can be concatenated to produce the file containing the quartet concordance factors across all 4-taxon sets, to give to SNaQ as input:</p>
+<div class="codehilite"><pre><span></span>cat *.cf &gt; CFtable.csv
 </pre></div>
 
 
-<p>julia files = String[] # empty vector of strings: will contain the .cf file names later for f in filter(x -&gt; endswith(x, ".cf"), readdir())     push!(files,f) end println("found :(length(files)) cf files") # to check how many .cf output files were found open("CFtable.csv","w") do f_out   for file in files     @show file # to see the .cf file name: comment this out if that's too much screen output     open(file) do f_in         line = readstring(f_in)         write(f_out, string(line,"\n"))     end # closes "file" safely   end end # closes "CFtable.csv" safely ```</p>
+<p>Alternatively, if the list of <code>.cf</code> files is not easily captured by <code>*.cf</code> (because the list is too long for a bash command), the following julia script can do the concatenation. Just copy-paste the commands below within a Julia session, started from the directory that contains the <code>.cf</code> files:</p>
+<div class="codehilite"><pre><span></span><span class="n">files</span> <span class="o">=</span> <span class="n">String</span><span class="p">[]</span> <span class="c"># empty vector of strings: will contain the .cf file names later</span>
+<span class="k">for</span> <span class="n">f</span> <span class="kp">in</span> <span class="n">filter</span><span class="p">(</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="n">endswith</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s">&quot;.cf&quot;</span><span class="p">),</span> <span class="n">readdir</span><span class="p">())</span>
+    <span class="n">push!</span><span class="p">(</span><span class="n">files</span><span class="p">,</span><span class="n">f</span><span class="p">)</span>
+<span class="k">end</span>
+<span class="n">println</span><span class="p">(</span><span class="s">&quot;found </span><span class="si">$</span><span class="p">(</span><span class="n">length</span><span class="p">(</span><span class="n">files</span><span class="p">))</span><span class="s"> cf files&quot;</span><span class="p">)</span> <span class="c"># to check how many .cf output files were found</span>
+<span class="n">open</span><span class="p">(</span><span class="s">&quot;CFtable.csv&quot;</span><span class="p">,</span><span class="s">&quot;w&quot;</span><span class="p">)</span> <span class="k">do</span> <span class="n">f_out</span>
+  <span class="k">for</span> <span class="n">file</span> <span class="kp">in</span> <span class="n">files</span>
+    <span class="nd">@show</span> <span class="n">file</span> <span class="c"># to see the .cf file name: comment this out if that&#39;s too much screen output</span>
+    <span class="n">open</span><span class="p">(</span><span class="n">file</span><span class="p">)</span> <span class="k">do</span> <span class="n">f_in</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="n">readstring</span><span class="p">(</span><span class="n">f_in</span><span class="p">)</span>
+        <span class="n">write</span><span class="p">(</span><span class="n">f_out</span><span class="p">,</span> <span class="n">string</span><span class="p">(</span><span class="n">line</span><span class="p">,</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">))</span>
+    <span class="k">end</span> <span class="c"># closes &quot;file&quot; safely</span>
+  <span class="k">end</span>
+<span class="k">end</span> <span class="c"># closes &quot;CFtable.csv&quot; safely</span>
+</pre></div>
                 
                   
                 
