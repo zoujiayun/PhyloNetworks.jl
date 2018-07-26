@@ -772,7 +772,7 @@ with -loglik 53.53150526187732
 
 
 <p>When julia is called on a script, whatever comes after "julia scriptname" is given to julia in an array of values. This array is called <code>ARGS</code>. So if we call a script like this: <code>julia runSNaQ.jl 2</code> then the script will know the arguments through <code>ARGS</code>, which would contain a single element, <code>"2"</code>. This first element is just a string, at this stage. We want to use it as a number, so we ask julia to parse the string into an integer.</p>
-<p><strong>Second</strong>: we need a "submit" file to ask a job scheduler like <a href="https://slurm.schedmd.com">slurm</a> to submit our julia script to a cluster. In the submit file below, the first 5 lines set things up for slurm. They are most likely to be specific to your cluster. The main idea here is to use a slurm "array" from 0 to 3, to run our julia script multiple times, 4 times actually: from hmax=0 to hmax=3. Each would do 30 runs. Then log out of the cluster and go for coffee... 😃</p>
+<p><strong>Second</strong>: we need a "submit" file to ask a job scheduler like <a href="https://slurm.schedmd.com">slurm</a> to submit our julia script to a cluster. In the submit file below, the first 5 lines set things up for slurm. They are most likely to be specific to your cluster. The main idea here is to use a slurm "array" from 0 to 3, to run our julia script multiple times, 4 times actually: from hmax=0 to hmax=3. Each would do 30 runs. Then log out of the cluster and go for coffee.</p>
 <div class="codehilite"><pre><span></span><span class="ch">#!/bin/bash</span>
 <span class="c1">#SBATCH -o path/to/slurm/log/file/runsnaq_slurm%a.log</span>
 <span class="c1">#SBATCH -J runsnaq</span>

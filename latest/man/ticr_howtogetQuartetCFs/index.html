@@ -677,10 +677,18 @@
 <h3 id="slurm-pipeline">slurm pipeline</h3>
 <p>SLURM will parallelize the MrBayes runs across genes.</p>
 <ol>
-<li>Place all nexus files in a given folder. Include in this folder a text file with the MrBayes block for all the genes. If we want a different MrBayes block per gene, step 2 should be skipped, and we should instead find some other way to put the specific MrBayes block at the end of each nexus file.</li>
-<li>Copy the julia script <a href="https://github.com/nstenz/TICR/blob/master/scripts-cluster/paste-mb-block.jl"><code>paste-mb-block.jl</code></a> and run it inside this folder. This script will read all the nexus files in the directory, will read the text file with the MrBayes block to paste onto all nexus files (option <code>‑m, ‑‑mb‑block</code> in the original <code>mb.pl</code> script), will create a new directory, and will create new nexus files (containing the MrBayes block) as <code>1.nex, 2.nex, ...</code> in the new directory. A <code>translate.txt</code> file will also be created to map the original gene file names to the new (numbered) file names.</li>
 <li>
-<p>Modify the submit script <a href="https://github.com/nstenz/TICR/blob/master/scripts-cluster/mb-slurm-submit.sh"><code>mb-slurm-submit.sh</code></a>, which will parallelize all the individual-gene MrBayes runs with SLURM:</p>
+<p>Navigate in some "working" directory where you place:</p>
+<ul>
+<li>a folder containing all nexus files, which we will call "nexusfolder" below</li>
+<li>a text file named <code>mb-block.txt</code> with the MrBayes block to be used</li>
+</ul>
+<p>for all the genes (containing the options for MrBayes: model of sequence evolution, number of generations etc.). If we want a different MrBayes block for different genes, step 2 should be skipped, and we should instead find some other way to put the specific MrBayes block at the end of each nexus file.
+2. In the "working" directory above, run the julia script <a href="https://github.com/nstenz/TICR/blob/master/scripts-cluster/paste-mb-block.jl"><code>paste-mb-block.jl</code></a> with "nexusfolder" as argument, to tell the script where to find all the nexus files:</p>
+<p><code>bash
+julia path/to/paste-mb-block.jl nexusfolder</code></p>
+<p>This script will read all the nexus files in the directory <code>nexusfolder</code>, will create a new directory <code>nexusfolder-block</code>, and will create new nexus files (containing the MrBayes block found in file <code>mb-block.txt</code>) as <code>1.nex, 2.nex, ...</code> in the new directory. A <code>translate.txt</code> file will also be created to map the original gene file names to the new (numbered) file names. If we named our MrBayes block file differently: we can edit the script and modify it to replace <code>mb-block.txt</code> by our actual file name for the MrBayes block.
+3. Modify the submit script <a href="https://github.com/nstenz/TICR/blob/master/scripts-cluster/mb-slurm-submit.sh"><code>mb-slurm-submit.sh</code></a>, which will parallelize all the individual-gene MrBayes runs with SLURM:</p>
 <ul>
 <li>change <code>--array</code> to the correct number of genes</li>
 <li>change <code>--mail-user</code> to the user's email (if this is an option for your job scheduler)</li>
@@ -703,12 +711,12 @@
 
 
 <p>This <code>mbsum</code> command will need to be executed for each gene. Then we can continue to the next section to run bucky.</p>
-<p>Alternatively, we can use the julia script <a href="https://github.com/nstenz/TICR/blob/master/scripts-cluster/mbsum-t-files.jl"><code>mbsum-t-files.jl</code></a>, from within the directory that has the output tree files from MrBayes, to run mbsum for <em>all</em> the genes. <code>mbsum</code> is fast, so there is no attempt to parallelize the various mbsum commands.</p>
-<div class="codehilite"><pre><span></span>julia mbsum-t-files.jl
+<p>Alternatively, we can use the julia script <a href="https://github.com/nstenz/TICR/blob/master/scripts-cluster/mbsum-t-files.jl"><code>mbsum-t-files.jl</code></a>, and give it as argument the directory that has the output tree files from MrBayes, to run mbsum for <em>all</em> the genes. <code>mbsum</code> is fast, so there is no attempt to parallelize the various mbsum commands.</p>
+<div class="codehilite"><pre><span></span>julia mbsum-t-files.jl mbfolder
 </pre></div>
 
 
-<p><strong>Warning:</strong> this script is hard-coded to 3 independent runs per gene in MrBayes, and for 2500 generations of burnin. Both can easily be changed: edit this very short script and adapt to your number of runs and burnin.</p>
+<p><strong>Warning:</strong> a burnin of 2500 generations is hard coded in this script. This can easily be changed: edit this short script near the top of the file, to change the value of <code>burnin</code>.</p>
 <p><a id='To-run-bucky-on-all-4-taxon-sets:-we-already-have-the-mbsum-output-1'></a></p>
 <h2 id="to-run-bucky-on-all-4-taxon-sets-we-already-have-the-mbsum-output">To run bucky on all 4-taxon sets: we already have the mbsum output</h2>
 <p><a id='no-scheduler-pipeline-2'></a></p>
@@ -734,9 +742,9 @@
 <p>We want to run <code>bucky</code> on every 4-taxon set. SLURM will parallelize these jobs with the submit script <a href="https://github.com/nstenz/TICR/blob/master/scripts-cluster/bucky-slurm-submit.sh"><code>bucky-slurm-submit.sh</code></a>, which calls the perl script <a href="https://github.com/nstenz/TICR/blob/master/scripts-cluster/bucky-slurm.pl"><code>bucky-slurm.pl</code></a>.</p>
 <p>The perl script <a href="https://github.com/nstenz/TICR/blob/master/scripts-cluster/bucky-slurm.pl"><code>bucky-slurm.pl</code></a> runs <code>bucky</code> on a single 4-taxon set. It takes the following arguments, which must be modified in the submit script <a href="https://github.com/nstenz/TICR/blob/master/scripts-cluster/bucky-slurm-submit.sh"><code>bucky-slurm-submit.sh</code></a>:</p>
 <ul>
-<li>name of the folder containing the <code>mbsum</code> output files from previous step (this folder is named <code>mbsum</code> in the submit script: adapt)</li>
-<li>output name with option <code>-o</code>: option not used in the default submit script</li>
-<li>bucky arguments (with <a href="https://github.com/nstenz/TICR#command-line-options-2">options</a>, not used either)</li>
+<li>name of the folder containing the <code>mbsum</code> output files (one per locus) from previous step. This folder is named <code>mbsum</code> in the submit script: adapt if needed.</li>
+<li>output name: <code>-o</code> or <code>--out-dir</code> name of the directory to store output files in. This option is not used in the default submit script</li>
+<li>bucky arguments: <code>-a</code> or <code>--alpha</code> for the prior alpha value, and <code>-n</code> or <code>--ngen</code> number of generations. These options are not used either, in the script: the defaults are used then (α=1, 1 million generations)</li>
 <li>integer for the given quartet, via option <code>-q</code>. The quartet ID is specified by SLURM with its own array ID: <code>$SLURM_ARRAY_TASK_ID</code>.</li>
 </ul>
 <p>In the submit script that gives instructions to the job scheduler:</p>
@@ -746,7 +754,7 @@
 <li>change <code>--mail-user</code> to the user's email (if this is an option for your job scheduler)</li>
 <li>replace the <code>/workspace/software/bin</code> in <code>PATH="/workspace/software/bin:$PATH"</code> by the path where the <code>bucky</code> executable is located. Also, replace <code>/workspace/claudia/software/TICR/scripts/</code> by the full path where the <code>bucky-slurm.pl</code> script is located.</li>
 </ul>
-<p>In slurm, you would submit the BUCKy array job with:</p>
+<p>In slurm, we would submit the BUCKy array job with:</p>
 <div class="codehilite"><pre><span></span>sbatch bucky-slurm-submit.sh
 </pre></div>
 
@@ -761,7 +769,7 @@
 </pre></div>
 
 
-<p>Alternatively, if the list of <code>.cf</code> files is not easily captured by <code>*.cf</code> (because the list is too long for a bash command), the following julia script can do the concatenation. Just copy-paste the commands below within a Julia session, started from the directory that contains the <code>.cf</code> files:</p>
+<p>Alternatively, if the list of <code>.cf</code> files is not easily captured by <code>*.cf</code> (because the list is too long for a shell command), the following julia script can do the concatenation. Just copy-paste the commands below within a Julia session, started from the directory that contains the <code>.cf</code> files:</p>
 <div class="codehilite"><pre><span></span><span class="n">files</span> <span class="o">=</span> <span class="n">String</span><span class="p">[]</span> <span class="c"># empty vector of strings: will contain the .cf file names later</span>
 <span class="k">for</span> <span class="n">f</span> <span class="kp">in</span> <span class="n">filter</span><span class="p">(</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="n">endswith</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s">&quot;.cf&quot;</span><span class="p">),</span> <span class="n">readdir</span><span class="p">())</span>
     <span class="n">push!</span><span class="p">(</span><span class="n">files</span><span class="p">,</span><span class="n">f</span><span class="p">)</span>
@@ -777,6 +785,9 @@
   <span class="k">end</span>
 <span class="k">end</span> <span class="c"># closes &quot;CFtable.csv&quot; safely</span>
 </pre></div>
+
+
+<p>When this is done, we will have a file <code>CFtable.csv</code> containing the quartet concordance factors, to give to SNaQ as input :smiley:</p>
                 
                   
                 
