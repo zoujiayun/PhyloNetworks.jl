@@ -644,7 +644,7 @@ julia&gt; traits
 
 <div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">PhyloPlots</span><span class="p">,</span> <span class="n">RCall</span>
 <span class="n">R</span><span class="s">&quot;par&quot;</span><span class="p">(</span><span class="n">mar</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]);</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="o">:</span><span class="n">R</span><span class="p">);</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="o">:</span><span class="n">R</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="mf">0.8</span><span class="p">,</span><span class="mf">7.5</span><span class="p">]);</span>
 </pre></div>
 
 
@@ -668,7 +668,7 @@ julia&gt; score = parsimonyGF(net,species,traits,:softwired)
 </pre></div>
 
 
-<p>The example data is very small: only 1 of the 11 traits is parsimony informative, on the 4 taxa specified by the starting topology. So these data happen to be compatible with a tree, and that tree is returned despite allowing for up to 1 reticulation. &lt;!– <code>(Spanish,((English,Norwegian),German));</code> –&gt;</p>
+<p>The example data is very small: only 1 of the 11 traits is parsimony informative, on the 4 taxa specified by the starting topology. So these data happen to be compatible with a tree, and that tree is returned despite allowing for up to 1 reticulation: <code>(Spanish,((English,Norwegian),German));</code>.</p>
                 
                   
                 
