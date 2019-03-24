@@ -32,7 +32,9 @@ julia&gt; traits
  [1, 2, 2, 2, 4, 4, 2, 4, 2, 3]
  [1, 2, 2, 2, 4, 4, 2, 4, 2, 3]</code></pre><p>Then, we read the network as usual:</p><pre><code class="language-julia-repl">julia&gt; net = readTopology(&quot;(Spanish,((English)#H1,(Norwegian,(German,#H1))));&quot;);</code></pre><div><pre><code class="language-julia">using PhyloPlots, RCall
 R&quot;par&quot;(mar = [0,0,0,0]);
-plot(net, :R, xlim=[0.8,7.5]);</code></pre></div><p><img src="../../assets/figures/parsimony-fixed-net.svg" alt="parsimony-fixed-net"/></p><p>There are different types of parsimony scores on networks. Currently, we have implemented the <strong>softwired</strong> criterion only, with two different functions: <a href="../../lib/public/#PhyloNetworks.parsimonySoftwired"><code>parsimonySoftwired</code></a> and <a href="../../lib/public/#PhyloNetworks.parsimonyGF"><code>parsimonyGF</code></a>.</p><p>The function <code>parsimonySoftwired</code> uses a faster algorithm than <code>parsimonyGF</code>, but can solve the softwired criterion only.</p><pre><code class="language-julia-repl">julia&gt; score = parsimonySoftwired(net, species, traits)
+plot(net, :R, xlim=[0.8,7.5]);</code></pre><pre><code class="language-none">RCall.RObject{RCall.IntSxp}
+pdf
+  2</code></pre></div><p><img src="../../assets/figures/parsimony-fixed-net.svg" alt="parsimony-fixed-net"/></p><p>There are different types of parsimony scores on networks. Currently, we have implemented the <strong>softwired</strong> criterion only, with two different functions: <a href="../../lib/public/#PhyloNetworks.parsimonySoftwired"><code>parsimonySoftwired</code></a> and <a href="../../lib/public/#PhyloNetworks.parsimonyGF"><code>parsimonyGF</code></a>.</p><p>The function <code>parsimonySoftwired</code> uses a faster algorithm than <code>parsimonyGF</code>, but can solve the softwired criterion only.</p><pre><code class="language-julia-repl">julia&gt; score = parsimonySoftwired(net, species, traits)
 17.0
 
 julia&gt; score = parsimonyGF(net,species,traits,:softwired)

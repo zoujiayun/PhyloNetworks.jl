@@ -14,7 +14,19 @@ rootonedge!(net1, 7) # makes (O,E) outgroup clade
 plot(net1, :R, showNodeNumber=true);</code></pre></div><p><img src="../../assets/figures/net1_rotate1_1.svg" alt="net1_rotate1 1"/> <img src="../../assets/figures/net1_rotate1_2.svg" alt="net1_rotate1 2"/></p><p>Edges cross: but rotating at node -6 should remove this crossing of edges</p><div><pre><code class="language-julia">rotate!(net1, -6)</code></pre></div><div><pre><code class="language-julia">plot(net1, :R, showGamma=true);</code></pre></div><p><img src="../../assets/figures/net1_rotate2.svg" alt="net1_rotate2"/></p><p>We can now summarize our bootstrap networks. The functions <code>treeEdgesBootstrap</code> and <code>hybridBootstrapSupport</code> read all bootstrap networks and map the edges / nodes onto a reference network: here net1.</p><div><pre><code class="language-julia">BSe_tree, tree1 = treeEdgesBootstrap(bootnet,net1);</code></pre><pre><code class="language-none">┌ Info: edge numbers in the data frame correspond to the current edge numbers in the network.
 │ If the network is modified, the edge numbers in the (modified) network might not correspond
 │ to those in the bootstrap table. Plot the bootstrap values onto the current network with
-└ plot(network_name, edgeLabel=bootstrap_table_name)</code></pre></div><p>This calculates the major tree <code>tree1</code> displayed in <code>net1</code>, that is, the tree obtained by following the major parent (γ&gt;0.5) of each hybrid node. This tree can be visualized like this, with edge numbers shown for later use.</p><div><pre><code class="language-julia">plot(tree1, :R, showEdgeNumber=true);</code></pre></div><p><img src="../../assets/figures/major_tree.svg" alt="major_tree"/></p><p>Next, we can look at bootstrap table <code>BSe_tree</code>, which has one row for each tree edge in <code>net1</code>. One column contains the edge number (same as shown in the plot) and another column contains the edge bootstrap support: the proportion of bootstrap replicates in which this edge was found in the major tree of the inferred network. We can see the full bootstrap table and see which tree edges have bootstrap support lower than 100% (none here) with</p><pre><code class="language-julia-repl">julia&gt; using DataFrames # for showall() below
+└ plot(network_name, edgeLabel=bootstrap_table_name)
+(3×2 DataFrames.DataFrame
+│ Row │ edgeNumber │ proportion │
+│     │ Int64      │ Float64    │
+├─────┼────────────┼────────────┤
+│ 1   │ 13         │ 100.0      │
+│ 2   │ 11         │ 100.0      │
+│ 3   │ 12         │ 100.0      │, HybridNetwork, Rooted Network
+10 edges
+11 nodes: 6 tips, 0 hybrid nodes, 5 internal tree nodes.
+tip labels: C, D, O, E, ...
+((O,E):0.166,((B,A):10.0,(C,D):10.0):0.498);
+)</code></pre></div><p>This calculates the major tree <code>tree1</code> displayed in <code>net1</code>, that is, the tree obtained by following the major parent (γ&gt;0.5) of each hybrid node. This tree can be visualized like this, with edge numbers shown for later use.</p><div><pre><code class="language-julia">plot(tree1, :R, showEdgeNumber=true);</code></pre></div><p><img src="../../assets/figures/major_tree.svg" alt="major_tree"/></p><p>Next, we can look at bootstrap table <code>BSe_tree</code>, which has one row for each tree edge in <code>net1</code>. One column contains the edge number (same as shown in the plot) and another column contains the edge bootstrap support: the proportion of bootstrap replicates in which this edge was found in the major tree of the inferred network. We can see the full bootstrap table and see which tree edges have bootstrap support lower than 100% (none here) with</p><pre><code class="language-julia-repl">julia&gt; using DataFrames # for showall() below
 
 julia&gt; show(BSe_tree, allrows=true, allcols=true)
 3×2 DataFrames.DataFrame
@@ -26,7 +38,41 @@ julia&gt; show(BSe_tree, allrows=true, allcols=true)
 │ 3   │ 12         │ 100.0      │
 julia&gt; BSe_tree[BSe_tree[:proportion] .&lt; 100.0, :]
 0×2 DataFrames.DataFrame</code></pre><p>Finally, we can map the bootstrap proportions onto the network or its main tree by passing the bootstrap table to the <code>edgeLabel</code> option of <code>plot</code>:</p><div><pre><code class="language-julia">plot(tree1, :R, edgeLabel=BSe_tree);
-plot(net1, :R, edgeLabel=BSe_tree);</code></pre></div><p><img src="../../assets/figures/boot_tree_net_1.svg" alt="boot_tree_net 1"/> <img src="../../assets/figures/boot_tree_net_2.svg" alt="boot_tree_net 2"/></p><p>(Here, it is important that the numbers assigned to edges when building the boostrap table –those in <code>net1</code> at the time– correspond to the current edge numbers in <code>tree1</code> and <code>net1</code>. That was the purpose of reading the network from the output file of <code>snaq!</code> earlier, for consistency across different Julia sessions.)</p><p>If we wanted to plot only certain bootstrap values, like those below 100% (1.0), we could do this:</p><pre><code class="language-julia">plot(net1, :R, edgeLabel=BSe_tree[BSe_tree[:proportion] .&lt; 100.0, :]);</code></pre><h2><a class="nav-anchor" id="support-for-hybrid-edges-and-hybrid-nodes-1" href="#support-for-hybrid-edges-and-hybrid-nodes-1">support for hybrid edges and hybrid nodes</a></h2><p>Summarizing the placement of reticulations is not standard. The function <code>hybridBootstrapSupport</code> attempts to do so. The descendants of a given hybrid node form the &quot;recipient&quot; or &quot;hybrid&quot; clade, and is obtained after removing all other reticulations. If reticulation is due to gene flow or introgression, the minor hybrid edge (with γ&lt;0.5) represents this event. The descendants of the lineage from which gene flow originated is then a second &quot;sister&quot; of the hybrid clade. Because of the reticulation event, the hybrid clade has 2 sister clades, not 1: the major sister (through the major hybrid edge with γ&gt;0.5) and the minor sister (through the minor hybrid edge with γ&lt;0.5). Note that the network says <em>nothing</em> about the process: its shows the <em>relationships</em> only. We can calculate the frequency that each clade is a hybrid clade, or a major or minor sister for some other hybrid, in the bootstrap networks:</p><div><pre><code class="language-julia">BSn, BSe, BSc, BSgam, BSedgenum = hybridBootstrapSupport(bootnet, net1);</code></pre></div><p>Let&#39;s look at the results. We can list all the clades and the percentage of bootstrap networks (bootstrap support) in which each clade is a hybrid or sister to a hybrid:</p><pre><code class="language-julia-repl">julia&gt; BSn
+plot(net1, :R, edgeLabel=BSe_tree);</code></pre></div><p><img src="../../assets/figures/boot_tree_net_1.svg" alt="boot_tree_net 1"/> <img src="../../assets/figures/boot_tree_net_2.svg" alt="boot_tree_net 2"/></p><p>(Here, it is important that the numbers assigned to edges when building the boostrap table –those in <code>net1</code> at the time– correspond to the current edge numbers in <code>tree1</code> and <code>net1</code>. That was the purpose of reading the network from the output file of <code>snaq!</code> earlier, for consistency across different Julia sessions.)</p><p>If we wanted to plot only certain bootstrap values, like those below 100% (1.0), we could do this:</p><pre><code class="language-julia">plot(net1, :R, edgeLabel=BSe_tree[BSe_tree[:proportion] .&lt; 100.0, :]);</code></pre><h2><a class="nav-anchor" id="support-for-hybrid-edges-and-hybrid-nodes-1" href="#support-for-hybrid-edges-and-hybrid-nodes-1">support for hybrid edges and hybrid nodes</a></h2><p>Summarizing the placement of reticulations is not standard. The function <code>hybridBootstrapSupport</code> attempts to do so. The descendants of a given hybrid node form the &quot;recipient&quot; or &quot;hybrid&quot; clade, and is obtained after removing all other reticulations. If reticulation is due to gene flow or introgression, the minor hybrid edge (with γ&lt;0.5) represents this event. The descendants of the lineage from which gene flow originated is then a second &quot;sister&quot; of the hybrid clade. Because of the reticulation event, the hybrid clade has 2 sister clades, not 1: the major sister (through the major hybrid edge with γ&gt;0.5) and the minor sister (through the minor hybrid edge with γ&lt;0.5). Note that the network says <em>nothing</em> about the process: its shows the <em>relationships</em> only. We can calculate the frequency that each clade is a hybrid clade, or a major or minor sister for some other hybrid, in the bootstrap networks:</p><div><pre><code class="language-julia">BSn, BSe, BSc, BSgam, BSedgenum = hybridBootstrapSupport(bootnet, net1);</code></pre><pre><code class="language-none">(7×9 DataFrames.DataFrame. Omitted printing of 3 columns
+│ Row │ clade    │ node   │ hybridnode │ edge   │ BS_hybrid │ BS_sister │
+│     │ String   │ Int64⍰ │ Int64⍰     │ Int64⍰ │ Float64   │ Float64   │
+├─────┼──────────┼────────┼────────────┼────────┼───────────┼───────────┤
+│ 1   │ H7       │ 7      │ 5          │ 9      │ 33.0      │ 51.0      │
+│ 2   │ c_minus2 │ -2     │ -2         │ 12     │ 0.0       │ 55.0      │
+│ 3   │ E        │ 4      │ 4          │ 4      │ 12.0      │ 41.0      │
+│ 4   │ c_minus4 │ -4     │ -4         │ 7      │ 44.0      │ 0.0       │
+│ 5   │ B        │ 6      │ 6          │ 8      │ 2.0       │ 33.0      │
+│ 6   │ c_minus6 │ -6     │ -6         │ 11     │ 9.0       │ 7.0       │
+│ 7   │ O        │ 3      │ 3          │ 3      │ 0.0       │ 13.0      │, 12×8 DataFrames.DataFrame. Omitted printing of 3 columns
+│ Row │ edge    │ hybrid_clade │ hybrid │ sister_clade │ sister │
+│     │ Int64⍰  │ String       │ Int64⍰ │ String       │ Int64⍰ │
+├─────┼─────────┼──────────────┼────────┼──────────────┼────────┤
+│ 1   │ 10      │ H7           │ 5      │ B            │ 6      │
+│ 2   │ 5       │ H7           │ 5      │ E            │ 4      │
+│ 3   │ missing │ c_minus4     │ -4     │ c_minus2     │ -2     │
+│ 4   │ missing │ c_minus4     │ -4     │ H7           │ 7      │
+│ 5   │ missing │ E            │ 4      │ O            │ 3      │
+│ 6   │ missing │ c_minus6     │ -6     │ c_minus2     │ -2     │
+│ 7   │ missing │ c_minus6     │ -6     │ E            │ 4      │
+│ 8   │ missing │ E            │ 4      │ c_minus6     │ -6     │
+│ 9   │ missing │ E            │ 4      │ H7           │ 7      │
+│ 10  │ missing │ B            │ 6      │ H7           │ 7      │
+│ 11  │ missing │ B            │ 6      │ c_minus2     │ -2     │
+│ 12  │ missing │ H7           │ 5      │ O            │ 3      │, 6×8 DataFrames.DataFrame. Omitted printing of 1 columns
+│ Row │ taxa   │ O     │ E     │ c_minus4 │ B     │ H7    │ c_minus6 │
+│     │ String │ Bool  │ Bool  │ Bool     │ Bool  │ Bool  │ Bool     │
+├─────┼────────┼───────┼───────┼──────────┼───────┼───────┼──────────┤
+│ 1   │ C      │ false │ false │ false    │ false │ false │ false    │
+│ 2   │ D      │ false │ false │ false    │ false │ false │ false    │
+│ 3   │ O      │ true  │ false │ true     │ false │ false │ false    │
+│ 4   │ E      │ false │ true  │ true     │ false │ false │ false    │
+│ 5   │ B      │ false │ false │ false    │ true  │ false │ true     │
+│ 6   │ A      │ false │ false │ false    │ false │ true  │ true     │, [0.767833 0.232167; 0.0 0.0; … ; 0.830274 0.169726; 0.814081 0.185919], [10, 5])</code></pre></div><p>Let&#39;s look at the results. We can list all the clades and the percentage of bootstrap networks (bootstrap support) in which each clade is a hybrid or sister to a hybrid:</p><pre><code class="language-julia-repl">julia&gt; BSn
 7×9 DataFrames.DataFrame. Omitted printing of 3 columns
 │ Row │ clade    │ node   │ hybridnode │ edge   │ BS_hybrid │ BS_sister │
 │     │ String   │ Int64⍰ │ Int64⍰     │ Int64⍰ │ Float64   │ Float64   │

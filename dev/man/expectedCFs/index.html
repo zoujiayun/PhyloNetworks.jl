@@ -42,7 +42,9 @@ julia&gt; df_long = fittedQuartetCF(raxmlCF, :long)
 │ 42  │ B      │ D      │ E      │ O      │ 14_23   │ 0.0666667 │ 0.100184   │
 │ 43  │ C      │ D      │ E      │ O      │ 12_34   │ 1.0       │ 0.999855   │
 │ 44  │ C      │ D      │ E      │ O      │ 13_24   │ 0.0       │ 7.27002e-5 │
-│ 45  │ C      │ D      │ E      │ O      │ 14_23   │ 0.0       │ 7.27002e-5 │</code></pre><p>It is important to have run <code>snaq!</code>, <code>topologyQPseudolik!</code> or <code>topologyMaxQPseudolik!</code> before making these tables, or the result would be meaningless. These functions update the fitted concordance factors (those expected under the network) inside the DataCF object <code>raxmlCF</code>.</p><p>Here is one way to plot them, via R again, and using the R package <code>ggplot2</code>.</p><div><pre><code class="language-julia">using RCall</code></pre></div><p>To install ggplot2 if not installed already, do: <code>R&quot;install.packages(&#39;ggplot2&#39;, dep=TRUE)&quot;</code></p><pre><code class="language-julia">@rlibrary ggplot2
+│ 45  │ C      │ D      │ E      │ O      │ 14_23   │ 0.0       │ 7.27002e-5 │</code></pre><p>It is important to have run <code>snaq!</code>, <code>topologyQPseudolik!</code> or <code>topologyMaxQPseudolik!</code> before making these tables, or the result would be meaningless. These functions update the fitted concordance factors (those expected under the network) inside the DataCF object <code>raxmlCF</code>.</p><p>Here is one way to plot them, via R again, and using the R package <code>ggplot2</code>.</p><div><pre><code class="language-julia">using RCall</code></pre><pre><code class="language-none">RCall.RObject{RCall.IntSxp}
+null device
+          1</code></pre></div><p>To install ggplot2 if not installed already, do: <code>R&quot;install.packages(&#39;ggplot2&#39;, dep=TRUE)&quot;</code></p><pre><code class="language-julia">@rlibrary ggplot2
 ggplot(df_long, aes(x=:obsCF,y=:expCF)) + theme_classic() +
     geom_segment(x=0,y=0,xend=1,yend=1, color=&quot;#008080&quot;, size=0.3) + # diagonal line
     geom_point(alpha=0.5, color=&quot;#008080&quot;, position=position_jitter(width=0.005, height=0.005)) +
