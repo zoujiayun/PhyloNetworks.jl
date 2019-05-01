@@ -1565,7 +1565,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Internals",
     "title": "Base.getindex",
     "category": "function",
-    "text": "getindex(obj, d,[ indTips, nonmissing])\n\nGetting submatrices of an object of type MatrixTopologicalOrder.\n\nArguments\n\nobj::MatrixTopologicalOrder: the matrix from which to extract.\nd::Symbol: a symbol precising which sub-matrix to extract. Can be:\n:Tips columns and/or rows corresponding to the tips\n:InternalNodes columns and/or rows corresponding to the internal nodes\n:TipsNodes columns corresponding to internal nodes, and row to tips (works only is indexation=\"b\")\nindTips::Vector{Int}: optional argument precising a specific order for the tips (internal use).\nnonmissing::BitArray{1}: optional argument saying which tips have data (internal use).\n\n\n\n\n\n"
+    "text": "getindex(obj, d)\n\nGetting submatrices of an object of type TraitSimulation.\n\nArguments\n\nobj::TraitSimulation: the matrix from which to extract.\nd::Symbol: a symbol precising which sub-matrix to extract. Can be:\n:Tips columns and/or rows corresponding to the tips\n:InternalNodes columns and/or rows corresponding to the internal nodes\n\n\n\n\n\n"
 },
 
 {
@@ -1573,7 +1573,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Internals",
     "title": "Base.getindex",
     "category": "function",
-    "text": "getindex(obj, d)\n\nGetting submatrices of an object of type TraitSimulation.\n\nArguments\n\nobj::TraitSimulation: the matrix from which to extract.\nd::Symbol: a symbol precising which sub-matrix to extract. Can be:\n:Tips columns and/or rows corresponding to the tips\n:InternalNodes columns and/or rows corresponding to the internal nodes\n\n\n\n\n\n"
+    "text": "getindex(obj, d,[ indTips, nonmissing])\n\nGetting submatrices of an object of type MatrixTopologicalOrder.\n\nArguments\n\nobj::MatrixTopologicalOrder: the matrix from which to extract.\nd::Symbol: a symbol precising which sub-matrix to extract. Can be:\n:Tips columns and/or rows corresponding to the tips\n:InternalNodes columns and/or rows corresponding to the internal nodes\n:TipsNodes columns corresponding to internal nodes, and row to tips (works only is indexation=\"b\")\nindTips::Vector{Int}: optional argument precising a specific order for the tips (internal use).\nnonmissing::BitArray{1}: optional argument saying which tips have data (internal use).\n\n\n\n\n\n"
 },
 
 {
