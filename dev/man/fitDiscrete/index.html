@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Discrete Trait Evolution · PhyloNetworks.jl</title><link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css" rel="stylesheet" type="text/css"/><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link href="../../assets/documenter.css" rel="stylesheet" type="text/css"/></head><body><nav class="toc"><a href="../../index.html"><img class="logo" src="../../assets/logo.png" alt="PhyloNetworks.jl logo"/></a><h1>PhyloNetworks.jl</h1><select id="version-selector" onChange="window.location.href=this.value" style="visibility: hidden"></select><form class="search" id="search-form" action="../../search/"><input id="search-query" name="q" type="text" placeholder="Search docs"/></form><ul><li><a class="toctext" href="../../">Home</a></li><li><span class="toctext">Manual</span><ul><li><a class="toctext" href="../installation/">Installation</a></li><li><a class="toctext" href="../inputdata/">Input Data for SNaQ</a></li><li><a class="toctext" href="../ticr_howtogetQuartetCFs/">TICR pipeline</a></li><li><a class="toctext" href="../snaq_plot/">Network estimation and display</a></li><li><a class="toctext" href="../dist_reroot/">Network comparison and manipulation</a></li><li><a class="toctext" href="../fixednetworkoptim/">Candidate Networks</a></li><li><a class="toctext" href="../expectedCFs/">Extract Expected CFs</a></li><li><a class="toctext" href="../bootstrap/">Bootstrap</a></li><li><a class="toctext" href="../multiplealleles/">Multiple Alleles</a></li><li><a class="toctext" href="../trait_tree/">Continuous Trait Evolution</a></li><li><a class="toctext" href="../parsimony/">Parsimony on networks</a></li><li class="current"><a class="toctext" href>Discrete Trait Evolution</a><ul class="internal"><li><a class="toctext" href="#Discrete-Trait-Data-1">Discrete Trait Data</a></li><li><a class="toctext" href="#Choosing-a-Substitution-Model-1">Choosing a Substitution Model</a></li><li><a class="toctext" href="#Running-FitDiscrete-1">Running FitDiscrete</a></li></ul></li></ul></li><li><span class="toctext">Library</span><ul><li><a class="toctext" href="../../lib/public/">Public</a></li><li><a class="toctext" href="../../lib/internals/">Internals</a></li></ul></li></ul></nav><article id="docs"><header><nav><ul><li>Manual</li><li><a href>Discrete Trait Evolution</a></li></ul><a class="edit-page" href="https://github.com/crsl4/PhyloNetworks.jl/blob/master/docs/src/man/fitDiscrete.md"><span class="fa"></span> Edit on GitHub</a></nav><hr/><div id="topbar"><span>Discrete Trait Evolution</span><a class="fa fa-bars" href="#"></a></div></header><h1><a class="nav-anchor" id="Discrete-Trait-Evolution-1" href="#Discrete-Trait-Evolution-1">Discrete Trait Evolution</a></h1><p>With a phylogenetic network structure inferred, we can now estimate how quickly traits have evolved over time using a likelihood model. These traits should be discrete  characteristics of a species such as feather color, diet type, or dna in aligned  genetic sequences.</p><h2><a class="nav-anchor" id="Discrete-Trait-Data-1" href="#Discrete-Trait-Data-1">Discrete Trait Data</a></h2><p>As with continuous trait evolution, we assume a fixed network, correctly rooted,  with branch lengths proportional to calendar time. We start with a network, then add data about the tips of this network. We allow data of two types.</p><ol><li>A vector of species names with a data frame of traits:</li></ol><div></div><pre><code class="language-julia">#read in network
+simple_net = readTopology(&quot;(A:3.0,(B:2.0,(C:1.0,D:1.0):1.0):1.0);&quot;);
+
+#read in trait data
+simple_species = [&quot;C&quot;,&quot;A&quot;,&quot;B&quot;,&quot;D&quot;]
+simple_dat = DataFrame(trait=[&quot;hi&quot;,&quot;lo&quot;,&quot;lo&quot;,&quot;hi&quot;])</code></pre><table class="data-frame"><thead><tr><th></th><th>trait</th></tr><tr><th></th><th>String</th></tr></thead><tbody><p>4 rows × 1 columns</p><tr><th>1</th><td>hi</td></tr><tr><th>2</th><td>lo</td></tr><tr><th>3</th><td>lo</td></tr><tr><th>4</th><td>hi</td></tr></tbody></table><p>If your species names and trait data are in the same data frame, read in your data  frame then subset the data like this:</p><pre><code class="language-julia">dat = DataFrame(species=[&quot;C&quot;,&quot;A&quot;,&quot;B&quot;,&quot;D&quot;], trait=[&quot;hi&quot;,&quot;lo&quot;,&quot;lo&quot;,&quot;hi&quot;])
+simple_species = dat[:species]
+simple_dat = DataFrame(trait = dat[:trait])</code></pre><table class="data-frame"><thead><tr><th></th><th>trait</th></tr><tr><th></th><th>String</th></tr></thead><tbody><p>4 rows × 1 columns</p><tr><th>1</th><td>hi</td></tr><tr><th>2</th><td>lo</td></tr><tr><th>3</th><td>lo</td></tr><tr><th>4</th><td>hi</td></tr></tbody></table><ol><li>To use dna data, read in the network structure then start with a fasta </li></ol><p>file. Reading the data from this file using the <code>readfastatodna</code> function. This  creates a data frame of dna data and a vector of dna pattern weights.</p><pre><code class="language-julia">#read in network
+dna_net = readTopology(&quot;((((((((((((((Ae_caudata_Tr275:1.0,Ae_caudata_Tr276:1.0):1.0,Ae_caudata_Tr139:1.0):1.0)#H1:1.0::0.6,((((((Ae_longissima_Tr241:1.0,Ae_longissima_Tr242:1.0):1.0,Ae_longissima_Tr355:1.0):1.0,(Ae_sharonensis_Tr265:1.0,Ae_sharonensis_Tr264:1.0):1.0):1.0,((Ae_bicornis_Tr408:1.0,Ae_bicornis_Tr407:1.0):1.0,Ae_bicornis_Tr406:1.0):1.0):1.0,((Ae_searsii_Tr164:1.0,Ae_searsii_Tr165:1.0):1.0,Ae_searsii_Tr161:1.0):1.0):1.0)#H2:1.0::0.6):1.0,(((Ae_umbellulata_Tr266:1.0,Ae_umbellulata_Tr257:1.0):1.0,Ae_umbellulata_Tr268:1.0):1.0,#H1:1.0::0.4):1.0):1.0,((Ae_comosa_Tr271:1.0,Ae_comosa_Tr272:1.0):1.0,(((Ae_uniaristata_Tr403:1.0,Ae_uniaristata_Tr357:1.0):1.0,Ae_uniaristata_Tr402:1.0):1.0,Ae_uniaristata_Tr404:1.0):1.0):1.0):1.0,(((Ae_tauschii_Tr352:1.0,Ae_tauschii_Tr351:1.0):1.0,(Ae_tauschii_Tr180:1.0,Ae_tauschii_Tr125:1.0):1.0):1.0,(#H2:1.0::0.4,((((Ae_mutica_Tr237:1.0,Ae_mutica_Tr329:1.0):1.0,Ae_mutica_Tr244:1.0):1.0,Ae_mutica_Tr332:1.0):1.0)#H4:1.0::0.6):1.0):1.0):1.0,(((T_boeoticum_TS8:1.0,(T_boeoticum_TS10:1.0,T_boeoticum_TS3:1.0):1.0):1.0,T_boeoticum_TS4:1.0):1.0,((T_urartu_Tr315:1.0,T_urartu_Tr232:1.0):1.0,(T_urartu_Tr317:1.0,T_urartu_Tr309:1.0):1.0):1.0):1.0):1.0,(((((Ae_speltoides_Tr320:1.0,Ae_speltoides_Tr323:1.0):1.0,Ae_speltoides_Tr223:1.0):1.0,Ae_speltoides_Tr251:1.0):1.0):1.0,#H4:1.0::0.4):1.0):1.0):1.0,Ta_caputMedusae_TB2:1.0):1.0,S_vavilovii_Tr279:1.0):1.0,Er_bonaepartis_TB1:1.0):1.0,H_vulgare_HVens23:1.0);&quot;);
+
+#read in dna data
+fastafile = joinpath(dirname(pathof(PhyloNetworks)), &quot;..&quot;,&quot;examples&quot;,
+&quot;Ae_bicornis_Tr406_Contig10132.aln&quot;)
+dna_dat, dna_weights = readfastatodna(fastafile, true);</code></pre><pre><code class="language-none">(22×210 DataFrames.DataFrame. Omitted printing of 205 columns
+│ Row │ taxon                │ x1        │ x2        │ x3        │ x4        │
+│     │ String               │ BioSymbo… │ BioSymbo… │ BioSymbo… │ BioSymbo… │
+├─────┼──────────────────────┼───────────┼───────────┼───────────┼───────────┤
+│ 1   │ Ae_uniaristata_Tr357 │ DNA_Gap   │ DNA_Gap   │ DNA_Gap   │ DNA_Gap   │
+│ 2   │ Ae_mutica_Tr237      │ DNA_Gap   │ DNA_Gap   │ DNA_Gap   │ DNA_Gap   │
+│ 3   │ Ae_tauschii_Tr352    │ DNA_Gap   │ DNA_Gap   │ DNA_Gap   │ DNA_Gap   │
+│ 4   │ Ae_searsii_Tr165     │ DNA_T     │ DNA_C     │ DNA_A     │ DNA_G     │
+│ 5   │ Ae_sharonensis_Tr265 │ DNA_Gap   │ DNA_Gap   │ DNA_Gap   │ DNA_Gap   │
+│ 6   │ Ae_bicornis_Tr407    │ DNA_T     │ DNA_C     │ DNA_A     │ DNA_G     │
+│ 7   │ Ae_longissima_Tr241  │ DNA_T     │ DNA_C     │ DNA_A     │ DNA_G     │
+⋮
+│ 15  │ Ae_longissima_Tr242  │ DNA_Gap   │ DNA_Gap   │ DNA_Gap   │ DNA_Gap   │
+│ 16  │ Ae_comosa_Tr271      │ DNA_Gap   │ DNA_Gap   │ DNA_Gap   │ DNA_Gap   │
+│ 17  │ Ae_searsii_Tr164     │ DNA_T     │ DNA_C     │ DNA_A     │ DNA_G     │
+│ 18  │ Ae_speltoides_Tr251  │ DNA_Gap   │ DNA_Gap   │ DNA_Gap   │ DNA_Gap   │
+│ 19  │ Ae_bicornis_Tr408    │ DNA_Gap   │ DNA_Gap   │ DNA_Gap   │ DNA_Gap   │
+│ 20  │ Ae_tauschii_Tr351    │ DNA_T     │ DNA_C     │ DNA_A     │ DNA_G     │
+│ 21  │ Ae_longissima_Tr355  │ DNA_T     │ DNA_C     │ DNA_A     │ DNA_G     │
+│ 22  │ Ae_caudata_Tr139     │ DNA_Gap   │ DNA_Gap   │ DNA_Gap   │ DNA_Gap   │, [23.0, 18.0, 13.0, 16.0, 1.0, 1.0, 1.0, 1.0, 1.0, 9.0  …  1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 3.0])</code></pre><h2><a class="nav-anchor" id="Choosing-a-Substitution-Model-1" href="#Choosing-a-Substitution-Model-1">Choosing a Substitution Model</a></h2><p>After reading in your data, choose a model to describe how evolutionary changes  (or substitutions, in the case of DNA) happened over time. We offer a selection  of Markov substitution models to describe the evolutionary process.</p><h3><a class="nav-anchor" id="Generic-Trait-Models-1" href="#Generic-Trait-Models-1">Generic Trait Models</a></h3><p>These models works well for any type of trait we may want to model. For general trait types, use one of these three models:     <code>:ERSM</code> Equal Rates Substitution Model   <code>:BTSM</code> Binary Trait Substitution Model     <code>:TBTSM</code> Two Binary Trait Substituion Model    </p><h3><a class="nav-anchor" id="DNA-Specific-Models-1" href="#DNA-Specific-Models-1">DNA-Specific Models</a></h3><p>The DNA-specific models are optimized for aligned sequence data. We offer JC69  and HKY85 models in both relative and absolute versions. The JC69 model was  developed by Jukes and Cantor in 1969 and uses one rate for all type of substitutions.  The HKY85 model was developed in 1985 by Hasegawa, Kishino, &amp; Yano. It treats  transitions differently from transversions.     <code>:JC69</code> Jukes Cantor 69 Model     <code>:HKY85</code> Hasegawa, Kishino and Yano 1985     </p><h2><a class="nav-anchor" id="Running-FitDiscrete-1" href="#Running-FitDiscrete-1">Running FitDiscrete</a></h2><p>To infer evolutionary rates, run the <code>fitDiscrete</code> function on the network and data.  It will calculate the maximum likelihood score of a network given one or more  discrete trait characters at the tips. Along each edge, evolutionary changes are modeled with a continous time Markov model, with parameters estimated by  maximizing the likelihood. At each hybrid node, the trait is assumed to be  inherited from the immediate parent (or parents, in the case of a hybrid edge). If there is a hybrid edge, the trait is modeled according to the parents&#39; weighted  average genetic contributions, as measured by inheritance gamma γ. The model  currently ignores incomplete lineage sorting.</p><h3><a class="nav-anchor" id="General-Trait-Data-1" href="#General-Trait-Data-1">General Trait Data</a></h3><pre><code class="language-julia">s1 = fitDiscrete(simple_net, :ERSM, simple_species, simple_dat; optimizeQ=false,
+optimizeRVAS=false)
+s2 = fitDiscrete(simple_net, :BTSM, simple_species, simple_dat; optimizeQ=false,
+optimizeRVAS=false)</code></pre><pre><code class="language-none">PhyloNetworks.StatisticalSubstitutionModel:
+Binary Trait Substitution Model:
+rate hi→lo α=0.11111
+rate lo→hi β=0.11111
+1 traits, 4 species, on a network with 0 reticulations
+log-likelihood: -3.09504</code></pre><p>In this <code>fitDiscrete</code> call, we do not optimize rates or allow for rate variation across sites.</p><p>If <code>optimizeQ = true</code>, the <code>fitDiscrete</code> function estimates the evolutionary rate or rates. Because we didn&#39;t allow for rate variation across sites in these models,  we do not optimize the way rates may vary across trait types.</p><pre><code class="language-julia">s3 = fitDiscrete(simple_net, :ERSM, simple_species, simple_dat; optimizeQ=true,
+optimizeRVAS=true)
+s4 = fitDiscrete(simple_net, :BTSM, simple_species, simple_dat; optimizeQ=true,
+optimizeRVAS=true)</code></pre><pre><code class="language-none">PhyloNetworks.StatisticalSubstitutionModel:
+Binary Trait Substitution Model:
+rate hi→lo α=0.38883
+rate lo→hi β=0.29993
+1 traits, 4 species, on a network with 0 reticulations
+log-likelihood: -2.64472</code></pre><h3><a class="nav-anchor" id="DNA-Data-1" href="#DNA-Data-1">DNA Data</a></h3><p>For DNA data, use <code>:JC69</code> or <code>:HKY85</code> models. </p><pre><code class="language-julia">d1 = fitDiscrete(dna_net, :JC69, dna_dat, dna_weights, :RV; optimizeQ=false,
+optimizeRVAS=false)
+d2 = fitDiscrete(dna_net, :HKY85, dna_dat, dna_weights, :RV; optimizeQ=false,
+optimizeRVAS=false)</code></pre><pre><code class="language-none">PhyloNetworks.StatisticalSubstitutionModel:
+HKY85 Substitution Model base frequencies: [0.25, 0.25, 0.25, 0.25]
+absolute rate version with transition/transversion ratio kappa = a/b = 1.0
+ with rates a = 0.009708737864077669 and b = 0.009708737864077669
+rate matrix Q:
+               A       C       G       T
+       A       *  0.0024  0.0024  0.0024
+       C  0.0024       *  0.0024  0.0024
+       G  0.0024  0.0024       *  0.0024
+       T  0.0024  0.0024  0.0024       *
+209 traits, 22 species, with gamma variable rate model according to Rate Variation Across Sites using Discretized Gamma Model
+alpha: 1.0
+categories for Gamma discretization: 4
+ratemultiplier: [0.133531, 0.470004, 0.980829, 2.07944]
+ with alpha = 1.0 and 4 categories on a network with 3 reticulations
+log-likelihood: -1829.06067</code></pre><p>In these <code>fitDiscrete</code> models, we do not optimize rates (<code>optimizeQ=false</code>), but we do allow for rate variation across sites.</p><h3><a class="nav-anchor" id="Rate-Variation-Across-Sites-1" href="#Rate-Variation-Across-Sites-1">Rate Variation Across Sites</a></h3><p>In its default version, <code>fitDiscrete</code> does not allow for rate variation across sites. To allow for rate variation across sites in your estimate of evolutionary rates  (or rate variation across trait types, in the case of general trait types),  include <code>:RV</code>. If you include <code>:RV</code> and <code>optimizeRVAS = true</code>, the model will  not only allow for rate variation, but it will also optimize how rates vary across  sites.</p><p>We optimize the evolutionary rates and the way rates vary across sites for the DNA data here:    </p><pre><code class="language-julia">d3 = fitDiscrete(dna_net, :JC69, dna_dat, dna_weights, :RV; optimizeQ=true,
+optimizeRVAS=false)
+d4 = fitDiscrete(dna_net, :HKY85, dna_dat, dna_weights, :RV; optimizeQ=true,
+optimizeRVAS=false)</code></pre><pre><code class="language-none">PhyloNetworks.StatisticalSubstitutionModel:
+HKY85 Substitution Model base frequencies: [0.25, 0.25, 0.25, 0.25]
+absolute rate version with transition/transversion ratio kappa = a/b = 4.491143303823626
+ with rates a = 0.008672545057017566 and b = 0.0019310328061974819
+rate matrix Q:
+               A       C       G       T
+       A       *  0.0005  0.0022  0.0005
+       C  0.0005       *  0.0005  0.0022
+       G  0.0022  0.0005       *  0.0005
+       T  0.0005  0.0022  0.0005       *
+209 traits, 22 species, with gamma variable rate model according to Rate Variation Across Sites using Discretized Gamma Model
+alpha: 1.0
+categories for Gamma discretization: 4
+ratemultiplier: [0.133531, 0.470004, 0.980829, 2.07944]
+ with alpha = 1.0 and 4 categories on a network with 3 reticulations
+log-likelihood: -1688.1231</code></pre><footer><hr/><a class="previous" href="../parsimony/"><span class="direction">Previous</span><span class="title">Parsimony on networks</span></a><a class="next" href="../../lib/public/"><span class="direction">Next</span><span class="title">Public</span></a></footer></article></body></html>
