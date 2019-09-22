@@ -42,6 +42,9 @@ julia&gt; dat = DataFrame(trait1 = trait1, trait2 = trait2, trait3 = trait3,
 │ 6   │ 5.88204 │ -1.99388 │ 22.0269 │ O        │</code></pre><p>Phylogenetic regression / ANOVA is based on the <a href="https://github.com/JuliaStats/GLM.jl">GLM</a> package, with the network as an extra argument, using function <a href="../../lib/public/#PhyloNetworks.phyloNetworklm"><code>phyloNetworklm</code></a>.</p><pre><code class="language-julia-repl">julia&gt; using StatsModels # for statistical model formulas
 
 julia&gt; fitTrait3 = phyloNetworklm(@formula(trait3 ~ trait1 + trait2), dat, truenet)
+┌ Warning: `T` is deprecated, use `nonmissingtype` instead.
+│   caller = (::getfield(StatsModels, Symbol(&quot;##40#41&quot;)){Array{Int64,1}})(::Array{Float64,1}) at none:0
+└ @ StatsModels ./none:0
 StatsModels.TableRegressionModel{PhyloNetworkLinearModel,Array{Float64,2}}
 
 Formula: trait3 ~ 1 + trait1 + trait2
@@ -124,18 +127,26 @@ plot(truenet,:R, nodeLabel = ancInt);</code></pre><p><img src="../../assets/figu
 │ 4   │ 0.681629 │ 1.50076   │ 4.54666 │
 │ 5   │ 0.582023 │ 2.84188   │ 4.54084 │
 │ 6   │ 0.686076 │ 1.76745   │ 3.84962 │
-│ 7   │ 2.0      │ 2.0       │ 2.0     │</code></pre><h3><a class="nav-anchor" id="From-estimated-parameters-1" href="#From-estimated-parameters-1">From estimated parameters</a></h3><p>In real applications though, we do not have access to the true parameters of the process that generated the data. We can estimate it using the previous function. To fit a regular BM, we just need to do a regression of trait 1 against a simple intercept:</p><pre><code class="language-julia">fitTrait1 = phyloNetworklm(@formula(trait1 ~ 1), dat, truenet)</code></pre><p>We can then apply the <a href="../../lib/public/#PhyloNetworks.ancestralStateReconstruction"><code>ancestralStateReconstruction</code></a> function directly to the fitted object:</p><pre><code class="language-julia">ancTrait1Approx = ancestralStateReconstruction(fitTrait1)</code></pre><pre><code class="language-none">┌ Warning: These prediction intervals show uncertainty in ancestral values,
+│ 7   │ 2.0      │ 2.0       │ 2.0     │</code></pre><h3><a class="nav-anchor" id="From-estimated-parameters-1" href="#From-estimated-parameters-1">From estimated parameters</a></h3><p>In real applications though, we do not have access to the true parameters of the process that generated the data. We can estimate it using the previous function. To fit a regular BM, we just need to do a regression of trait 1 against a simple intercept:</p><pre><code class="language-julia">fitTrait1 = phyloNetworklm(@formula(trait1 ~ 1), dat, truenet)</code></pre><pre><code class="language-none">┌ Warning: `T` is deprecated, use `nonmissingtype` instead.
+│   caller = (::getfield(StatsModels, Symbol(&quot;##40#41&quot;)){Array{Int64,1}})(::Array{Float64,1}) at none:0
+└ @ StatsModels ./none:0</code></pre><p>We can then apply the <a href="../../lib/public/#PhyloNetworks.ancestralStateReconstruction"><code>ancestralStateReconstruction</code></a> function directly to the fitted object:</p><pre><code class="language-julia">ancTrait1Approx = ancestralStateReconstruction(fitTrait1)</code></pre><pre><code class="language-none">┌ Warning: These prediction intervals show uncertainty in ancestral values,
 │ assuming that the estimated variance rate of evolution is correct.
 │ Additional uncertainty in the estimation of this variance rate is
 │ ignored, so prediction intervals should be larger.
 └ @ PhyloNetworks ~/build/crsl4/PhyloNetworks.jl/src/traits.jl:2153</code></pre><p>The prediction intervals ignore the fact that we estimated the process parameters, so they are less accurate and the function throws a warning. The output is an object of the same <a href="../../lib/public/#PhyloNetworks.ReconstructedStates"><code>ReconstructedStates</code></a> type as earlier, and the same extractors can be applied to it:</p><pre><code class="language-julia">plot(truenet, :R, nodeLabel = expectationsPlot(ancTrait1Approx));</code></pre><p><img src="../../assets/figures/ancestral1.svg" alt="ancestral1"/></p><p>For convenience, the two steps described above (fitting against the intercept, and then do ancestral state reconstruction) can be done all at once with a single call of the function <a href="../../lib/public/#PhyloNetworks.ancestralStateReconstruction"><code>ancestralStateReconstruction</code></a> on a DataFrame with the trait to reconstruct, and the tip labels:</p><pre><code class="language-julia">datTrait1 = DataFrame(trait1 = trait1, tipNames = tipLabels(sim1))
-ancTrait1Approx = ancestralStateReconstruction(datTrait1, truenet)</code></pre><pre><code class="language-none">┌ Warning: These prediction intervals show uncertainty in ancestral values,
+ancTrait1Approx = ancestralStateReconstruction(datTrait1, truenet)</code></pre><pre><code class="language-none">┌ Warning: `T` is deprecated, use `nonmissingtype` instead.
+│   caller = (::getfield(StatsModels, Symbol(&quot;##40#41&quot;)){Array{Int64,1}})(::Array{Float64,1}) at none:0
+└ @ StatsModels ./none:0
+┌ Warning: These prediction intervals show uncertainty in ancestral values,
 │ assuming that the estimated variance rate of evolution is correct.
 │ Additional uncertainty in the estimation of this variance rate is
 │ ignored, so prediction intervals should be larger.
 └ @ PhyloNetworks ~/build/crsl4/PhyloNetworks.jl/src/traits.jl:2153</code></pre><pre><code class="language-julia">plot(truenet, :R, nodeLabel = predintPlot(ancTrait1Approx, level=0.9));</code></pre><p><img src="../../assets/figures/ancestral2.svg" alt="ancestral2"/></p><p>This produces the exact same results. Here, we chose a <code>level</code> of 90% for the plotted prediction intervals.</p><h3><a class="nav-anchor" id="Data-imputation-1" href="#Data-imputation-1">Data imputation</a></h3><p>Note that there is no theoretical difference between an internal node, for which we could not measure the value of the trait, and a missing value at a tip of the network. Consequently, the previous <a href="../../lib/public/#PhyloNetworks.ancestralStateReconstruction"><code>ancestralStateReconstruction</code></a> function can be used to do data imputation. To see this, let&#39;s add some missing values in trait 1.</p><pre><code class="language-julia">allowmissing!(datTrait1, :trait1)
 datTrait1[2, :trait1] = missing; # second row: for taxon C
-ancTrait1Approx = ancestralStateReconstruction(datTrait1, truenet)</code></pre><pre><code class="language-none">┌ Warning: These prediction intervals show uncertainty in ancestral values,
+ancTrait1Approx = ancestralStateReconstruction(datTrait1, truenet)</code></pre><pre><code class="language-none">┌ Warning: `T` is deprecated, use `nonmissingtype` instead.
+│   caller = (::getfield(StatsModels, Symbol(&quot;##40#41&quot;)){Array{Int64,1}})(::Array{Union{Missing, Float64},1}) at none:0
+└ @ StatsModels ./none:0
+┌ Warning: These prediction intervals show uncertainty in ancestral values,
 │ assuming that the estimated variance rate of evolution is correct.
 │ Additional uncertainty in the estimation of this variance rate is
 │ ignored, so prediction intervals should be larger.
