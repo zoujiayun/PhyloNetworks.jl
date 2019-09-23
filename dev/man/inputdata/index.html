@@ -9,38 +9,40 @@ HybridNetwork, Rooted Network
 10 nodes: 6 tips, 0 hybrid nodes, 4 internal tree nodes.
 tip labels: E, A, B, C, ...
 ((E:0.015,(A:0.006,B:0.006):0.003):0.041,(C:0.006,D:0.0):0.041,O:0.052);</code></pre><p>To visualize any of these input trees, use the <a href="https://github.com/cecileane/PhyloPlots.jl">PhyloPlots</a> package:</p><pre><code class="language-julia">using PhyloPlots
-plot(genetrees[3], :R); # tree for 3rd gene</code></pre><p><img src="../../assets/figures/inputdata_gene3.svg" alt="gene3"/></p><p>To read in all gene trees and directly summarize them by a list of quartet CFs (proportion of input trees with a given quartet):</p><pre><code class="language-julia-repl">julia&gt; raxmlCF = readTrees2CF(raxmltrees, CFfile=&quot;tableCF.csv&quot;);
-will use all quartets on 6 taxa
-calculating obsCF from 30 gene trees and for 15 quartets
-Reading in quartets...
-0+---------------+100%  
-  ***************  
-table of obsCF printed to file tableCF.csv
-descriptive stat of input data printed to file summaryTreesQuartets.txt
+plot(genetrees[3], :R); # tree for 3rd gene</code></pre><p><img src="../../assets/figures/inputdata_gene3.svg" alt="gene3"/></p><p>To read in all gene trees and directly summarize them by a list of quartet CFs (proportion of input trees with a given quartet):</p><pre><code class="language-julia-repl">julia&gt; q,t = observedquartetCF(genetrees); # read in trees, calculate quartet CFs
+Reading in trees, looking at 15 quartets in each...
+0+------------------------------+100%
+  ******************************
 
-julia&gt; df = writeTableCF(raxmlCF)   # data frame with observed CFs: gene frequencies
+julia&gt; df = writeTableCF(q,t)   # data frame with observed CFs: gene frequencies
 15×8 DataFrames.DataFrame. Omitted printing of 1 columns
 │ Row │ t1     │ t2     │ t3     │ t4     │ CF12_34  │ CF13_24   │ CF14_23   │
 │     │ String │ String │ String │ String │ Float64  │ Float64   │ Float64   │
 ├─────┼────────┼────────┼────────┼────────┼──────────┼───────────┼───────────┤
 │ 1   │ A      │ B      │ C      │ D      │ 1.0      │ 0.0       │ 0.0       │
 │ 2   │ A      │ B      │ C      │ E      │ 0.833333 │ 0.0333333 │ 0.133333  │
-│ 3   │ A      │ B      │ C      │ O      │ 0.866667 │ 0.0       │ 0.133333  │
-│ 4   │ A      │ B      │ D      │ E      │ 0.833333 │ 0.0333333 │ 0.133333  │
-│ 5   │ A      │ B      │ D      │ O      │ 0.866667 │ 0.0       │ 0.133333  │
-│ 6   │ A      │ B      │ E      │ O      │ 0.833333 │ 0.0666667 │ 0.1       │
-│ 7   │ A      │ C      │ D      │ E      │ 0.0      │ 0.0       │ 1.0       │
+│ 3   │ A      │ B      │ D      │ E      │ 0.833333 │ 0.0333333 │ 0.133333  │
+│ 4   │ A      │ C      │ D      │ E      │ 0.0      │ 0.0       │ 1.0       │
+│ 5   │ B      │ C      │ D      │ E      │ 0.0      │ 0.0       │ 1.0       │
+│ 6   │ A      │ B      │ C      │ O      │ 0.866667 │ 0.0       │ 0.133333  │
+│ 7   │ A      │ B      │ D      │ O      │ 0.866667 │ 0.0       │ 0.133333  │
 │ 8   │ A      │ C      │ D      │ O      │ 0.0      │ 0.0       │ 1.0       │
-│ 9   │ A      │ C      │ E      │ O      │ 0.533333 │ 0.333333  │ 0.133333  │
-│ 10  │ A      │ D      │ E      │ O      │ 0.533333 │ 0.333333  │ 0.133333  │
-│ 11  │ B      │ C      │ D      │ E      │ 0.0      │ 0.0       │ 1.0       │
-│ 12  │ B      │ C      │ D      │ O      │ 0.0      │ 0.0       │ 1.0       │
-│ 13  │ B      │ C      │ E      │ O      │ 0.666667 │ 0.266667  │ 0.0666667 │
+│ 9   │ B      │ C      │ D      │ O      │ 0.0      │ 0.0       │ 1.0       │
+│ 10  │ A      │ B      │ E      │ O      │ 0.833333 │ 0.0666667 │ 0.1       │
+│ 11  │ A      │ C      │ E      │ O      │ 0.533333 │ 0.333333  │ 0.133333  │
+│ 12  │ B      │ C      │ E      │ O      │ 0.666667 │ 0.266667  │ 0.0666667 │
+│ 13  │ A      │ D      │ E      │ O      │ 0.533333 │ 0.333333  │ 0.133333  │
 │ 14  │ B      │ D      │ E      │ O      │ 0.666667 │ 0.266667  │ 0.0666667 │
 │ 15  │ C      │ D      │ E      │ O      │ 1.0      │ 0.0       │ 0.0       │
 
-julia&gt; CSV.write(&quot;tableCF.csv&quot;, df) # to save the data frame to a file
-ERROR: UndefVarError: CSV not defined</code></pre><p><code>less(&quot;tableCF.csv&quot;)</code> lets you see the content of the newly created file &quot;tableCF.csv&quot;, within Julia. Again, type <code>q</code> to quit viewing this file.</p><p>In this table, each 4-taxon set is listed in one row. The 3 &quot;CF&quot; columns gives the proportion of genes that has each of the 3 possible trees on these 4 taxa.</p><p>For more help on any function, type <code>?</code> to enter the help mode, then type the name of the function. For example: type <code>?</code> then <code>readTrees2CF</code> for information on the various options of that function.</p><p>When there are many more taxa, the number of quartets might be very large and we might want to use a subset to speed things up. Here, if we wanted to use a random sample of 10 quartets instead of all quartets, we could do:</p><p><code>readTrees2CF(raxmltrees, whichQ=&quot;rand&quot;, numQ=10, CFfile=&quot;tableCF10.txt&quot;)</code></p><p>Be careful to use a numQ value smaller than the total number of possible 4-taxon subsets, which is <em>n choose 4</em> on <em>n</em> taxa (e.g. 15 on 6 taxa). To get a predictable random sample, you may set the seed with <code>using Random; Random.seed!(12321)</code> (for instance) prior to sampling the quartets as above.</p><h2><a class="nav-anchor" id="Tutorial-data:-quartet-CFs-1" href="#Tutorial-data:-quartet-CFs-1">Tutorial data: quartet CFs</a></h2><p>If we already have a table of quartet concordance factor (CF) values in a file <code>buckyCF.csv</code> in this format</p><table><tr><th style="text-align: left">Taxon1</th><th style="text-align: left">Taxon2</th><th style="text-align: left">Taxon3</th><th style="text-align: left">Taxon4</th><th style="text-align: left">CF12_34</th><th style="text-align: left">CF13_24</th><th style="text-align: left">CF14_23</th></tr><tr><td style="text-align: left">D</td><td style="text-align: left">A</td><td style="text-align: left">E</td><td style="text-align: left">O</td><td style="text-align: left">0.565</td><td style="text-align: left">0.0903</td><td style="text-align: left">0.3447</td></tr><tr><td style="text-align: left">...</td><td style="text-align: left"></td><td style="text-align: left"></td><td style="text-align: left"></td><td style="text-align: left"></td><td style="text-align: left"></td><td style="text-align: left">...</td></tr></table><p>we would read it in one step like this: <code>readTableCF(&quot;buckyCF.csv&quot;)</code>. An example file comes with the package, available <a href="https://github.com/crsl4/PhyloNetworks/blob/master/examples/buckyCF.csv">here</a> or <a href="https://raw.githubusercontent.com/crsl4/PhyloNetworks/master/examples/buckyCF.csv">here</a>.</p><pre><code class="language-julia-repl">julia&gt; buckyCFfile = joinpath(dirname(pathof(PhyloNetworks)), &quot;..&quot;,&quot;examples&quot;,&quot;buckyCF.csv&quot;);
+julia&gt; using CSV
+
+julia&gt; CSV.write(&quot;tableCF.csv&quot;, df); # to save the data frame to a file
+
+julia&gt; raxmlCF = readTableCF(&quot;tableCF.csv&quot;) # read in the file and produces a &quot;DataCF&quot; object
+30.0 gene trees per 4-taxon set
+Object DataCF
+number of quartets: 15</code></pre><p><code>less(&quot;tableCF.csv&quot;)</code> lets you see the content of the newly created file &quot;tableCF.csv&quot;, within Julia. Again, type <code>q</code> to quit viewing this file.</p><p>In this table, each 4-taxon set is listed in one row. The 3 &quot;CF&quot; columns gives the proportion of genes that has each of the 3 possible trees on these 4 taxa.</p><p>For more help on any function, type <code>?</code> to enter the help mode, then type the name of the function. For example: type <code>?</code> then <code>observedquartetCF</code> for information on the various options of that function.</p><p>When there are many more taxa, the number of quartets might be very large and we might want to use a subset to speed things up. Here, if we wanted to use a random sample of 10 quartets instead of all quartets, we could do:</p><p><code>raxmlCF = readTrees2CF(raxmltrees, whichQ=&quot;rand&quot;, numQ=10, CFfile=&quot;tableCF10.txt&quot;)</code></p><p>Be careful to use a numQ value smaller than the total number of possible 4-taxon subsets, which is <em>n choose 4</em> on <em>n</em> taxa (e.g. 15 on 6 taxa). To get a predictable random sample, you may set the seed with <code>using Random; Random.seed!(12321)</code> (for instance) prior to sampling the quartets as above. The <code>readTrees2CF</code> is <em>much</em> slower than the function <code>observedquartetCF</code> to read in trees and calculate the quartet CFs observed in the trees, when we want to get <em>all</em> quartet CFs. But for a small sample of quartets, then <code>readTrees2CF</code> is available.</p><h2><a class="nav-anchor" id="Tutorial-data:-quartet-CFs-1" href="#Tutorial-data:-quartet-CFs-1">Tutorial data: quartet CFs</a></h2><p>If we already have a table of quartet concordance factor (CF) values in a file <code>buckyCF.csv</code> in this format</p><table><tr><th style="text-align: left">Taxon1</th><th style="text-align: left">Taxon2</th><th style="text-align: left">Taxon3</th><th style="text-align: left">Taxon4</th><th style="text-align: left">CF12_34</th><th style="text-align: left">CF13_24</th><th style="text-align: left">CF14_23</th></tr><tr><td style="text-align: left">D</td><td style="text-align: left">A</td><td style="text-align: left">E</td><td style="text-align: left">O</td><td style="text-align: left">0.565</td><td style="text-align: left">0.0903</td><td style="text-align: left">0.3447</td></tr><tr><td style="text-align: left">...</td><td style="text-align: left"></td><td style="text-align: left"></td><td style="text-align: left"></td><td style="text-align: left"></td><td style="text-align: left"></td><td style="text-align: left">...</td></tr></table><p>we would read it in one step like this: <code>readTableCF(&quot;buckyCF.csv&quot;)</code>. An example file comes with the package, available <a href="https://github.com/crsl4/PhyloNetworks/blob/master/examples/buckyCF.csv">here</a> or <a href="https://raw.githubusercontent.com/crsl4/PhyloNetworks/master/examples/buckyCF.csv">here</a>.</p><pre><code class="language-julia-repl">julia&gt; buckyCFfile = joinpath(dirname(pathof(PhyloNetworks)), &quot;..&quot;,&quot;examples&quot;,&quot;buckyCF.csv&quot;);
 
 julia&gt; buckyCF = readTableCF(buckyCFfile)
 30.0 gene trees per 4-taxon set

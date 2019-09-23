@@ -54,7 +54,7 @@ julia&gt; dna_weights
 ┌ Warning: the network contains taxa with no data: those will be pruned
 └ @ PhyloNetworks ~/build/crsl4/PhyloNetworks.jl/src/traitsLikDiscrete.jl:681
 ┌ Warning: resetting edge numbers to be from 1 to 53
-└ @ PhyloNetworks ~/build/crsl4/PhyloNetworks.jl/src/manipulateNet.jl:919
+└ @ PhyloNetworks ~/build/crsl4/PhyloNetworks.jl/src/manipulateNet.jl:935
 PhyloNetworks.StatisticalSubstitutionModel:
 Jukes and Cantor 69 Substitution Model,
 relative rate version
@@ -77,7 +77,7 @@ julia&gt; d2 = fitdiscrete(dna_net, :HKY85, dna_dat, dna_weights, :RV; optimizeQ
 ┌ Warning: the network contains taxa with no data: those will be pruned
 └ @ PhyloNetworks ~/build/crsl4/PhyloNetworks.jl/src/traitsLikDiscrete.jl:681
 ┌ Warning: resetting edge numbers to be from 1 to 53
-└ @ PhyloNetworks ~/build/crsl4/PhyloNetworks.jl/src/manipulateNet.jl:919
+└ @ PhyloNetworks ~/build/crsl4/PhyloNetworks.jl/src/manipulateNet.jl:935
 PhyloNetworks.StatisticalSubstitutionModel:
 HKY85 Substitution Model base frequencies: [0.29100263035741913, 0.2682964567538295, 0.23638403218319665, 0.2043168807055547]
 relative rate version with transition/tranversion ratio kappa = 1.0,
@@ -98,7 +98,7 @@ log-likelihood: -12767.36686</code></pre><p>When allowing for rate variation acr
 ┌ Warning: the network contains taxa with no data: those will be pruned
 └ @ PhyloNetworks ~/build/crsl4/PhyloNetworks.jl/src/traitsLikDiscrete.jl:681
 ┌ Warning: resetting edge numbers to be from 1 to 53
-└ @ PhyloNetworks ~/build/crsl4/PhyloNetworks.jl/src/manipulateNet.jl:919
+└ @ PhyloNetworks ~/build/crsl4/PhyloNetworks.jl/src/manipulateNet.jl:935
 PhyloNetworks.StatisticalSubstitutionModel:
 Jukes and Cantor 69 Substitution Model,
 relative rate version
