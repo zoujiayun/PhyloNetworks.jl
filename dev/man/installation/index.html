@@ -38,11 +38,11 @@ julia&gt; printEdges(net)
 edge parent child  length  hybrid isMajor gamma   containRoot inCycle istIdentitiable
 1    -2     1              false  true    1       true        -1      false
 2    -4     2              false  true    1       true        -1      false
-3    -4     3              true   false           false       -1      false
+3    -4     3              true   false           true        -1      false
 4    -3     -4             false  true    1       true        -1      true 
 5    -5     4              false  true    1       true        -1      false
-6    3      5              false  true    1       true        -1      false
-7    -5     3              true   true            false       -1      true 
+6    3      5              false  true    1       false       -1      false
+7    -5     3              true   true            true        -1      true 
 8    -3     -5             false  true    1       true        -1      true 
 9    -2     -3             false  true    1       true        -1      true</code></pre><p>We see that the edges do not have branch lengths, and the hybrid edges do not have gamma values. We can set them with</p><pre><code class="language-julia-repl">julia&gt; setLength!(net.edge[1],1.9)
 
@@ -52,11 +52,11 @@ julia&gt; printEdges(net)
 edge parent child  length  hybrid isMajor gamma   containRoot inCycle istIdentitiable
 1    -2     1      1.900   false  true    1       true        -1      false
 2    -4     2              false  true    1       true        -1      false
-3    -4     3              true   true    0.8     false       -1      false
+3    -4     3              true   true    0.8     true        -1      false
 4    -3     -4             false  true    1       true        -1      true 
 5    -5     4              false  true    1       true        -1      false
-6    3      5              false  true    1       true        -1      false
-7    -5     3              true   false   0.2     false       -1      true 
+6    3      5              false  true    1       false       -1      false
+7    -5     3              true   false   0.2     true        -1      true 
 8    -3     -5             false  true    1       true        -1      true 
 9    -2     -3             false  true    1       true        -1      true</code></pre><p>where 1 and 3 correspond to the position of the given edge to modify in the list of edges. We can only change the gamma value of hybrid edges (not tree edges). Such an attempt below will cause an error with a message to explain that the edge was a tree edge:</p><pre><code class="language-julia">setGamma!(net.edge[4],0.7)
 # should return this:
