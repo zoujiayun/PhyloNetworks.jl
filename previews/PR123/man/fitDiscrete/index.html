@@ -39,7 +39,7 @@ rate matrix Q:
               hi      lo
       hi       *  0.0704
       lo  0.0704       *
-1 traits, 6 species
+6 species, 1.0 sites, 1 distinct patterns
 on a network with 1 reticulations
 log-likelihood: -5.38599
 
@@ -48,7 +48,7 @@ PhyloNetworks.StatisticalSubstitutionModel:
 Binary Trait Substitution Model:
 rate hi→lo α=0.07042
 rate lo→hi β=0.07042
-1 traits, 6 species
+6 species, 1.0 sites, 1 distinct patterns
 on a network with 1 reticulations
 log-likelihood: -5.38599</code></pre><p>The default rates, which act as starting value if rates were to be optimized, are chosen equal to the inverse of the total edge lengths in the network (or 1/ntax if all branch lengths are missing).</p><p>By default <code>optimizeQ = true</code>, such that <a href="../../lib/public/#PhyloNetworks.fitdiscrete"><code>fitdiscrete</code></a> estimates the parameters of the rate matrix Q.</p><pre><code class="language-julia-repl">julia&gt; s3 = fitdiscrete(net, :ERSM, species, dat)
 PhyloNetworks.StatisticalSubstitutionModel:
@@ -58,7 +58,7 @@ rate matrix Q:
               hi      lo
       hi       *  0.7022
       lo  0.7022       *
-1 traits, 6 species
+6 species, 1.0 sites, 1 distinct patterns
 on a network with 1 reticulations
 log-likelihood: -3.76738
 
@@ -67,7 +67,7 @@ PhyloNetworks.StatisticalSubstitutionModel:
 Binary Trait Substitution Model:
 rate hi→lo α=0.96784
 rate lo→hi β=0.55897
-1 traits, 6 species
+6 species, 1.0 sites, 1 distinct patterns
 on a network with 1 reticulations
 log-likelihood: -3.58702</code></pre><p>To compare the two models, we can use the Akaike criterion.</p><pre><code class="language-julia-repl">julia&gt; using StatsBase
 
@@ -169,4 +169,4 @@ julia&gt; m1.label[traitmatrix[:,12]]
 3-element Array{String,1}:
  &quot;carnivory&quot;
  &quot;non-carnivory&quot;
- &quot;carnivory&quot;</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../parsimony/">« Parsimony on networks</a><a class="docs-footer-nextpage" href="../nj/">Neighbour Joining »</a></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Tuesday 16 June 2020 21:22">Tuesday 16 June 2020</span>. Using Julia version 1.4.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+ &quot;carnivory&quot;</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../parsimony/">« Parsimony on networks</a><a class="docs-footer-nextpage" href="../nj/">Neighbour Joining »</a></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Thursday 18 June 2020 21:18">Thursday 18 June 2020</span>. Using Julia version 1.4.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
