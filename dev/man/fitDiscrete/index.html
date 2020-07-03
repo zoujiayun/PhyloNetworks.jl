@@ -34,41 +34,49 @@ R&quot;arrows&quot;(hx1, hy1, hx2, hy2, col=&quot;deepskyblue&quot;, length=0.08
 R&quot;text&quot;(res[14][hi,:x]-0.2, res[14][hi,:y]+0.1, res[14][hi,:gam], col=&quot;deepskyblue&quot;, cex=0.75); # add the γ value</code></pre><p><img src="../../assets/figures/fitdiscrete_trait_net_1.svg" alt="net_1"/></p><h2 id="Substitution-models-1"><a class="docs-heading-anchor" href="#Substitution-models-1">Substitution models</a><a class="docs-heading-anchor-permalink" href="#Substitution-models-1" title="Permalink"></a></h2><p>After reading in your data, choose a model to describe how evolutionary changes (or substitutions, in the case of DNA) happened over time. Available Markov substitution models are described below.</p><p>For general trait types, use one of these three models:</p><ul><li><code>:BTSM</code> Binary Trait Substitution Model (2 states, rates unconstrained)</li><li><code>:ERSM</code> Equal Rates Substitution Model (<code>k</code> states, all transitions possible with equal rates)</li><li><code>:TBTSM</code> Two Binary Trait Substitution Model (though not fully implemented yet)</li></ul><h2 id="Inference-1"><a class="docs-heading-anchor" href="#Inference-1">Inference</a><a class="docs-heading-anchor-permalink" href="#Inference-1" title="Permalink"></a></h2><p>To infer evolutionary rates, run <a href="../../lib/public/#PhyloNetworks.fitdiscrete"><code>fitdiscrete</code></a> on the network and data. It will calculate the maximum likelihood score of one or more discrete trait characters at the tips on a fixed network.</p><ul><li>Along each edge, evolutionary changes are modeled with a continous time Markov model.</li><li>At a hybrid node, the trait is assumed to be inherited from one or the other of its parents (immediately before the reticulation event), with probabilities equal to the inheritance γ of each parent edge, which is given by the network.</li><li>At the root of the network, a uniform distribution among the possible states is assumed a priori.</li><li>The model ignores incomplete lineage sorting (e.g. hemiplasy).</li></ul><h3 id="parameter-estimation-and-model-fit-1"><a class="docs-heading-anchor" href="#parameter-estimation-and-model-fit-1">parameter estimation &amp; model fit</a><a class="docs-heading-anchor-permalink" href="#parameter-estimation-and-model-fit-1" title="Permalink"></a></h3><p>The example below if for a binary trait, first using a model assuming equal rates (from <code>lo</code> to <code>hi</code> and from <code>hi</code> to <code>lo</code>); then using a model allowing for distinct rates. The option <code>optimizeQ=false</code> causes transition rates to stay at their starting values, without being optimized.</p><pre><code class="language-julia-repl">julia&gt; s1 = fitdiscrete(net, :ERSM, species, dat; optimizeQ=false)
 PhyloNetworks.StatisticalSubstitutionModel:
 Equal Rates Substitution Model with k=2,
-all rates equal to α=0.07042.
-rate matrix Q:
-              hi      lo
-      hi       *  0.0704
-      lo  0.0704       *
-6 species, 1.0 sites, 1 distinct patterns
+  all rates equal to α=0.07042.
+  rate matrix Q:
+                hi      lo
+        hi       *  0.0704
+        lo  0.0704       *
 on a network with 1 reticulations
+data:
+  6 species
+  1 trait
 log-likelihood: -5.38599
 
 julia&gt; s2 = fitdiscrete(net, :BTSM, species, dat; optimizeQ=false)
 PhyloNetworks.StatisticalSubstitutionModel:
 Binary Trait Substitution Model:
-rate hi→lo α=0.07042
-rate lo→hi β=0.07042
-6 species, 1.0 sites, 1 distinct patterns
+  rate hi→lo α=0.07042
+  rate lo→hi β=0.07042
 on a network with 1 reticulations
+data:
+  6 species
+  1 trait
 log-likelihood: -5.38599</code></pre><p>The default rates, which act as starting value if rates were to be optimized, are chosen equal to the inverse of the total edge lengths in the network (or 1/ntax if all branch lengths are missing).</p><p>By default <code>optimizeQ = true</code>, such that <a href="../../lib/public/#PhyloNetworks.fitdiscrete"><code>fitdiscrete</code></a> estimates the parameters of the rate matrix Q.</p><pre><code class="language-julia-repl">julia&gt; s3 = fitdiscrete(net, :ERSM, species, dat)
 PhyloNetworks.StatisticalSubstitutionModel:
 Equal Rates Substitution Model with k=2,
-all rates equal to α=0.70216.
-rate matrix Q:
-              hi      lo
-      hi       *  0.7022
-      lo  0.7022       *
-6 species, 1.0 sites, 1 distinct patterns
+  all rates equal to α=0.70216.
+  rate matrix Q:
+                hi      lo
+        hi       *  0.7022
+        lo  0.7022       *
 on a network with 1 reticulations
+data:
+  6 species
+  1 trait
 log-likelihood: -3.76738
 
 julia&gt; s4 = fitdiscrete(net, :BTSM, species, dat)
 PhyloNetworks.StatisticalSubstitutionModel:
 Binary Trait Substitution Model:
-rate hi→lo α=0.96784
-rate lo→hi β=0.55897
-6 species, 1.0 sites, 1 distinct patterns
+  rate hi→lo α=0.96784
+  rate lo→hi β=0.55897
 on a network with 1 reticulations
+data:
+  6 species
+  1 trait
 log-likelihood: -3.58702</code></pre><p>To compare the two models, we can use the Akaike criterion.</p><pre><code class="language-julia-repl">julia&gt; using StatsBase
 
 julia&gt; aic(s3)
@@ -169,4 +177,4 @@ julia&gt; m1.label[traitmatrix[:,12]]
 3-element Array{String,1}:
  &quot;carnivory&quot;
  &quot;non-carnivory&quot;
- &quot;carnivory&quot;</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../parsimony/">« Parsimony on networks</a><a class="docs-footer-nextpage" href="../nj/">Neighbour Joining »</a></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Tuesday 30 June 2020 13:23">Tuesday 30 June 2020</span>. Using Julia version 1.4.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+ &quot;carnivory&quot;</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../parsimony/">« Parsimony on networks</a><a class="docs-footer-nextpage" href="../nj/">Neighbour Joining »</a></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Friday 3 July 2020 21:18">Friday 3 July 2020</span>. Using Julia version 1.4.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
