@@ -6,7 +6,7 @@ julia&gt; # read in trait data
        species = [&quot;C&quot;,&quot;A&quot;,&quot;D&quot;,&quot;B&quot;,&quot;O&quot;,&quot;E&quot;];
 
 julia&gt; dat = DataFrame(trait=[&quot;hi&quot;,&quot;lo&quot;,&quot;lo&quot;,&quot;hi&quot;,&quot;lo&quot;,&quot;lo&quot;])
-6×1 DataFrames.DataFrame
+6×1 DataFrame
 │ Row │ trait  │
 │     │ String │
 ├─────┼────────┤
@@ -85,7 +85,7 @@ julia&gt; aic(s3)
 julia&gt; aic(s4)
 11.174046169791792</code></pre><p>Here, the equal-rate model is slightly favored (lower AIC), so we will use <code>s3</code> below.</p><h3 id="ancestral-state-prediction-1"><a class="docs-heading-anchor" href="#ancestral-state-prediction-1">ancestral state prediction</a><a class="docs-heading-anchor-permalink" href="#ancestral-state-prediction-1" title="Permalink"></a></h3><p>This is traditionally called &quot;ancestral state reconstruction&quot;, but we do not actually reconstruct anything. We make predictions for (past of present-day) values, hopefully with some measure to quantify our uncertainty.</p><pre><code class="language-julia-repl">julia&gt; # show(ancestralStateReconstruction(s3), allrows=true)
        ancestralStateReconstruction(s3)
-13×4 DataFrames.DataFrame
+13×4 DataFrame
 │ Row │ nodenumber │ nodelabel │ hi        │ lo       │
 │     │ Int64      │ String    │ Float64   │ Float64  │
 ├─────┼────────────┼───────────┼───────────┼──────────┤
@@ -177,4 +177,4 @@ julia&gt; m1.label[traitmatrix[:,12]]
 3-element Array{String,1}:
  &quot;carnivory&quot;
  &quot;non-carnivory&quot;
- &quot;carnivory&quot;</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../parsimony/">« Parsimony on networks</a><a class="docs-footer-nextpage" href="../nj/">Neighbour Joining »</a></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Friday 3 July 2020 21:18">Friday 3 July 2020</span>. Using Julia version 1.4.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+ &quot;carnivory&quot;</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../parsimony/">« Parsimony on networks</a><a class="docs-footer-nextpage" href="../nj/">Neighbour Joining »</a></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Monday 13 July 2020 14:37">Monday 13 July 2020</span>. Using Julia version 1.4.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
